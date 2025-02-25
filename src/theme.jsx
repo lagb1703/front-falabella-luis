@@ -1,0 +1,62 @@
+// theme.js
+import { background, extendTheme } from "@chakra-ui/react";
+
+const theme = extendTheme({
+  colors: {
+    background:"#FAFAFA",
+    gradient: "linear-gradient(90deg, #668F00 0%, #8FCA00 100%)",
+    text: {
+        300: "#4a4a4a",
+        400: "#343E49",
+        500:"#212529",
+    },
+    ofertText: "#e4022d",
+    primary: {
+      500: "#AAD500", // color principal
+      700: "#668F00",
+    },
+    neutral: {
+      500: "#7e7e7e",
+    },
+  },
+  fonts: {
+    heading: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    body: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+  },
+  styles: {
+    global: {
+      // Estilos globales para toda la aplicación
+      "html, body": {
+        backgroundColor: "background",   // Fondo limpio
+        color: "text.500",       // Texto oscuro para buen contraste
+        fontFamily: "body",
+      },
+      a: {
+        color: "text.700",
+        textDecoration: "none",
+        _hover: {
+          textDecoration: "underline",
+        },
+      },
+      button: {
+        fontWeight: "bold",
+      },
+    },
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: "bold",
+      },
+      variants: {
+        // Botón sólido con estilo principal
+        solid: {
+          bg: "primary.500",
+          color: "white"
+        }
+      },
+    },
+  },
+});
+
+export default theme;
