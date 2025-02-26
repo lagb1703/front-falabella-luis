@@ -2,6 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter, Routes } from "react-router";
 import { projectRoutes } from "./pages";
 import theme from "./theme";
+import FooterComponent from './components/footer';
 import './App.css'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           {projectRoutes}
         </Routes>
+        <FooterComponent />
       </ChakraProvider>
     </BrowserRouter>
   )

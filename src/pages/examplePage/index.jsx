@@ -11,7 +11,6 @@ export default function ExamplePage({ }) {
             return i
         })
     }, [])
-    console.log(getNames)
     return (
     <>
         <h1>prueba Pagina</h1>

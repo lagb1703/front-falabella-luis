@@ -5,6 +5,10 @@ const theme = extendTheme({
   colors: {
     background:"#FAFAFA",
     gradient: "linear-gradient(90deg, #668F00 0%, #8FCA00 100%)",
+    footer:{
+      500: "#1e364b",
+      600: "#0c2941"
+    },
     text: {
         300: "#4a4a4a",
         400: "#343E49",
@@ -22,6 +26,9 @@ const theme = extendTheme({
   fonts: {
     heading: "'Helvetica Neue', Helvetica, Arial, sans-serif",
     body: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    footer: {
+      p: "Lato, sans-serif"
+    }
   },
   styles: {
     global: {
@@ -33,10 +40,7 @@ const theme = extendTheme({
       },
       a: {
         color: "text.700",
-        textDecoration: "none",
-        _hover: {
-          textDecoration: "underline",
-        },
+        textDecoration: "none"
       },
       button: {
         fontWeight: "bold",
