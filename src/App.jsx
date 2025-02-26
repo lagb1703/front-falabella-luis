@@ -1,7 +1,7 @@
-import Message from './header';
+import Header from "./Header/header"; // Ensure correct file path
 
-function App(){
-  return <div><Message /></div>;
+function App() {
+    return <Header />;
 }
 
 export default App;
