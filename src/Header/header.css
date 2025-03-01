@@ -1,16 +1,18 @@
+/* General Header Styling */
 .header {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Lato, sans-serif;
+}
+
+.main-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #FAFAFA;
-    border-bottom: 3px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: Lato,sans-serif;
-}
-
-.main-logo img {
-    height: 40px;
 }
 
 .menu-button {

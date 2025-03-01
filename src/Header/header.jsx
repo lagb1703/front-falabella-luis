@@ -1,9 +1,14 @@
+import SubHeader from "./subheader.jsx";
 import "./header.css";
-import logo from "../../public/test.png";
 
 export default function Header() {
     return (
-        <header className="header">
+
+    <header className="header">
+        
+        <SubHeader />
+
+        <div className="main-header">
 
             <div className="main-logo" >
                 <img src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
@@ -24,6 +29,8 @@ export default function Header() {
             <button className="Heart-button">Inicia sesión</button>
 
             <button className="Carrito">Inicia sesión</button>
+
+        </div>
 
         </header> 
     );
