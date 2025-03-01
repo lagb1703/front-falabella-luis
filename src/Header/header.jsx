@@ -1,17 +1,21 @@
-// Filename - Header.js
 import "./header.css";
+import logo from "../../public/test.png";
 
 export default function Header() {
     return (
         <header className="header">
-            {/* Menu Button */}
+            <h1 className="title">
+                <img src={logo} alt="Logo" />
+            </h1>
+
             <button className="menu-button">☰</button>
 
-            {/* Title */}
-            <h1 className="title">FALABELLA</h1>
+            <div className="search-container">
+                <input type="text" placeholder="Buscar en falabella.com" />
+                <button>🔍</button>
+            </div>
 
-            {/* Login Button */}
-            <button className="login-button">Login</button>
+            <button className="login-button">Inicia sesión</button>
         </header>
     );
 }
