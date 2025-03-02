@@ -1,0 +1,123 @@
+:root {
+    --gray-color: #343E49;
+}
+
+.header {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 2.5em !important;
+}
+
+.sub-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.main-header {
+    display: flex;
+    align-items: center;
+    background-color: #FAFAFA;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between;
+}
+
+/* Logo */
+.main-logo img {
+    height: 30px;
+    margin-right: 50px;
+}
+
+/* Menu Button */
+.menu-button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-color);
+    margin-left: 10px;
+}
+
+/* Search Container */
+.search-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 20px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-color);
+    padding: 5px 10px;
+    background: #ffffff;
+}
+
+.search-container input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+    background: transparent;
+}
+
+.search-container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-color);
+}
+
+/* Login Button */
+.login-button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--gray-color);
+}
+
+/* Mis Compras */
+.misCompras-button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: #333;
+    margin-left: 15px;
+}
+
+/* Heart Icon */
+.Heart-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+/* Cart Icon */
+.Carrito {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    margin-left: 15px;
+}
+
+.Carrito::after {  /*NO SE INCLUYE, ESTE ES SIMPLEMENTE UNA AYUDA VISULA*/
+    content: "0";
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: #000;
+    color: white;
+    font-size: 12px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
