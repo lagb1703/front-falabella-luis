@@ -1,64 +1,123 @@
-/* General Header Styling */
+:root {
+    --gray-color: #343E49;
+}
+
 .header {
+    background-color: white;
     display: flex;
     flex-direction: column;
-    background-color: white;
-    padding: 10px 20px;
-    border-bottom: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: Lato, sans-serif;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 2.5em !important;
+}
+
+.sub-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .main-header {
     display: flex;
     align-items: center;
+    background-color: #FAFAFA;
+    width: 100%;
+    max-width: 1200px;
     justify-content: space-between;
 }
 
-.menu-button {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    margin-left: 15px;
+/* Logo */
+.main-logo img {
+    height: 30px;
+    margin-right: 50px;
 }
 
+/* Menu Button */
+.menu-button {
+    font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-color);
+    margin-left: 10px;
+}
+
+/* Search Container */
 .search-container {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    margin: 0 20px;
     max-width: 500px;
+    margin: 0 20px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-color);
+    padding: 5px 10px;
+    background: #ffffff;
 }
 
 .search-container input {
-    flex: 1;
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    flex-grow: 1;
+    border: none;
     outline: none;
+    padding: 5px;
+    background: transparent;
 }
 
 .search-container button {
-    background: #333;
-    color: white;
+    background: none;
     border: none;
-    padding: 8px 12px;
-    margin-left: -40px;
-    border-radius: 50%;
     cursor: pointer;
+    color: var(--gray-color);
 }
 
+/* Login Button */
 .login-button {
-    background-color: #333;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
+    background: none;
     border: none;
+    font-size: 14px;
     cursor: pointer;
+    color: var(--gray-color);
 }
 
-.login-button:hover {
-    background-color: #555;
+/* Mis Compras */
+.misCompras-button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: #333;
+    margin-left: 15px;
+}
+
+/* Heart Icon */
+.Heart-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+/* Cart Icon */
+.Carrito {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    margin-left: 15px;
+}
+
+.Carrito::after {  /*NO SE INCLUYE, ESTE ES SIMPLEMENTE UNA AYUDA VISULA*/
+    content: "0";
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: #000;
+    color: white;
+    font-size: 12px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
