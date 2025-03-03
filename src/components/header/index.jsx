@@ -1,3 +1,4 @@
+import { IoSearchOutline } from "react-icons/io5";
 import "./header.css";
 
 export default function Header() {
@@ -18,7 +19,7 @@ export default function Header() {
 
                 <div className="search-container">
                     <input type="text" placeholder="Buscar en falabella.com" />
-                    <button>🔍</button>
+                    <button><IoSearchOutline/></button>
                 </div>
 
                 <button className="login-button">Inicia sesión</button>
