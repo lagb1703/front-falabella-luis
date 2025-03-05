@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <ChakraProvider theme={theme}>
         <Header />
-        <Menu/> 
+        {/* <Menu/>  */}
         <Routes>
           {projectRoutes}
         </Routes>

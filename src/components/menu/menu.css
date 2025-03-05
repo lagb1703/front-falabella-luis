@@ -7,7 +7,7 @@
     border: 0;
     background: transparent;
     gap: .65rem;
-    position: fixed; 
+    /* position: fixed;  */ /* Pa que el botón no este fijo*/
     top: 10px; 
     left: 10px; 
     z-index: 1000;

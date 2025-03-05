@@ -1,5 +1,6 @@
 :root {
     --gray-color: #343E49;
+    --icon-background: #d11313;
 }
 
 .header {
@@ -30,16 +31,6 @@
 .main-logo img {
     height: 30px;
     margin-right: 50px;
-}
-
-/* Menu Button */
-.menu-button {
-    font-size: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--gray-color);
-    margin-left: 10px;
 }
 
 /* Search Container */
@@ -109,25 +100,5 @@
 
 /* Cart Icon */
 .Carrito {
-    background: none;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    margin-left: 15px;
-}
-
-.Carrito::after {  
-    content: "0";
-    position: absolute;
-    top: -5px;
-    right: -10px;
-    background: #000;
-    color: white;
-    font-size: 12px;
-    width: 16px;
-    height: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+    color: var(--icon-background);
 }
