@@ -6,4 +6,4 @@ export const projectRoutes = [
     <Route path="/" element={<ExamplePage/>} key={uuidv4()}/>,
 ];
 
-export const backendURL = "";
+export const backendURL = "https://25djsx5x-3000.use2.devtunnels.ms/";
