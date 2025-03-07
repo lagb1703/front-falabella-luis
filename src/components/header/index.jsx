@@ -44,22 +44,35 @@ export default function Header() {
 }
 
 function SubHeader() {
+    const logos = [
+        {
+            href: "https://homecenter.falabella.com.co/homecenter-co",
+            src: "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/bltccc5a7e27f9cab2f/6418aba238ab2c1b60a4bc29/logo-homecenter-our-stores.svg",
+            alt: "Homecenter Logo",
+            className: "homecenter-bedcrums-logo"
+        },
+        {
+            href: "https://linio.falabella.com.co/linio-co",
+            src: "https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blta5a44443cc0e501c/63b6ff659233961262fbd64c/logo-linio.svg",
+            alt: "Linio Logo",
+            className: "linio-bedcrums-logo"
+        }
+    ];
+
     return (
         <div className="sub-header">
-
-            <button className="falabella-bedcrums-logo"
-                    onPress={() => Alert.alert('Simple Button pressed')}>
-                <img src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
-                    alt="Logo" />
+            <button className="falabella-bedcrums-logo">
+                <img
+                    src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/blt4c474b53ecc2a0ac/65e93b7882d68f0bd6d20cf9/falabella.com_green_icon_mobile.svg"
+                    alt="Falabella Logo"
+                />
             </button>
 
-            <a href="https://homecenter.falabella.com.co/homecenter-co">
-                <button className="homecenter-bedcrums-logo"
-                        onPress={() => Alert.alert('Simple Button pressed')}>
-                    <img src="https://images.falabella.com/v3/assets/blt088e6fffbba20f16/bltccc5a7e27f9cab2f/6418aba238ab2c1b60a4bc29/logo-homecenter-our-stores.svg"
-                        alt="Logo" />
-                </button>
-            </a>
+            {logos.map((logo, index) => (
+                <a key={index} href={logo.href} className={logo.className}>
+                    <img src={logo.src} alt={logo.alt} />
+                </a>
+            ))}
         </div>
     );
 }

@@ -7,16 +7,21 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
     border-bottom: 1px solid #ddd;
     font-size: 1rem;
 }
 
 .sub-header {
     display: flex;
-    align-items: center;
-    width: 100%;
+    object-fit: cover;
+    object-position: right top;
+    /* justify-content:space-evenly; */
 }
+
+.sub-header img {
+    width: 100%; /* Adjust size as needed */
+    height: 100% /* Adjust size as needed */
+  }
 
 .main-header {
     display: flex;
