@@ -1,5 +1,5 @@
 // theme.js
-import { background, extendTheme } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
   colors: {
@@ -20,6 +20,7 @@ const theme = extendTheme({
       700: "#668F00",
     },
     neutral: {
+      200: "#fafafa",
       500: "#7e7e7e",
     },
   },
@@ -36,11 +37,14 @@ const theme = extendTheme({
       "html, body": {
         backgroundColor: "background",   // Fondo limpio
         color: "text.500",       // Texto oscuro para buen contraste
-        fontFamily: "body",
+        fontFamily: "Lato,sans-serif",
       },
       a: {
         color: "text.700",
-        textDecoration: "none"
+        textDecoration: "none",
+        _hover: {
+          textDecoration: "none"
+        }
       },
       button: {
         fontWeight: "bold",
