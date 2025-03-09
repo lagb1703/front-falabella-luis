@@ -32,12 +32,10 @@ import {
     ChevronDown,
     MapPin
 } from "lucide-react"
-
+import { useShoppingCartNumberItems } from "./header.service"
 export default function Header() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [cartCount, setCartCount] = useState(1)
     const isMobile = useBreakpointValue({ base: true, md: false })
-    const [getCity, setcity] = useState("Viterbo");
     return (
         <Box
             as="header"
@@ -172,172 +170,7 @@ export default function Header() {
                         </InputRightElement>
                     </InputGroup>
                 </GridItem>
-                {
-                    !isMobile ?
-                        (
-                            <GridItem
-                                colStart={37}
-                                colEnd={48}>
-                                <Flex>
-                                    <Box
-                                        py="1">
-                                        <Flex
-                                            borderRight="1px"
-                                            borderColor="gray.400"
-                                            direction="column"
-                                            lineHeight="16px"
-                                            fontFamily="Lato,sans-serif"
-                                            py="1"
-                                            pr="2"
-                                            height="100%">
-                                            <Text
-                                                as="span"
-                                                fontSize="13px"
-                                                fontWeight="600"
-                                                letterSpacing="0">
-                                                Hola,<br />
-                                            </Text>
-                                            <Button
-                                                rightIcon={
-                                                    <ChevronDown
-                                                        width="15px"
-                                                        height="15px"
-                                                        className="ml-[-7px]"
-                                                    />
-                                                }
-                                                textAlign="center"
-                                                height="100%"
-                                                color="text.400"
-                                                variant="link"
-                                                lineHeight="0"
-                                                fontWeight="600"
-                                                fontSize="13px"
-                                                mt="-1px"
-                                                _hover={{ textStyle: "none" }}>
-                                                Inicia sesión
-                                            </Button>
-                                        </Flex>
-                                    </Box>
-                                    <Box
-                                        py="3px">
-                                        <Box
-                                            height="100%"
-                                            borderRight="1px"
-                                            lineHeight="15px"
-                                            borderColor="gray.400"
-                                            px="2.5">
-                                            <LinkRouter
-                                                className="h-full flex flex-col justify-center">
-                                                Mis
-                                                <Text
-                                                    as="b"
-                                                    fontSize="14px">
-                                                    compras
-                                                </Text>
-                                            </LinkRouter>
-                                        </Box>
-                                    </Box>
-                                    <Box
-                                        py="3px">
-                                        <Flex
-                                            height="100%"
-                                            borderRight="1px"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                            borderColor="gray.400"
-                                            px="2">
-                                            <Heart
-                                                color="#343E49" />
-                                        </Flex>
-                                    </Box>
-                                    <Box
-                                        py="3px">
-                                        <Box
-                                            position="relative">
-                                            <IconButton
-                                                aria-label="Shopping cart"
-                                                fontSize="2xl"
-                                                icon={<BsCart3 />}
-                                                variant="ghost" />
-                                            {cartCount > 0 && (
-                                                <Badge
-                                                    position="absolute"
-                                                    top="-5px"
-                                                    right="-5px"
-                                                    borderRadius="full"
-                                                    bg="gray.800"
-                                                    color="white"
-                                                    fontSize="xs"
-                                                    width="20px"
-                                                    height="20px"
-                                                    display="flex"
-                                                    alignItems="center"
-                                                    justifyContent="center"
-                                                >
-                                                    {cartCount}
-                                                </Badge>
-                                            )}
-                                        </Box>
-                                    </Box>
-                                </Flex>
-                            </GridItem>
-                        ) :
-                        (
-                            <GridItem
-                                colStart={41}
-                                colEnd={48}>
-                                <Flex
-                                    direction="row"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    gap="5">
-                                    <Button
-                                        textAlign="center"
-                                        height="100%"
-                                        color="text.400"
-                                        variant="link"
-                                        lineHeight="0"
-                                        fontWeight="600"
-                                        fontSize="13px"
-                                        mt="-1px"
-                                        textDecorationLine="underline">
-                                        Inicia sesión
-                                    </Button>
-                                    <Box
-                                        width="100%"
-                                        height="100%">
-                                        <Box
-                                            position="relative"
-                                            width="fit-content">
-                                            <IconButton
-                                                aria-label="Shopping cart"
-                                                fontSize="2xl"
-                                                icon={<BsCart3 />}
-                                                variant="ghost" />
-                                            {cartCount > 0 && (
-                                                <Badge
-                                                    position="absolute"
-                                                    top="3px"
-                                                    right="3px"
-                                                    borderRadius="full"
-                                                    bg="gray.800"
-                                                    color="white"
-                                                    fontSize="3xs"
-                                                    width="13px"
-                                                    height="13px"
-                                                    display="flex"
-                                                    alignItems="center"
-                                                    justifyContent="center"
-                                                >
-                                                    {cartCount}
-                                                </Badge>
-                                            )}
-                                        </Box>
-                                    </Box>
-                                </Flex>
-                            </GridItem>
-                        )
-                }
+                <AccountBarMenu />
             </Grid>
             <Flex
                 direction="row"
@@ -345,83 +178,259 @@ export default function Header() {
                 width="100%"
                 px="9"
                 py="1.5">
-                <Box>
-                    <Button
-                        leftIcon={
-                            <MapPin
-                                width="15"
-                                height="15"
-                                strokeWidth="2" />
-                        }
-                        variant="link"
-                        color="#495867"
-                        fontSize="11px"
-                        _hover={{ textDecoration: "none" }}
-                        lineHeight="22px">
-                        <Text
-                            fontWeight="100"
-                            as="p">
-                            Entrega en&nbsp;
-                            <Text
-                                as="b"
-                                fontWeight="700">
-                                {getCity}
-                            </Text>
-                        </Text>
-                    </Button>
-                </Box>
-                {
-                    (
-                        !isMobile
-                        &&
-                        <Flex
-                            direction="row"
-                            justifyContent="center"
-                            alignItems="center"
-                            fontSize="10px"
-                            gap="10px">
-                            <Link
-                                color="#495867"
-                                _hover={{ textDecoration: "none" }}>
-                                Vende Falabella.com
-                            </Link>
-                            <Button
-                                variant="link"
-                                fontWeight="normal"
-                                color="#495867"
-                                fontSize="10px"
-                                rightIcon={
-                                    <ChevronDown
-                                        width="10px"
-                                        height="10px"
-                                        className="ml-[-5px]" />
-                                }
-                                _hover={{ textDecoration: "none" }}>
-                                Tarjetas y cuentas
-                            </Button>
-                            <Link
-                                color="#495867"
-                                _hover={{ textDecoration: "none" }}>
-                                Novios
-                            </Link>
-                            <Button
-                                variant="link"
-                                fontWeight="normal"
-                                color="#495867"
-                                fontSize="10px"
-                                rightIcon={
-                                    <ChevronDown
-                                        width="10px"
-                                        height="10px"
-                                        className="ml-[-5px]" />
-                                }
-                                _hover={{ textDecoration: "none" }}>
-                                Ayuda
-                            </Button>
-                        </Flex>
-                    )
-                }
+                <UserCity />
+                <HelpBarMenu isMobile={isMobile} />
             </Flex>
         </Box>
     )
+}
+
+function UserCity() {
+    const [getCity, setcity] = useState("Viterbo");
+    return (
+        <Box>
+            <Button
+                leftIcon={
+                    <MapPin
+                        width="15"
+                        height="15"
+                        strokeWidth="2" />
+                }
+                variant="link"
+                color="#495867"
+                fontSize="11px"
+                _hover={{ textDecoration: "none" }}
+                lineHeight="22px">
+                <Text
+                    fontWeight="100"
+                    as="p">
+                    Entrega en&nbsp;
+                    <Text
+                        as="b"
+                        fontWeight="700">
+                        {getCity}
+                    </Text>
+                </Text>
+            </Button>
+        </Box>
+    );
+}
+
+function HelpBarMenu({ isMobile }) {
+    if (isMobile)
+        return (
+            <>
+            </>
+        );
+    return (
+        <Flex
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            fontSize="10px"
+            gap="10px">
+            <Link
+                color="#495867"
+                _hover={{ textDecoration: "none" }}>
+                Vende Falabella.com
+            </Link>
+            <Button
+                variant="link"
+                fontWeight="normal"
+                color="#495867"
+                fontSize="10px"
+                rightIcon={
+                    <ChevronDown
+                        width="10px"
+                        height="10px"
+                        className="ml-[-5px]" />
+                }
+                _hover={{ textDecoration: "none" }}>
+                Tarjetas y cuentas
+            </Button>
+            <Link
+                color="#495867"
+                _hover={{ textDecoration: "none" }}>
+                Novios
+            </Link>
+            <Button
+                variant="link"
+                fontWeight="normal"
+                color="#495867"
+                fontSize="10px"
+                rightIcon={
+                    <ChevronDown
+                        width="10px"
+                        height="10px"
+                        className="ml-[-5px]" />
+                }
+                _hover={{ textDecoration: "none" }}>
+                Ayuda
+            </Button>
+        </Flex>
+    )
+}
+
+function AccountBarMenu({ isMobile }) {
+    const cartCount = useShoppingCartNumberItems()
+    if (isMobile)
+        return (
+            <GridItem
+                colStart={41}
+                colEnd={48}>
+                <Flex
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap="5">
+                    <Button
+                        textAlign="center"
+                        height="100%"
+                        color="text.400"
+                        variant="link"
+                        lineHeight="0"
+                        fontWeight="600"
+                        fontSize="13px"
+                        mt="-1px"
+                        textDecorationLine="underline">
+                        Inicia sesión
+                    </Button>
+                    <Box
+                        width="100%"
+                        height="100%">
+                        <Box
+                            position="relative"
+                            width="fit-content">
+                            <IconButton
+                                aria-label="Shopping cart"
+                                fontSize="2xl"
+                                icon={<BsCart3 />}
+                                variant="ghost" />
+                            <Badge
+                                position="absolute"
+                                top="3px"
+                                right="3px"
+                                borderRadius="full"
+                                bg="gray.800"
+                                color="white"
+                                fontSize="3xs"
+                                width="13px"
+                                height="13px"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                {cartCount}
+                            </Badge>
+                        </Box>
+                    </Box>
+                </Flex>
+            </GridItem>
+        );
+    return (
+        <GridItem
+            colStart={37}
+            colEnd={48}>
+            <Flex>
+                <Box
+                    py="1">
+                    <Flex
+                        borderRight="1px"
+                        borderColor="gray.400"
+                        direction="column"
+                        lineHeight="16px"
+                        fontFamily="Lato,sans-serif"
+                        py="1"
+                        pr="2"
+                        height="100%">
+                        <Text
+                            as="span"
+                            fontSize="13px"
+                            fontWeight="600"
+                            letterSpacing="0">
+                            Hola,<br />
+                        </Text>
+                        <Button
+                            rightIcon={
+                                <ChevronDown
+                                    width="15px"
+                                    height="15px"
+                                    className="ml-[-7px]"
+                                />
+                            }
+                            textAlign="center"
+                            height="100%"
+                            color="text.400"
+                            variant="link"
+                            lineHeight="0"
+                            fontWeight="600"
+                            fontSize="13px"
+                            mt="-1px"
+                            _hover={{ textStyle: "none" }}>
+                            Inicia sesión
+                        </Button>
+                    </Flex>
+                </Box>
+                <Box
+                    py="3px">
+                    <Box
+                        height="100%"
+                        borderRight="1px"
+                        lineHeight="15px"
+                        borderColor="gray.400"
+                        px="2.5">
+                        <LinkRouter
+                            className="h-full flex flex-col justify-center">
+                            Mis
+                            <Text
+                                as="b"
+                                fontSize="14px">
+                                compras
+                            </Text>
+                        </LinkRouter>
+                    </Box>
+                </Box>
+                <Box
+                    py="3px">
+                    <Flex
+                        height="100%"
+                        borderRight="1px"
+                        justifyContent="center"
+                        alignItems="center"
+                        borderColor="gray.400"
+                        px="2">
+                        <Heart
+                            color="#343E49" />
+                    </Flex>
+                </Box>
+                <Box
+                    py="3px">
+                    <Box
+                        position="relative">
+                        <IconButton
+                            aria-label="Shopping cart"
+                            fontSize="2xl"
+                            icon={<BsCart3 />}
+                            variant="ghost" />
+                        <Badge
+                            position="absolute"
+                            top="-5px"
+                            right="-5px"
+                            borderRadius="full"
+                            bg="gray.800"
+                            color="white"
+                            fontSize="xs"
+                            width="20px"
+                            height="20px"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            {cartCount}
+                        </Badge>
+                    </Box>
+                </Box>
+            </Flex>
+        </GridItem>
+    );
 }

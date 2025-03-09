@@ -5,6 +5,7 @@ import theme from "./theme";
 import FooterComponent from './components/footer';
 import Header from "./components/header";
 import Menu from './components/menu'
+import ShoppingCartContext from './gobal/shoppingCart/shoppingCart.global';
 import './App.css'
 
 function App() {
@@ -12,11 +13,12 @@ function App() {
   return (
     <BrowserRouter>
       <ChakraProvider theme={theme}>
-        <Header />
-        {/* <Menu/>  */}
-        <Routes>
-          {projectRoutes}
-        </Routes>
+        <ShoppingCartContext>
+          <Header />
+          <Routes>
+            {projectRoutes}
+          </Routes>
+        </ShoppingCartContext>
         <FooterComponent />
       </ChakraProvider>
     </BrowserRouter>
