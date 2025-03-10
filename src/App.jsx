@@ -2,9 +2,9 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter, Routes } from "react-router";
 import { projectRoutes } from "./pages";
 import theme from "./theme";
-import FooterComponent from './components/Footer/Index';
-import Header from "./components/Header/Index";
-import Menu from './components/Menu/Index'
+import FooterComponent from './components/footer';
+import Header from "./components/header";
+import Menu from './components/menu'
 import ShoppingCartContext from './gobal/shoppingCart/shoppingCart.global';
 import './App.css'
 

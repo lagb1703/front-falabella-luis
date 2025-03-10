@@ -38,9 +38,9 @@ import {
     ChevronDown,
     MapPin
 } from "lucide-react"
-import { useShoppingCartNumberItems } from "./Header.service"
+import { useShoppingCartNumberItems } from "./header.service"
 import { v4 as uuid } from "uuid";
-import { LoginForm } from "../LoginForm/Index";
+import { LoginForm } from "../loginForm";
 import { useState } from "react";
 
 export default function Header() {
