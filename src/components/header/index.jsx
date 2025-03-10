@@ -30,7 +30,7 @@ import {
     MenuList,
     MenuItem,
     MenuDivider,
-    MenuGroup
+    MenuGroup,
 } from "@chakra-ui/react"
 import {
     Menu,
@@ -225,6 +225,36 @@ function UserCity() {
 }
 
 function HelpBarMenu({ isMobile }) {
+    const { isOpen: isOpenCard, onOpen: onOpenCard, onClose: onCloseCard } = useDisclosure();
+    const { isOpen: isOpenHelp, onOpen: onOpenHelp, onClose: onCloseHelp } = useDisclosure();
+    const Cards = [
+        {
+            name: "Tarjeta CMR",
+            href: "/"
+        },
+        {
+            name: "Cuenta de ahorros",
+            href: "/"
+        },
+        {
+            name: "Oportunidades Únicas",
+            href: "/"
+        }
+    ];
+    const Help = [
+        {
+            name: "Centro de ayuda",
+            href: "/"
+        },
+        {
+            name: "Devoluciones y cambios",
+            href: "/"
+        },
+        {
+            name: "Horario de tiendas",
+            href: "/"
+        }
+    ];
     if (isMobile)
         return (
             <>
@@ -236,51 +266,147 @@ function HelpBarMenu({ isMobile }) {
             justifyContent="center"
             alignItems="center"
             fontSize="10px"
-            gap="10px">
+            mr="3vw"
+            gap="7">
             <Link
                 color="#495867"
                 _hover={{ textDecoration: "none" }}>
                 Vende Falabella.com
             </Link>
-            <Button
-                variant="link"
-                fontWeight="normal"
-                color="#495867"
-                fontSize="10px"
-                rightIcon={
-                    <ChevronDown
-                        width="10px"
-                        height="10px"
-                        className="ml-[-5px]" />
-                }
-                _hover={{ textDecoration: "none" }}>
-                Tarjetas y cuentas
-            </Button>
+            <MenuChakra
+                closeOnSelect={true}
+                isLazy
+                isOpen={isOpenCard}
+                placement="top"
+                onMouseEnter={onOpenCard}
+                onMouseLeave={onCloseCard}
+                cursor="pointer">
+                <MenuButton
+                    variant="link"
+                    fontWeight="normal"
+                    color="#495867"
+                    fontSize="10px"
+                    onMouseEnter={onOpenCard}
+                    onMouseLeave={onCloseCard}
+                    _hover={{ textDecoration: "none" }}>
+                    <Flex
+                        width="100%"
+                        direction="row">
+                        Tarjetas y cuentas
+                        <ChevronDown
+                            width="10px"
+                            height="10px"
+                            className="mt-[4px]"
+                        />
+                    </Flex>
+                </MenuButton>
+                <MenuList
+                    onMouseEnter={onOpenCard}
+                    onMouseLeave={onCloseCard}
+                    p="1rem">
+                    {
+                        Cards.map((item) => {
+                            return (
+                                <MenuItem key={uuid()}>
+                                    <LinkRouter
+                                        href={item.href}>
+                                        <Text
+                                            as="p"
+                                            fontWeight="550"
+                                            color="#495867"
+                                            fontSize="10px">
+                                            {item.name}
+                                        </Text>
+                                        {
+                                            item.description &&
+                                            <Text
+                                                as="span"
+                                                fontWeight="400"
+                                                color="#495867"
+                                                fontSize="10px">
+                                                {item.description}
+                                            </Text>
+                                        }
+                                    </LinkRouter>
+                                </MenuItem>
+                            );
+                        })
+                    }
+                </MenuList>
+            </MenuChakra>
             <Link
                 color="#495867"
                 _hover={{ textDecoration: "none" }}>
                 Novios
             </Link>
-            <Button
-                variant="link"
-                fontWeight="normal"
-                color="#495867"
-                fontSize="10px"
-                rightIcon={
-                    <ChevronDown
-                        width="10px"
-                        height="10px"
-                        className="ml-[-5px]" />
-                }
-                _hover={{ textDecoration: "none" }}>
-                Ayuda
-            </Button>
+            <MenuChakra
+                closeOnSelect={true}
+                isLazy
+                isOpen={isOpenHelp}
+                placement="top"
+                onMouseEnter={onOpenHelp}
+                onMouseLeave={onCloseHelp}
+                cursor="pointer">
+                <MenuButton
+                    variant="link"
+                    fontWeight="normal"
+                    color="#495867"
+                    fontSize="10px"
+                    onMouseEnter={onOpenHelp}
+                    onMouseLeave={onCloseHelp}
+                    _hover={{ textDecoration: "none" }}>
+                    <Flex
+                        width="100%"
+                        direction="row">
+                        Ayuda
+                        <ChevronDown
+                            width="10px"
+                            height="10px"
+                            className="mt-[4px]"
+                        />
+                    </Flex>
+                </MenuButton>
+                <MenuList
+                    onMouseEnter={onOpenHelp}
+                    onMouseLeave={onCloseHelp}
+                    p="1rem">
+                    {
+                        Help.map((item) => {
+                            return (
+                                <MenuItem key={uuid()}>
+                                    <LinkRouter
+                                        href={item.href}>
+                                        <Text
+                                            as="p"
+                                            fontWeight="550"
+                                            color="#495867"
+                                            fontSize="10px">
+                                            {item.name}
+                                        </Text>
+                                        {
+                                            item.description &&
+                                            <Text
+                                                as="span"
+                                                fontWeight="400"
+                                                color="#495867"
+                                                fontSize="10px">
+                                                {item.description}
+                                            </Text>
+                                        }
+                                    </LinkRouter>
+                                </MenuItem>
+                            );
+                        })
+                    }
+                </MenuList>
+            </MenuChakra>
         </Flex>
     )
 }
 
 function AccountBarMenu({ isMobile }) {
     const cartCount = useShoppingCartNumberItems();
+    const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: onCloseModal } = useDisclosure();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const userLinks = [
         {
