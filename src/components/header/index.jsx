@@ -38,9 +38,9 @@ import {
     ChevronDown,
     MapPin
 } from "lucide-react"
-import { useShoppingCartNumberItems } from "./header.service"
+import { useShoppingCartNumberItems } from "./Header.service"
 import { v4 as uuid } from "uuid";
-import { LoginForm } from "../loginForm";
+import { LoginForm } from "../LoginForm/Index";
 import { useState } from "react";
 
 export default function Header() {
@@ -508,7 +508,7 @@ function AccountBarMenu({ isMobile }) {
                                 <LoginForm onClose={() => setShowLoginForm(false)} />
                                 )}
 
-                                {/* <MenuDivider />
+                                <MenuDivider />
                                 <MenuGroup>
                                     <MenuItem
                                         icon={<FaRegCircle />}>
@@ -522,7 +522,7 @@ function AccountBarMenu({ isMobile }) {
                                             </Text>
                                         </LinkRouter>
                                     </MenuItem>
-                                </MenuGroup> */}
+                                </MenuGroup> 
                             </MenuList>
                         </MenuChakra>
                     </Flex>

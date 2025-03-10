@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router"
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialFacebook } from "react-icons/ti";
-import { useGetNavigationFooter } from "./footer.service";
+import { useGetNavigationFooter } from "./Footer.service";
 import { v4 as uuid } from "uuid";
 export default function Footer() {
   return (
