@@ -8,7 +8,6 @@ import falabellaLogo from "./../../assets/falabellacom.svg"
 import { Link as LinkRouter } from "react-router"
 import { BsCart3 } from "react-icons/bs";
 import { FaRegCircle } from "react-icons/fa";
-import { useState } from "react"
 import {
     Box,
     Flex,
@@ -41,7 +40,11 @@ import {
 } from "lucide-react"
 import { useShoppingCartNumberItems } from "./header.service"
 import { v4 as uuid } from "uuid";
+import { LoginForm } from "../loginForm";
+import { useState } from "react";
+
 export default function Header() {
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isMobile = useBreakpointValue({ base: true, md: false })
     return (
@@ -282,11 +285,16 @@ function HelpBarMenu({ isMobile }) {
 function AccountBarMenu({ isMobile }) {
     const cartCount = useShoppingCartNumberItems();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [ showLoginForm, setShowLoginForm ] = useState(false); // estado para mostrar el formulario de inicio de sesión
     const userLinks = [
         {
             name: "Inicia sesión",
             href: "/",
-            description: null
+            description: null,
+            callback: () => {
+                console.log("Galvis Prieto")
+                setShowLoginForm(true);
+            } 
         },
         {
             name: "Regístrate",
@@ -297,7 +305,7 @@ function AccountBarMenu({ isMobile }) {
             name: "Mi cuenta",
             href: "/",
             description: "Accede tus compras, tu perfil y más."
-        }
+            }
     ];
     if (isMobile)
         return (
@@ -408,10 +416,14 @@ function AccountBarMenu({ isMobile }) {
                                 onMouseEnter={onOpen}
                                 onMouseLeave={onClose}
                                 p="1rem">
+{/* 
                                 <MenuGroup>
                                     {userLinks.map((item) => {
                                         return (
                                             <MenuItem key={uuid()}>
+
+                                                
+
                                                 <LinkRouter
                                                     href={item.href}>
                                                     <Text
@@ -435,8 +447,68 @@ function AccountBarMenu({ isMobile }) {
                                             </MenuItem>
                                         );
                                     })}
+                                </MenuGroup> */}
+                                
+                                <MenuGroup>
+                                    {userLinks.map((item) => {
+                                        return (
+                                            <MenuItem key={uuid()}>
+                                                {item.callback ? (
+                                                    // Si hay callback, usamos un botón que lo ejecute
+                                                    <div 
+                                                        onClick={() => item.callback()}
+                                                        style={{ cursor: 'pointer' }}
+                                                    >
+                                                        <Text
+                                                            as="p"
+                                                            fontWeight="550"
+                                                            color="#495867"
+                                                            fontSize="10px">
+                                                            {item.name}
+                                                        </Text>
+                                                        {
+                                                            item.description &&
+                                                            <Text
+                                                                as="span"
+                                                                fontWeight="400"
+                                                                color="#495867"
+                                                                fontSize="10px">
+                                                                {item.description}
+                                                            </Text>
+                                                        }
+                                                    </div>
+                                                ) : (
+                                                    // Si no hay callback, usamos el LinkRouter normal
+                                                    <LinkRouter href={item.href}>
+                                                        <Text
+                                                            as="p"
+                                                            fontWeight="550"
+                                                            color="#495867"
+                                                            fontSize="10px">
+                                                            {item.name}
+                                                        </Text>
+                                                        {
+                                                            item.description &&
+                                                            <Text
+                                                                as="span"
+                                                                fontWeight="400"
+                                                                color="#495867"
+                                                                fontSize="10px">
+                                                                {item.description}
+                                                            </Text>
+                                                        }
+                                                    </LinkRouter>
+                                                )}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </MenuGroup>
-                                <MenuDivider />
+
+                                {showLoginForm && (
+                                <LoginForm onClose={() => setShowLoginForm(false)} />
+                                )}
+
+                                {/* <MenuDivider />
                                 <MenuGroup>
                                     <MenuItem
                                         icon={<FaRegCircle />}>
@@ -450,7 +522,7 @@ function AccountBarMenu({ isMobile }) {
                                             </Text>
                                         </LinkRouter>
                                     </MenuItem>
-                                </MenuGroup>
+                                </MenuGroup> */}
                             </MenuList>
                         </MenuChakra>
                     </Flex>
