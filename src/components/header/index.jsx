@@ -504,10 +504,6 @@ function AccountBarMenu({ isMobile }) {
                                     })}
                                 </MenuGroup>
 
-                                {showLoginForm && (
-                                <LoginForm onClose={() => setShowLoginForm(false)} />
-                                )}
-
                                 <MenuDivider />
                                 <MenuGroup>
                                     <MenuItem
@@ -527,6 +523,16 @@ function AccountBarMenu({ isMobile }) {
                         </MenuChakra>
                     </Flex>
                 </Box>
+
+            {showLoginForm && (
+                <div style={{     position: "absolute", 
+                    top: "50%", 
+                    left: "50%", 
+                    transform: "translate(-50%, -50%)" }}>
+                    <LoginForm onClose={() => setShowLoginForm(false)} />
+                </div>
+            )}
+
                 <Box
                     py="3px">
                     <Box
