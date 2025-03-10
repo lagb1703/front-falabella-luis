@@ -7,6 +7,7 @@ import linioMiniSVG from "./../../assets/icons/logo-linio-mini.svg"
 import falabellaLogo from "./../../assets/falabellacom.svg"
 import { Link as LinkRouter } from "react-router"
 import { BsCart3 } from "react-icons/bs";
+import { FaRegCircle } from "react-icons/fa";
 import { useState } from "react"
 import {
     Box,
@@ -23,7 +24,13 @@ import {
     useDisclosure,
     useBreakpointValue,
     Grid,
-    GridItem
+    GridItem,
+    Menu as MenuChakra,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuDivider,
+    MenuGroup
 } from "@chakra-ui/react"
 import {
     Menu,
@@ -33,6 +40,7 @@ import {
     MapPin
 } from "lucide-react"
 import { useShoppingCartNumberItems } from "./header.service"
+import { v4 as uuid } from "uuid";
 export default function Header() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const isMobile = useBreakpointValue({ base: true, md: false })
@@ -272,7 +280,25 @@ function HelpBarMenu({ isMobile }) {
 }
 
 function AccountBarMenu({ isMobile }) {
-    const cartCount = useShoppingCartNumberItems()
+    const cartCount = useShoppingCartNumberItems();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const userLinks = [
+        {
+            name: "Inicia sesión",
+            href: "/",
+            description: null
+        },
+        {
+            name: "Regístrate",
+            href: "/",
+            description: null
+        },
+        {
+            name: "Mi cuenta",
+            href: "/",
+            description: "Accede tus compras, tu perfil y más."
+        }
+    ];
     if (isMobile)
         return (
             <GridItem
@@ -333,7 +359,10 @@ function AccountBarMenu({ isMobile }) {
             colEnd={48}>
             <Flex>
                 <Box
-                    py="1">
+                    py="1"
+                    onMouseEnter={onOpen}
+                    onMouseLeave={onClose}
+                    cursor="pointer">
                     <Flex
                         borderRight="1px"
                         borderColor="gray.400"
@@ -350,25 +379,80 @@ function AccountBarMenu({ isMobile }) {
                             letterSpacing="0">
                             Hola,<br />
                         </Text>
-                        <Button
-                            rightIcon={
-                                <ChevronDown
-                                    width="15px"
-                                    height="15px"
-                                    className="ml-[-7px]"
-                                />
-                            }
-                            textAlign="center"
-                            height="100%"
-                            color="text.400"
-                            variant="link"
-                            lineHeight="0"
-                            fontWeight="600"
-                            fontSize="13px"
-                            mt="-1px"
-                            _hover={{ textStyle: "none" }}>
-                            Inicia sesión
-                        </Button>
+                        <MenuChakra
+                            closeOnSelect={true}
+                            isLazy
+                            isOpen={isOpen}
+                            placement="top">
+                            <MenuButton
+                                width="100%"
+                                textAlign="center"
+                                height="100%"
+                                color="text.400"
+                                variant="link"
+                                fontWeight="600"
+                                fontSize="13px"
+                                _hover={{ textStyle: "none" }}>
+                                <Flex
+                                    width="100%"
+                                    direction="row">
+                                    Inicia sesión
+                                    <ChevronDown
+                                        width="10px"
+                                        height="10px"
+                                        className="mt-[4px]"
+                                    />
+                                </Flex>
+                            </MenuButton>
+                            <MenuList
+                                onMouseEnter={onOpen}
+                                onMouseLeave={onClose}
+                                p="1rem">
+                                <MenuGroup>
+                                    {userLinks.map((item) => {
+                                        return (
+                                            <MenuItem key={uuid()}>
+                                                <LinkRouter
+                                                    href={item.href}>
+                                                    <Text
+                                                        as="p"
+                                                        fontWeight="550"
+                                                        color="#495867"
+                                                        fontSize="10px">
+                                                        {item.name}
+                                                    </Text>
+                                                    {
+                                                        item.description &&
+                                                        <Text
+                                                            as="span"
+                                                            fontWeight="400"
+                                                            color="#495867"
+                                                            fontSize="10px">
+                                                            {item.description}
+                                                        </Text>
+                                                    }
+                                                </LinkRouter>
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </MenuGroup>
+                                <MenuDivider />
+                                <MenuGroup>
+                                    <MenuItem
+                                        icon={<FaRegCircle />}>
+                                        <LinkRouter href="">
+                                            <Text
+                                                as="p"
+                                                fontWeight="550"
+                                                color="#495867"
+                                                fontSize="10px">
+                                                CMR Puntos
+                                            </Text>
+                                        </LinkRouter>
+                                    </MenuItem>
+                                </MenuGroup>
+                            </MenuList>
+                        </MenuChakra>
                     </Flex>
                 </Box>
                 <Box
