@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { useLogin } from "./loginForm.service"; // Importa el servicio  
-import "./LoginForm.css";
+import "./loginForm.css";
 
 export const LoginForm = ({onClose}) => { //Modificación para el cierre del submenu
   const [showPassword, setShowPassword] = useState(false);
