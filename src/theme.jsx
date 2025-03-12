@@ -10,6 +10,7 @@ const theme = extendTheme({
       600: "#0c2941"
     },
     text: {
+        200: "#495867",
         300: "#4a4a4a",
         400: "#343E49",
         500:"#212529",
@@ -57,7 +58,6 @@ const theme = extendTheme({
         fontWeight: "bold",
       },
       variants: {
-        // Botón sólido con estilo principal
         solid: {
           bg: "primary.500",
           color: "white"

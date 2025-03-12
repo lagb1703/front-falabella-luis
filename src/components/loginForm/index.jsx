@@ -4,7 +4,7 @@ import { FiEyeOff, FiEye } from "react-icons/fi";
 import { useLogin } from "./loginForm.service"; // Importa el servicio  
 import "./loginForm.css";
 
-export const LoginForm = ({onClose}) => { //Modificación para el cierre del submenu
+export default function LoginForm({onClose}){ //Modificación para el cierre del submenu
   const [showPassword, setShowPassword] = useState(false);
   const [correo, setEmail] = useState("");
   const [contrasena, setPassword] = useState("");

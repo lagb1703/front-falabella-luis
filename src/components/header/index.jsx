@@ -40,13 +40,13 @@ import {
 } from "lucide-react"
 import { useShoppingCartNumberItems } from "./header.service"
 import { v4 as uuid } from "uuid";
-import { LoginForm } from "../loginForm";
+import LoginForm from "../loginForm";
+import MenuComponent from "./../menu/";
 import { useState } from "react";
 
 export default function Header() {
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const isMobile = useBreakpointValue({ base: true, md: false })
+    const isMobile = useBreakpointValue({ base: true, md: false });
+    const { isOpen: isOpenMenu, onOpen: onOpenMenu, onClose:onCloseMenu } = useDisclosure();
     return (
         <Box
             as="header"
@@ -122,13 +122,13 @@ export default function Header() {
                 borderColor="gray.200">
                 {isMobile ? (
                     <GridItem colSpan={1}>
-                        <IconButton aria-label="Menu" icon={<Menu />} variant="ghost" mr={2} onClick={onOpen} />
+                        <IconButton aria-label="Menu" icon={<Menu />} variant="ghost" mr={2} onClick={onOpenMenu} />
                     </GridItem>
                 ) : null}
                 <GridItem colSpan={6}>
                     <LinkRouter
                         className="min-w-[100px] w-[149px] max-w-[100%] h-full flex justify-center items-center px"
-                        href="/">
+                        to="/">
                         <Image
                             src={falabellaLogo}
                             alt="Falabella"
@@ -145,6 +145,7 @@ export default function Header() {
                             leftIcon={<Menu />}
                             color="#343E49"
                             variant="link"
+                            onClick={onOpenMenu}
                             ml={4}>
                             Menú
                         </Button>
@@ -181,7 +182,7 @@ export default function Header() {
                         </InputRightElement>
                     </InputGroup>
                 </GridItem>
-                <AccountBarMenu />
+                <AccountBarMenu isMobile={isMobile}/>
             </Grid>
             <Flex
                 direction="row"
@@ -192,6 +193,7 @@ export default function Header() {
                 <UserCity />
                 <HelpBarMenu isMobile={isMobile} />
             </Flex>
+            <MenuComponent isOpen={isOpenMenu} onClose={onCloseMenu}/>
         </Box>
     )
 }
@@ -409,29 +411,30 @@ function HelpBarMenu({ isMobile }) {
 
 function AccountBarMenu({ isMobile }) {
     const cartCount = useShoppingCartNumberItems();
-    const { isOpen: isOpenModal, onOpen: onOpenModal, onClose: onCloseModal } = useDisclosure();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [ showLoginForm, setShowLoginForm ] = useState(false); // estado para mostrar el formulario de inicio de sesión
+    const [ showLoginForm, setShowLoginForm ] = useState(false);
     const userLinks = [
         {
             name: "Inicia sesión",
             href: "/",
             description: null,
-            callback: () => {
-                console.log("Galvis Prieto")
+            callback: (e) => {
+                e.preventDefault()
                 setShowLoginForm(true);
             } 
         },
         {
             name: "Regístrate",
-            href: "/",
-            description: null
+            href: "/registration",
+            description: null,
+            callback: null
         },
         {
             name: "Mi cuenta",
             href: "/",
-            description: "Accede tus compras, tu perfil y más."
-            }
+            description: "Accede tus compras, tu perfil y más.",
+            callback: null
+        }
     ];
     if (isMobile)
         return (
@@ -542,17 +545,14 @@ function AccountBarMenu({ isMobile }) {
                                 onMouseEnter={onOpen}
                                 onMouseLeave={onClose}
                                 p="1rem">
-{/* 
                                 <MenuGroup>
                                     {userLinks.map((item) => {
                                         return (
                                             <MenuItem key={uuid()}>
-
-                                                
-
                                                 <LinkRouter
-                                                    href={item.href}>
+                                                    to={item.href}>
                                                     <Text
+                                                        onClick={item.callback}
                                                         as="p"
                                                         fontWeight="550"
                                                         color="#495867"
@@ -573,63 +573,7 @@ function AccountBarMenu({ isMobile }) {
                                             </MenuItem>
                                         );
                                     })}
-                                </MenuGroup> */}
-                                
-                                <MenuGroup>
-                                    {userLinks.map((item) => {
-                                        return (
-                                            <MenuItem key={uuid()}>
-                                                {item.callback ? (
-                                                    // Si hay callback, usamos un botón que lo ejecute
-                                                    <div 
-                                                        onClick={() => item.callback()}
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <Text
-                                                            as="p"
-                                                            fontWeight="550"
-                                                            color="#495867"
-                                                            fontSize="10px">
-                                                            {item.name}
-                                                        </Text>
-                                                        {
-                                                            item.description &&
-                                                            <Text
-                                                                as="span"
-                                                                fontWeight="400"
-                                                                color="#495867"
-                                                                fontSize="10px">
-                                                                {item.description}
-                                                            </Text>
-                                                        }
-                                                    </div>
-                                                ) : (
-                                                    // Si no hay callback, usamos el LinkRouter normal
-                                                    <LinkRouter href={item.href}>
-                                                        <Text
-                                                            as="p"
-                                                            fontWeight="550"
-                                                            color="#495867"
-                                                            fontSize="10px">
-                                                            {item.name}
-                                                        </Text>
-                                                        {
-                                                            item.description &&
-                                                            <Text
-                                                                as="span"
-                                                                fontWeight="400"
-                                                                color="#495867"
-                                                                fontSize="10px">
-                                                                {item.description}
-                                                            </Text>
-                                                        }
-                                                    </LinkRouter>
-                                                )}
-                                            </MenuItem>
-                                        );
-                                    })}
                                 </MenuGroup>
-
                                 <MenuDivider />
                                 <MenuGroup>
                                     <MenuItem
@@ -658,7 +602,6 @@ function AccountBarMenu({ isMobile }) {
                     <LoginForm onClose={() => setShowLoginForm(false)} />
                 </div>
             )}
-
                 <Box
                     py="3px">
                     <Box

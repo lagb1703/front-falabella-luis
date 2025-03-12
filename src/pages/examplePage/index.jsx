@@ -2,7 +2,7 @@ import { useGetInformation } from "./examplePage"
 import { useEffect } from "react"
 import { v4 as uuid } from "uuid"
 import {Button} from "@chakra-ui/react"
-export default function ExamplePage({ }) {
+export default function ExamplePage() {
     const { getNames, setParams } = useGetInformation({ parametro1: "pepe", parametro2: "pepe" })
     useEffect(() => {
         setParams(i => {
