@@ -40,7 +40,7 @@ import {
 } from "lucide-react"
 import { useShoppingCartNumberItems } from "./header.service"
 import { v4 as uuid } from "uuid";
-import { LoginForm } from "../loginForm";
+import LoginForm from "../loginForm";
 import MenuComponent from "./../menu/";
 import { useState } from "react";
 
