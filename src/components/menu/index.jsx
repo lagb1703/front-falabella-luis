@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import falabellaLogo from "@/assets/icons/logo-falabella-letras.svg"
 import {useGetNavigationOptions, useHover, useCloseMenu} from "./menu.service";
 import { Link as LinkRouter } from 'react-router';
@@ -18,11 +18,8 @@ import {
     Text,
     Icon,
     Menu as MenuChakra,
-    MenuButton,
     MenuList,
     MenuItem,
-    MenuDivider,
-    MenuGroup
 } from '@chakra-ui/react'
 
 

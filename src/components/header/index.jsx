@@ -128,7 +128,7 @@ export default function Header() {
                 <GridItem colSpan={6}>
                     <LinkRouter
                         className="min-w-[100px] w-[149px] max-w-[100%] h-full flex justify-center items-center px"
-                        href="/">
+                        to="/">
                         <Image
                             src={falabellaLogo}
                             alt="Falabella"
@@ -182,7 +182,7 @@ export default function Header() {
                         </InputRightElement>
                     </InputGroup>
                 </GridItem>
-                <AccountBarMenu />
+                <AccountBarMenu isMobile={isMobile}/>
             </Grid>
             <Flex
                 direction="row"
@@ -425,7 +425,7 @@ function AccountBarMenu({ isMobile }) {
         },
         {
             name: "Regístrate",
-            href: "/",
+            href: "/registration",
             description: null,
             callback: null
         },
@@ -550,7 +550,7 @@ function AccountBarMenu({ isMobile }) {
                                         return (
                                             <MenuItem key={uuid()}>
                                                 <LinkRouter
-                                                    href={item.href}>
+                                                    to={item.href}>
                                                     <Text
                                                         onClick={item.callback}
                                                         as="p"
