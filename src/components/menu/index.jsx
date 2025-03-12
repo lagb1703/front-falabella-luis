@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import falabellaLogo from "@/assets/icons/logo-falabella-letras.svg"
-import {useGetNavigationOptions, useHover} from "./menu.service";
+import {useGetNavigationOptions, useHover, useCloseMenu} from "./menu.service";
 import { Link as LinkRouter } from 'react-router';
 import { FaAngleRight } from "react-icons/fa6";
 import {
@@ -30,13 +30,7 @@ export default function Menu({isOpen, onClose}) {
     const btnRef = useRef();
     const {getHoverFocus, hoverOpen, isModalOpen, onModalClose} = useHover();
     const categorias = useGetNavigationOptions();
-    useEffect(()=>{
-      if(!isOpen){
-        document.body.style.overflow = 'scroll';
-        onModalClose()
-      }
-      document.body.style.overflow = 'hidden';
-    }, [isOpen])
+    useCloseMenu(isOpen, onModalClose);
     return (
       <>
         <Drawer

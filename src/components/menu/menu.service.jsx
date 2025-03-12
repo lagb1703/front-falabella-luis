@@ -17,6 +17,10 @@ export function useGetNavigationOptions(){
 export function useHover(){
     const [getHoverFocus, setHoverFocus] = useState("");
     const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
+    useEffect(()=>{
+        if(!isModalOpen)
+            setHoverFocus("");
+    }, [isModalOpen]);
     const hoverOpen = useCallback((index)=>{
         return (e)=>{
           e.preventDefault();
@@ -32,4 +36,14 @@ export function useHover(){
         isModalOpen,
         onModalClose
     }
+}
+
+export function useCloseMenu(isOpen, onModalClose){
+    useEffect(()=>{
+        if(!isOpen){
+        document.body.style.overflow = 'scroll';
+        onModalClose()
+        }
+        document.body.style.overflow = 'hidden';
+    }, [isOpen]);
 }
