@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import falabellaLogo from "@/assets/icons/logo-falabella-letras.svg"
 import {useGetNavigationOptions, useHover, useCloseMenu, useLoadMenu} from "./menu.service";
-import { Link as LinkRouter } from 'react-router';
+import { Link as LinkRouter, useLocation } from 'react-router';
 import { FaAngleRight } from "react-icons/fa6";
 import {
     Drawer,
@@ -24,10 +24,11 @@ import { v4 as uuid } from 'uuid';
 
 
 export default function Menu({isOpen, onClose}) {
+    
     const btnRef = useRef();
     const {getHoverFocus, hoverOpen, getIndex, isModalOpen, onModalClose} = useHover();
     const categorias = useGetNavigationOptions();
-    useCloseMenu(isOpen, onModalClose);
+    useCloseMenu(isOpen, onModalClose, onClose);
     return (
       <>
         <Drawer

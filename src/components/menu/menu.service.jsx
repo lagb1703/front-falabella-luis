@@ -3,6 +3,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import navigationOptionsMock from "./mocks/navigationOptions.mock.json"
 import subNavigationOptionsMock from "./mocks/submenus.mock.json"
 import { v4 as uuid } from 'uuid';
+import { useLocation } from 'react-router';
 
 export function useGetNavigationOptions(){
     const [getNavigation, setNavigation] = useState([]);
@@ -42,7 +43,8 @@ export function useHover(){
     }
 }
 
-export function useCloseMenu(isOpen, onModalClose){
+export function useCloseMenu(isOpen, onModalClose, onClose){
+    const location = useLocation();
     useEffect(()=>{
         if(!isOpen){
             document.body.style.overflowY = 'scroll';
@@ -51,6 +53,10 @@ export function useCloseMenu(isOpen, onModalClose){
         }
         document.body.style.overflowY = 'hidden';
     }, [isOpen]);
+    useEffect(()=>{
+        if(isOpen)
+            onClose()
+    }, [location]);
 }
 
 export function useGetSubMenu(){
