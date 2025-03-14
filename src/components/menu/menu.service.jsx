@@ -45,11 +45,11 @@ export function useHover(){
 export function useCloseMenu(isOpen, onModalClose){
     useEffect(()=>{
         if(!isOpen){
-            document.body.style.overflow = 'scroll';
+            document.body.style.overflowY = 'scroll';
             onModalClose()
             return
         }
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflowY = 'hidden';
     }, [isOpen]);
 }
 

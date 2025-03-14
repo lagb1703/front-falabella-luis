@@ -548,11 +548,12 @@ function AccountBarMenu({ isMobile }) {
                                 <MenuGroup>
                                     {userLinks.map((item) => {
                                         return (
-                                            <MenuItem key={uuid()}>
-                                                <LinkRouter
-                                                    to={item.href}>
+                                            <LinkRouter
+                                                key={uuid()}
+                                                to={item.href}
+                                                onClick={item.callback}>
+                                                <MenuItem >
                                                     <Text
-                                                        onClick={item.callback}
                                                         as="p"
                                                         fontWeight="550"
                                                         color="#495867"
@@ -569,8 +570,8 @@ function AccountBarMenu({ isMobile }) {
                                                             {item.description}
                                                         </Text>
                                                     }
-                                                </LinkRouter>
-                                            </MenuItem>
+                                                </MenuItem>
+                                            </LinkRouter>
                                         );
                                     })}
                                 </MenuGroup>
