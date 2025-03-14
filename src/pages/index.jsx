@@ -8,4 +8,7 @@ export const projectRoutes = [
     <Route path="/registration" element={<RegisterPage/>} key={uuidv4()}/>
 ];
 
+projectRoutes.push(
+    <Route path="*" element={(<h1>Esta pagina no esta disponible</h1>)} key={uuidv4()}/>
+);
 export const backendURL = "https://25djsx5x-3000.use2.devtunnels.ms/";
