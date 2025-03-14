@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import falabellaLogo from "@/assets/icons/logo-falabella-letras.svg"
-import {useGetNavigationOptions, useHover, useCloseMenu} from "./menu.service";
+import {useGetNavigationOptions, useHover, useCloseMenu, useLoadMenu} from "./menu.service";
 import { Link as LinkRouter } from 'react-router';
 import { FaAngleRight } from "react-icons/fa6";
 import {
@@ -18,14 +18,14 @@ import {
     Text,
     Icon,
     Menu as MenuChakra,
-    MenuList,
-    MenuItem,
+    MenuList
 } from '@chakra-ui/react'
+import { v4 as uuid } from 'uuid';
 
 
 export default function Menu({isOpen, onClose}) {
     const btnRef = useRef();
-    const {getHoverFocus, hoverOpen, isModalOpen, onModalClose} = useHover();
+    const {getHoverFocus, hoverOpen, getIndex, isModalOpen, onModalClose} = useHover();
     const categorias = useGetNavigationOptions();
     useCloseMenu(isOpen, onModalClose);
     return (
@@ -78,7 +78,7 @@ export default function Menu({isOpen, onClose}) {
                     cursor="pointer"
                     borderRadius="4px"
                     keyid={category.keyid}
-                    onMouseEnter={hoverOpen(category.keyid)}>
+                    onMouseEnter={hoverOpen(category)}>
                     <Text 
                       flex={1}
                       fontSize= "12px"
@@ -138,77 +138,157 @@ export default function Menu({isOpen, onClose}) {
           </DrawerBody>
         </DrawerContent>
         </Drawer>
-        <SubMenu isModalOpen={isModalOpen} />
+        <SubMenu isModalOpen={isModalOpen} getIndex={getIndex} />
       </>
     )
 }
 
-function SubMenu({isModalOpen}){
+function SubMenu({isModalOpen, getIndex}){
+  const subMenu = useLoadMenu(getIndex);
   return(
       <MenuChakra 
         isOpen={isModalOpen}
         closeOnSelect={false}>
         <MenuList 
+          borderRadius= "0 20px 0 0"
           position="fixed"
           top="59px"
           left="225px"
-          minWidth='240px'
           zIndex="1401"
           pt="24px"
           pb="64px"
           pr="8px"
           pl="32px"
-          minH="468px"
-          maxH="904px"
-          height="100vh"
-          borderLeft="0">
-            <MenuItem as="section">
+          maxW={{base:"674px", lg:"904px"}}
+          minW="468px"
+          height="100vh">
+          <Box
+            height="100%"
+            width="100%"
+            overflowY="scroll"
+            overflowX="hidden">
+            <Box 
+                as="section"
+                width="100%">
+                <Flex
+                  direction="row"
+                  height="fit-content"
+                  width="100%">
+                    <Flex
+                      height="100%"
+                      direction="row"
+                      alignItems="center"
+                      flex="2 0 auto"
+                      bg="gradient"
+                      pr="20px"
+                      color="#fff"
+                      fontFamily= "Lato"
+                      fontWeight= "900"
+                      fontSize= "24px"
+                      marginRight= "20px"
+                      lineHeight= "28.8px"
+                      borderRadius= "80px 0 140px 80px"
+                      minWidth="468px">
+                      <Box
+                        width= "56px"
+                        height= "56px"
+                        borderRadius= "50%"
+                        mr="20px"
+                        bg="#AAD500"></Box>
+                      <LinkRouter>
+                        <Text>
+                          {getIndex.name}
+                        </Text>
+                      </LinkRouter>
+                    </Flex>
+                    <Flex
+                      alignItems="center"
+                      ml="1rem">
+                      <LinkRouter
+                        to={getIndex.href}>
+                        <Text
+                          textAlign="center"
+                          fontSize= "14px"
+                          lineHeight= "16.8px"
+                          color= "#68717d"
+                          textDecoration= "underline !important">
+                          Ver Todo
+                        </Text>
+                      </LinkRouter>
+                    </Flex>
+                </Flex>
+              </Box>
               <Flex
-                direction="row"
-                height="fit-content">
-                  <Flex
-                    width="fit-content"
-                    height="100%"
-                    direction="row"
-                    alignItems="center"
-                    flex="2 0 auto"
-                    bg="gradient"
-                    pr="20px"
-                    color="#fff"
-                    fontFamily= "Lato"
-                    fontWeight= "900"
-                    fontSize= "24px"
-                    marginRight= "20px"
-                    lineHeight= "28.8px"
-                    borderRadius= "80px 0 140px 80px">
-                    <Box
-                      width= "56px"
-                      height= "56px"
-                      borderRadius= "50%"
-                      bg="#AAD500"></Box>
-                    <LinkRouter>
-                      <Text>
-                        Link example
-                      </Text>
-                    </LinkRouter>
-                  </Flex>
-                  <Flex
-                    alignItems="center">
-                    <LinkRouter>
-                      <Text
-                        textAlign="center"
-                        fontSize= "14px"
-                        lineHeight= "16.8px"
-                        color= "#68717d"
-                        textDecoration= "underline !important"
-                        textUnderlinePosition= "under">
-                        Ver Todo
-                      </Text>
-                    </LinkRouter>
-                  </Flex>
+                justifyContent="center"
+                mt="-8px">
+                <Flex
+                  flexDirection="column"
+                  alignContent="flex-start"
+                  justifyContent="flex-start"
+                  boxSizing="border-box"
+                  width="872px"
+                  flexWrap="wrap"
+                  maxHeight= {{base:"1410px", lg:"715px"}}>
+                  {subMenu.map((item)=>{
+                    return (
+                      <Box
+                        as="ul" 
+                        display= "block"
+                        width= "186px"
+                        minWidth= "186px"
+                        margin= "32px 32px 0 0"
+                        key={item["subMenu_id"]}>
+                        <Box
+                          as="li">
+                          <LinkRouter to={getIndex.href}>
+                            <Text
+                              m="0"
+                              p="0"
+                              fontSize= "19px"
+                              fontWeight= "700"
+                              lineHeight= "22.8px"
+                              color="#68717D"
+                              marginBottom= "12px">
+                              {item.name}
+                            </Text>
+                          </LinkRouter>
+                        </Box>
+                        {item.options.map((i)=>{
+                          return(
+                            <Box
+                              key={uuid()}
+                              as="li"
+                              mb="12px"
+                              m="0"
+                              p="0">
+                              <LinkRouter to={i.link}>
+                                {i.name !== "Ver todo"?<Text
+                                  fontSize= "14px"
+                                  lineHeight= "16px"
+                                  fontWeight= "400"
+                                  color= "#495867"
+                                  marginBottom= "8px">
+                                  {i.name}
+                                </Text>:
+                                <Text
+                                  m="0"
+                                  p="0"
+                                  color= "#0c2941"
+                                  fontWeight= "700"
+                                  marginBottom= "8px">
+                                Ver todo
+                              </Text>
+                              }
+                              </LinkRouter>
+                            </Box>
+                          );
+                        })}
+                      </Box>
+                    )
+                  })}
+                </Flex>
               </Flex>
-            </MenuItem>
-            <MenuItem value='desc'>Descending</MenuItem>
+            </Box>
         </MenuList>
       </MenuChakra>
   );

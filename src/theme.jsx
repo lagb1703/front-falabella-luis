@@ -39,6 +39,10 @@ const theme = extendTheme({
         backgroundColor: "background",   // Fondo limpio
         color: "text.500",       // Texto oscuro para buen contraste
         fontFamily: "Lato,sans-serif",
+        fontSize: "1rem",
+        fontWeight: "400",
+        lineHeight: "1.5",
+        textAlign: "left",
       },
       a: {
         color: "text.700",
@@ -50,6 +54,9 @@ const theme = extendTheme({
       button: {
         fontWeight: "bold",
       },
+      li: {
+        listStyle:"none"
+      }
     },
   },
   components: {
