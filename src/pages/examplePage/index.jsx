@@ -1,24 +1,29 @@
-import { useGetInformation } from "./examplePage";
-import { useEffect } from "react";
-import { v4 as uuid } from "uuid";
-import { Button, Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import { Box, IconButton, useBreakpointValue,Container, Stack, SimpleGrid, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick"; // npm install react-slick slick-carousel
 import "./examplePage.css";
+import { useGetNavigationSubFooter } from "./examplePage.service.jsx"; //ERROR
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { Link } from "react-router"
+import { v4 as uuid } from "uuid";
 
 export default function ExamplePage() {
-  return (
+  return (  
     <>
       <img src="/home_images/anuncio1.png" alt="Imagen de primer anuncio" />
       <Carousel />
+      <SubFooter />
     </>
   );
 }
 
-
-
-export function Carousel() {
+function Carousel() {
   
   const [slider, setSlider] = useState(null);
 
@@ -87,4 +92,114 @@ export function Carousel() {
       </Slider>
     </Box>
   );
+}
+
+function SubFooter() {
+  return (
+    <Box as="footer" color="white">
+      <Container
+        bg={
+          {
+            base: "footer.600",
+            md: "footer.700"
+          }
+        }
+        marginX="0"
+        maxW="100%"
+        py={10}
+        px={
+          {
+            base: "10",
+            md: "40",
+            lg: "60"
+          }
+        }>
+        <Navigation />
+      </Container>
+      <Container
+        bg="footer.600"
+        maxW="100%"
+        marginX="0"
+        px={
+          {
+            base: "40",
+            sm: "10",
+            md: "40"
+          }
+        }>
+      </Container>
+    </Box>
+  )
+}
+
+function Navigation() {
+  const data = useGetNavigationSubFooter()
+  if (window.innerWidth < 720)
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        {data.map((item, i) => {
+          return (
+            <AccordionItem className="py-10" value={`item-${i}`} fontFamily="footer.p" key={uuid()}>
+              <AccordionTrigger
+                key={uuid()}
+              >
+                <Text
+                  fontWeight="bold"
+                  fontSize={{ base: "sm", md: "md" }}
+                  mb={2}
+                  key={uuid()}
+                >
+                  <b>{item.tittle}</b>
+                </Text>
+              </AccordionTrigger>
+              <AccordionContent className="">
+                <Stack spacing={0} fontFamily="footer.p" key={uuid()}>
+                  {
+                    item.links.map(l => {
+                      return (
+                        <Link href={l.href} key={uuid()}>
+                          <Text
+                            as="span"
+                            fontSize={{ base: "xs", md: "sm" }}
+                            _hover={{ color: "#d4d8dd" }}>{l.name}</Text>
+                        </Link>)
+                    })
+                  }
+                </Stack>
+              </AccordionContent>
+            </AccordionItem>
+          )
+        })}
+      </Accordion>
+    )
+  return (
+    <SimpleGrid columns={{ base: 2, md: 4 }} spacing="16" mb={8}>{
+      data.map(item => {
+        return (
+          <Stack spacing={0} fontFamily="footer.p" key={uuid()}>
+            <Text
+              fontWeight="bold"
+              fontSize={{ base: "xs", md: "sm" }}
+              mb={2}
+              key={uuid()}
+            >
+              <b>{item.tittle}</b>
+            </Text>
+            {
+              item.links.map(l => {
+                return (
+                  <Link href={l.href} key={uuid()}>
+                    <Text
+                      as="span"
+                      fontSize={{ base: "xs", md: "sm" }}
+                      _hover={{ color: "#d4d8dd" }}>{l.name}</Text>
+                  </Link>)
+              })
+            }
+          </Stack>
+        )
+      })
+    }
+    </SimpleGrid>
+  )
 }
