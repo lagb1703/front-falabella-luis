@@ -96,12 +96,12 @@ function Carousel() {
 
 function SubFooter() {
   return (
-    <Box as="footer" color="white">
+    <Box as="subfooter" color="#525252">
       <Container
         bg={
           {
-            base: "footer.600",
-            md: "footer.700"
+            base: "subfooter.600",
+            md: "subfooter.700"
           }
         }
         marginX="0"
@@ -117,7 +117,7 @@ function SubFooter() {
         <Navigation />
       </Container>
       <Container
-        bg="footer.600"
+        bg="subfooter.600"
         maxW="100%"
         marginX="0"
         px={
@@ -161,7 +161,7 @@ function Navigation() {
                           <Text
                             as="span"
                             fontSize={{ base: "xs", md: "sm" }}
-                            _hover={{ color: "#d4d8dd" }}>{l.name}</Text>
+                            _hover={{ color: "#525252" }}>{l.name}</Text>
                         </Link>)
                     })
                   }
@@ -192,7 +192,7 @@ function Navigation() {
                     <Text
                       as="span"
                       fontSize={{ base: "xs", md: "sm" }}
-                      _hover={{ color: "#d4d8dd" }}>{l.name}</Text>
+                      _hover={{ color: "#525252" }}>{l.name}</Text>
                   </Link>)
               })
             }

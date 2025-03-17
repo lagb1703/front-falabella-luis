@@ -1,6 +1,6 @@
 [
     {
-        "tittle": "Te ayudamos",
+        "tittle": "Mejores Categorías",
         "links": [
             {
                 "name": "Venta telefónica",
@@ -49,7 +49,7 @@
         ]
     },
     {
-        "tittle": "Sé parte de falabella.com",
+        "tittle": "Destacados del Mes",
         "links": [
             {
                 "name": "Vende en falabella.com",
@@ -74,7 +74,7 @@
         ]
     },
     {
-        "tittle": "Únete a nuestros programas",
+        "tittle": "Tendencias",
         "links": [
             {
                 "name": "CMR Puntos",
@@ -99,7 +99,7 @@
         ]
     },
     {
-        "tittle": "Nuestras empresas",
+        "tittle": "Marcas del Mes",
         "links": [
             {
                 "name": "falabella.com",
