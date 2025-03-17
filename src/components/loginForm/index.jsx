@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { FiEyeOff, FiEye } from "react-icons/fi";
 import { useLogin } from "./loginForm.service"; // Importa el servicio  
@@ -10,7 +10,7 @@ export default function LoginForm({onClose}){ //Modificación para el cierre del
   const [contrasena, setPassword] = useState("");
 
   // Usa el hook useLogin
-  const { login, isLoading, error, userData } = useLogin();
+  const { login, isLoading, error } = useLogin();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

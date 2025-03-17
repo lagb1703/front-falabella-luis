@@ -1,63 +1,26 @@
-import { useState } from "react";
 import './registro.css';
 import { FiEyeOff, FiEye } from 'react-icons/fi';
 import { AiOutlineBell, AiOutlineFileText, AiOutlineStar, AiOutlineCreditCard } from "react-icons/ai";
 import { SlPresent } from "react-icons/sl";
-import { registerUser } from './registro.service';
+import { 
+  useFormData, 
+  usePostUserAccount, 
+  useVisibilityPassword 
+} from './registro.service';
 
 export default function Registro(){
-  const [showPassword, setShowPassword] = useState(false);
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [formData, setFormData] = useState({
-    correo: '',
-    nombres: '',
-    apellidos: '',
-    tipoDocumento_id: '',
-    identificador: '',
-    celular: '',
-    contrasena: '',
-  });
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleCheckbox1Change = () => {
-    setIsChecked1(!isChecked1);
-  };
-
-  const handleCheckbox2Change = () => {
-    setIsChecked2(!isChecked2);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!isChecked2) {
-      alert("Debes aceptar los términos y condiciones para registrarte.");
-      return;
-    }
-
-    try {
-      const response = await registerUser(formData); // Llama al servicio de registro
-      console.log("Registro exitoso:", response);
-      alert("Registro exitoso. ¡Bienvenido!");
-      // Redirige al usuario o realiza otras acciones después del registro
-    } catch (error) {
-      console.error("Error durante el registro:", error);
-      alert("Error durante el registro. Por favor, inténtalo de nuevo.");
-    }
-  };
-
+  const {formData, handleInputChange} = useFormData();
+  const {
+    isChecked1, 
+    isChecked2, 
+    handleSubmit, 
+    handleCheckbox1Change, 
+    handleCheckbox2Change
+  } = usePostUserAccount(formData);
+  const {
+    showPassword, 
+    togglePasswordVisibility
+  } = useVisibilityPassword();
   return (
     <div className="wrapper1">
       <div className="container">

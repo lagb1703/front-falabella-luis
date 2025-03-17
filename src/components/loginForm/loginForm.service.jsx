@@ -1,10 +1,10 @@
-import { useState } from "react";
-const backendURL = 'https://25djsx5x-3000.use2.devtunnels.ms/'
-
+import { useState, useContext } from "react";
+import { backendURL } from "@/pages";
+import userContext from "@/gobal/user/user.context";
 export function useLogin() {
+  const {setUser} = useContext(userContext);
   const [isLoading, setIsLoading] = useState(false); // Estado para manejar la carga
   const [error, setError] = useState(null); // Estado para manejar errores
-  const [userData, setUserData] = useState(null); // Estado para almacenar los datos del usuario
 
   const login = async (correo, contrasena) => {
     setIsLoading(true); // Activa el estado de carga
@@ -29,7 +29,7 @@ export function useLogin() {
       const data = await response.json();
 
       // Guarda los datos del usuario (puede incluir un token JWT)
-      setUserData(data);
+      setUser(data.usuario);
 
       // Retorna los datos para que el componente los use
       return data;
@@ -42,5 +42,5 @@ export function useLogin() {
     }
   };
 
-  return { login, isLoading, error, userData };
+  return { login, isLoading, error };
 }

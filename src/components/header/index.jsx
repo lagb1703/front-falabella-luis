@@ -38,7 +38,11 @@ import {
     ChevronDown,
     MapPin
 } from "lucide-react"
-import { useShoppingCartNumberItems } from "./header.service"
+import { 
+    useShoppingCartNumberItems,
+    useUserLogin,
+    defaultUserName
+} from "./header.service"
 import { v4 as uuid } from "uuid";
 import LoginForm from "../loginForm";
 import MenuComponent from "./../menu/";
@@ -410,32 +414,14 @@ function HelpBarMenu({ isMobile }) {
 }
 
 function AccountBarMenu({ isMobile }) {
+    const {
+        getUserName,
+        getMenuItems,
+        showLoginForm, 
+        setShowLoginForm
+    } = useUserLogin();
     const cartCount = useShoppingCartNumberItems();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [ showLoginForm, setShowLoginForm ] = useState(false);
-    const userLinks = [
-        {
-            name: "Inicia sesión",
-            href: "/",
-            description: null,
-            callback: (e) => {
-                e.preventDefault()
-                setShowLoginForm(true);
-            } 
-        },
-        {
-            name: "Regístrate",
-            href: "/registration",
-            description: null,
-            callback: null
-        },
-        {
-            name: "Mi cuenta",
-            href: "/",
-            description: "Accede tus compras, tu perfil y más.",
-            callback: null
-        }
-    ];
     if (isMobile)
         return (
             <GridItem
@@ -456,7 +442,7 @@ function AccountBarMenu({ isMobile }) {
                         fontSize="13px"
                         mt="-1px"
                         textDecorationLine="underline">
-                        Inicia sesión
+                        {getUserName}
                     </Button>
                     <Box
                         width="100%"
@@ -533,7 +519,7 @@ function AccountBarMenu({ isMobile }) {
                                 <Flex
                                     width="100%"
                                     direction="row">
-                                    Inicia sesión
+                                    {getUserName}
                                     <ChevronDown
                                         width="10px"
                                         height="10px"
@@ -546,13 +532,16 @@ function AccountBarMenu({ isMobile }) {
                                 onMouseLeave={onClose}
                                 p="1rem">
                                 <MenuGroup>
-                                    {userLinks.map((item) => {
+                                    {getMenuItems.map((item) => {
                                         return (
                                             <LinkRouter
                                                 key={uuid()}
                                                 to={item.href}
                                                 onClick={item.callback}>
-                                                <MenuItem >
+                                                <MenuItem
+                                                    flexDirection="column"
+                                                    justifyContent="flex-start"
+                                                    alignItems="flex-start">
                                                     <Text
                                                         as="p"
                                                         fontWeight="550"
@@ -575,28 +564,37 @@ function AccountBarMenu({ isMobile }) {
                                         );
                                     })}
                                 </MenuGroup>
-                                <MenuDivider />
-                                <MenuGroup>
-                                    <MenuItem
-                                        icon={<FaRegCircle />}>
-                                        <LinkRouter href="">
-                                            <Text
-                                                as="p"
-                                                fontWeight="550"
-                                                color="#495867"
-                                                fontSize="10px">
-                                                CMR Puntos
-                                            </Text>
-                                        </LinkRouter>
-                                    </MenuItem>
-                                </MenuGroup> 
+                                {
+                                (defaultUserName == getUserName)?
+                                <>
+                                    <MenuDivider />
+                                    <MenuGroup>
+                                        <MenuItem
+                                            icon={<FaRegCircle />}>
+                                            <LinkRouter href="">
+                                                <Text
+                                                    as="p"
+                                                    fontWeight="550"
+                                                    color="#495867"
+                                                    fontSize="10px">
+                                                    CMR Puntos
+                                                </Text>
+                                            </LinkRouter>
+                                        </MenuItem>
+                                    </MenuGroup>
+                                </>
+                                :
+                                <></>
+                                }
+                                 
                             </MenuList>
                         </MenuChakra>
                     </Flex>
                 </Box>
 
             {showLoginForm && (
-                <div style={{     position: "absolute", 
+                <div style={{     
+                    position: "absolute", 
                     top: "50%", 
                     left: "50%", 
                     transform: "translate(-50%, -50%)" }}>
