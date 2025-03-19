@@ -1,5 +1,5 @@
 import { Box, IconButton, useBreakpointValue,Container, Stack, SimpleGrid, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick"; // npm install react-slick slick-carousel
 import "./examplePage.css";
@@ -96,7 +96,7 @@ function Carousel() {
 
 function SubFooter() {
   return (
-    <Box as="subfooter" color="#525252">
+    <Box as="section" color="#525252">
       <Container
         bg={
           {
