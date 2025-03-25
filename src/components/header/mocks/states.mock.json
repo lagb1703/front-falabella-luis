@@ -1,0 +1,126 @@
+[
+    {
+        "state_id": "0",
+        "name": "Amazonas"
+    },
+    {
+        "state_id": "1",
+        "name": "Antioquia"
+    },
+    {
+        "state_id": "2",
+        "name": "Arauca"
+    },
+    {
+        "state_id": "3",
+        "name": "Atlántico"
+    },
+    {
+        "state_id": "4",
+        "name": "Bolívar"
+    },
+    {
+        "state_id": "5",
+        "name": "Boyacá"
+    },
+    {
+        "state_id": "6",
+        "name": "Caldas"
+    },
+    {
+        "state_id": "7",
+        "name": "Caquetá"
+    },
+    {
+        "state_id": "8",
+        "name": "Casanare"
+    },
+    {
+        "state_id": "9",
+        "name": "Cauca"
+    },
+    {
+        "state_id": "10",
+        "name": "Cesar"
+    },
+    {
+        "state_id": "11",
+        "name": "Chocó"
+    },
+    {
+        "state_id": "12",
+        "name": "Córdoba"
+    },
+    {
+        "state_id": "13",
+        "name": "Cundinamarca"
+    },
+    {
+        "state_id": "14",
+        "name": "Guainía"
+    },
+    {
+        "state_id": "15",
+        "name": "Guaviare"
+    },
+    {
+        "state_id": "16",
+        "name": "Huila"
+    },
+    {
+        "state_id": "17",
+        "name": "La Guajira"
+    },
+    {
+        "state_id": "18",
+        "name": "Magdalena"
+    },
+    {
+        "state_id": "19",
+        "name": "Meta"
+    },
+    {
+        "state_id": "20",
+        "name": "Nariño"
+    },
+    {
+        "state_id": "21",
+        "name": "Norte de Santander"
+    },
+    {
+        "state_id": "22",
+        "name": "Putumayo"
+    },
+    {
+        "state_id": "23",
+        "name": "Quindío"
+    },
+    {
+        "state_id": "24",
+        "name": "Risaralda"
+    },
+    {
+        "state_id": "25",
+        "name": "San Andrés y Providencia"
+    },
+    {
+        "state_id": "26",
+        "name": "Santander"
+    },
+    {
+        "state_id": "27",
+        "name": "Sucre"
+    },
+    {
+        "state_id": "28",
+        "name": "Tolima"
+    },
+    {
+        "state_id": "29",
+        "name": "Vaupés"
+    },
+    {
+        "state_id": "30",
+        "name": "Vichada"
+    }
+]

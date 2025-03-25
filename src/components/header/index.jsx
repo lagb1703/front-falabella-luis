@@ -30,23 +30,39 @@ import {
     MenuItem,
     MenuDivider,
     MenuGroup,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    Stack,
 } from "@chakra-ui/react"
 import {
     Menu,
     SearchIcon,
     Heart,
     ChevronDown,
-    MapPin
+    MapPin,
+    X
 } from "lucide-react"
 import { 
     useShoppingCartNumberItems,
     useUserLogin,
-    defaultUserName
+    useUserLocationChance,
+    defaultUserName,
+    defaultUserLocation,
+    useGetColombiaStatesMenuOption,
+    useItemEvents,
+    useAdministrateMenu,
+    useGetColombiaCityMenuOption,
+    useDeleteInput,
+    useGetColombiaNeighborhoodMenuOption
 } from "./header.service"
 import { v4 as uuid } from "uuid";
 import LoginForm from "../loginForm";
 import MenuComponent from "./../menu/";
-import { useState } from "react";
 
 export default function Header() {
     const isMobile = useBreakpointValue({ base: true, md: false });
@@ -203,34 +219,548 @@ export default function Header() {
 }
 
 function UserCity() {
-    const [getCity, setcity] = useState("Viterbo");
+    const {
+        getUserState,
+        setUserState,
+        getUserCity,
+        setUserCity,
+        getUserNeighborhood,
+        setUserNeighborhood,
+        isLocationModalOpen,
+        onLocationModalClose,
+        onLocationModalOpen
+    } = useUserLocationChance();
     return (
-        <Box>
-            <Button
-                leftIcon={
-                    <MapPin
-                        width="15"
-                        height="15"
-                        strokeWidth="2" />
-                }
-                variant="link"
-                color="#495867"
-                fontSize="11px"
-                _hover={{ textDecoration: "none" }}
-                lineHeight="22px">
-                <Text
-                    fontWeight="100"
-                    as="p">
-                    Entrega en&nbsp;
+        <>
+            <Box>
+                <Button
+                    onClick={onLocationModalOpen}
+                    leftIcon={
+                        <MapPin
+                            width="15"
+                            height="15"
+                            strokeWidth="2" />
+                    }
+                    variant="link"
+                    color="#495867"
+                    fontSize="11px"
+                    _hover={{ textDecoration: "none" }}
+                    lineHeight="22px">
                     <Text
-                        as="b"
-                        fontWeight="700">
-                        {getCity}
+                        fontWeight="100"
+                        as="p">
+                        {(getUserCity != defaultUserLocation)?
+                        (<>
+                            Entrega en&nbsp;
+                            <Text
+                                as="b"
+                                fontWeight="700">
+                                {getUserCity}
+                            </Text>
+                        </>)
+                        :
+                        <>{getUserCity}</>}
                     </Text>
-                </Text>
-            </Button>
-        </Box>
+                </Button>
+            </Box>
+            <PlaceModal isOpen={isLocationModalOpen} onClose={onLocationModalClose}/>
+        </>
     );
+}
+
+function PlaceModal({ isOpen, onClose }){
+    const {
+        isOpen:isDepartamentMenuOpen,
+        onOpen: onDepartamentMenuOpen,
+        onClose: onDepartamentMenuClose,
+        inputRef: inputDepartament
+    } = useAdministrateMenu();
+    const {
+        getItem,
+        hover,
+        getName:getColombiaStateName,
+        change,
+        click,
+        clickReset
+    } = useItemEvents(
+        inputDepartament, 
+        {
+            isMenuOpen:isDepartamentMenuOpen,
+            onMenuOpen:onDepartamentMenuOpen,
+            onMenuClose:onDepartamentMenuClose
+        }
+    );
+    const getColombiaStates = useGetColombiaStatesMenuOption(getColombiaStateName);
+    const {
+        isOpen:isCityMenuOpen,
+        onOpen: onCityMenuOpen,
+        onClose: onCityMenuClose,
+        inputRef: inputCity
+    } = useAdministrateMenu();
+    const {
+        getItem: getCityItem,
+        hover: cityHover,
+        getName:getColombiaCityName,
+        change: cityChange,
+        click: cityClick,
+        clickReset: cityClickReset
+    } = useItemEvents(
+        inputCity, 
+        {
+            isMenuOpen:isCityMenuOpen,
+            onMenuOpen:onCityMenuOpen,
+            onMenuClose:onCityMenuClose
+        }
+    );
+    useDeleteInput(getItem, inputCity);
+    const getColombiaCities = useGetColombiaCityMenuOption(getItem, getColombiaCityName);
+    const {
+        isOpen:isNeighborhoodMenuOpen,
+        onOpen: onNeighborhoodMenuOpen,
+        onClose: onNeighborhoodMenuClose,
+        inputRef: inputNeighborhood
+    } = useAdministrateMenu();
+    const {
+        getItem: getNeighborhoodItem,
+        hover: neighborhoodHover,
+        getName:getColombiaNeighborhoodName,
+        change: neighborhoodChange,
+        click: neighborhoodClick,
+        clickReset: neighborhoodClickReset
+    } = useItemEvents(
+        inputNeighborhood, 
+        {
+            isMenuOpen:isNeighborhoodMenuOpen,
+            onMenuOpen:onNeighborhoodMenuOpen,
+            onMenuClose:onNeighborhoodMenuClose
+        }
+    );
+    //useDeleteInput(getItem, inputNeighborhood);
+    const getColombiaNeighborhoods = useGetColombiaNeighborhoodMenuOption(getCityItem, getColombiaNeighborhoodName);
+    return (
+          <Modal 
+            isOpen={isOpen} 
+            onClose={onClose}
+            blockScrollOnMount={false}
+            isCentered>
+            <ModalOverlay />
+            <ModalContent
+                maxWidth= "500px"
+                height= "491px"
+                overflow= "visible"
+                borderRadius= "3px"
+                p= "10px 15px">
+              <ModalHeader>
+                <Flex
+                    width="100%"
+                    height="100%"
+                    direction="row"
+                    alignItems="center"
+                    gap="5">
+                    <MapPin
+                        width="20px"
+                        height="20px"
+                        color="#495867"
+                        strokeWidth="2" />
+                    <Text>
+                        Ingresa tu ubicación
+                    </Text>
+                </Flex>
+                </ModalHeader>
+              <ModalCloseButton 
+                    color="#bbbbbb"
+                    width="15px"
+                    height="15px"
+                    top= "33px"
+                    right= "25.52px"/>
+              <ModalBody>
+                    <Text
+                        fontSize= "14px"
+                        lineHeight= "20px"
+                        color= "#4a4a4a"
+                        mb= "27px">
+                        Ingresa tu ubicación y te mostraremos los productos disponibles con tiempos y costos de entrega precisos.
+                    </Text>
+                <Stack
+                    spacing="10">
+                    <Box 
+                        position="relative"
+                        onClick={onDepartamentMenuOpen}>
+                        {
+                        (getColombiaStateName != "" || isDepartamentMenuOpen)?
+                        <Text
+                            position="absolute"
+                            bg="white"
+                            top="-11px"
+                            left="14px"
+                            zIndex="1"
+                            background= "#fff"
+                            fontSize= "14px"
+                            color= "#4a4a4a"
+                            transition= ".3s"
+                            padding= "2px 8px 1px"
+                            >
+                            Departamento
+                        </Text>:
+                        <></>}
+                        <InputGroup size="md">
+                            <Input
+                                ref={inputDepartament}
+                                height= "48px"
+                                type="text"
+                                border="1px solid #767676"
+                                boxSizing= "border-box"
+                                borderRadius= "4px"
+                                padding= "16px 90px 15px 15px"
+                                outline= "none"
+                                fontWeight= "400"
+                                fontSize= "16px"
+                                lineHeight= "19px"
+                                color= "#333"
+                                _placeholder={{ color: '#7e849a' }}
+                                placeholder="Ingresa un Departamento"
+                                onChange={change()}
+                            />
+                            <InputRightElement
+                                as="span"
+                                top="4%"
+                                right="1px"
+                                fontSize="16px"
+                                transition=".3s"
+                                borderRadius="5px"
+                                bottom="1px"
+                                onClick={clickReset}
+                                cursor={(getColombiaStateName != "" || isDepartamentMenuOpen)?"pointer":"auto"}
+                            >
+                                <Flex
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    {(getColombiaStateName == "") ? (
+                                        <SearchIcon
+                                            width="20px"
+                                            height="20px"
+                                            color="#bbbbbb"
+                                        />
+                                    ) : (
+                                        <Box
+                                            width="20px"
+                                            height="20px">
+                                                <X
+                                                    width="20px"
+                                                    height="20px"
+                                                    color="#bbbbbb"
+                                                />
+                                        </Box>
+                                    )
+                                    }
+                                </Flex>
+                            </InputRightElement>
+                        </InputGroup>
+                        <MenuChakra
+                            isOpen={isDepartamentMenuOpen}
+                            onClose={onDepartamentMenuClose}
+                            closeOnSelect={true}
+                            >
+                            <MenuList
+                                minW="422px"
+                                maxH="150px"
+                                position="absolute"
+                                overflowY="scroll"
+                                top="48px"
+                                pt="0">
+                                {getColombiaStates.map((item)=>{
+                                    return(
+                                        <MenuItem 
+                                            cursor="pointer"
+                                            fontSize= "10px"
+                                            lineHeight= "16px"
+                                            transition= ".3s"
+                                            padding= "15px 15px 14px"
+                                            borderTop= "1.5px solid #fafafa"
+                                            borderBottom= "1.5px solid #fafafa"
+                                            onClick={click(item)}
+                                            bg={
+                                                item.keyid != getItem?.keyid?
+                                                "#ffffff":
+                                                "#f7f7f7"}
+                                            borderLeft= {
+                                                item.keyid != getItem?.keyid?
+                                                "2px solid #fafafa":
+                                                "2px solid black"
+                                            }
+                                            key={item.keyid}
+                                            keyid={item.keyid}
+                                            onMouseEnter={hover(item)}>
+                                            {item.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </MenuList>
+                        </MenuChakra>
+                    </Box>
+                    <Box 
+                        position="relative"
+                        onClick={onCityMenuOpen}>
+                        {
+                        (getColombiaCityName != "" || isCityMenuOpen)?
+                        <Text
+                            position="absolute"
+                            bg="white"
+                            top="-11px"
+                            left="14px"
+                            zIndex="1"
+                            background= "#fff"
+                            fontSize= "14px"
+                            color= "#4a4a4a"
+                            transition= ".3s"
+                            padding= "2px 8px 1px"
+                            >
+                            Ciudad
+                        </Text>:
+                        <></>}
+                        <InputGroup size="md">
+                            <Input
+                                ref={inputCity}
+                                height= "48px"
+                                type="text"
+                                border="1px solid #767676"
+                                boxSizing= "border-box"
+                                borderRadius= "4px"
+                                padding= "16px 90px 15px 15px"
+                                outline= "none"
+                                fontWeight= "400"
+                                fontSize= "16px"
+                                lineHeight= "19px"
+                                color= "#333"
+                                _placeholder={{ color: '#7e849a' }}
+                                disabled={getItem == null}
+                                placeholder="Ingresa una Ciudad"
+                                onChange={cityChange()}
+                            />
+                            <InputRightElement
+                                as="span"
+                                top="4%"
+                                right="1px"
+                                fontSize="16px"
+                                transition=".3s"
+                                borderRadius="5px"
+                                bottom="1px"
+                                onClick={cityClickReset}
+                                cursor={(getColombiaCityName != "" || isCityMenuOpen)?"pointer":"auto"}
+                            >
+                                <Flex
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    {(getColombiaCityName == "") ? (
+                                        <SearchIcon
+                                            width="20px"
+                                            height="20px"
+                                            color="#bbbbbb"
+                                        />
+                                    ) : (
+                                        <Box
+                                            width="20px"
+                                            height="20px">
+                                                <X
+                                                    width="20px"
+                                                    height="20px"
+                                                    color="#bbbbbb"
+                                                />
+                                        </Box>
+                                    )
+                                    }
+                                </Flex>
+                            </InputRightElement>
+                        </InputGroup>
+                        <MenuChakra
+                            isOpen={isCityMenuOpen}
+                            onClose={onCityMenuClose}
+                            closeOnSelect={true}
+                            >
+                            <MenuList
+                                minW="422px"
+                                maxH="150px"
+                                position="absolute"
+                                overflowY="scroll"
+                                top="48px"
+                                pt="0">
+                                {getColombiaCities.map((item)=>{
+                                    return(
+                                        <MenuItem 
+                                            cursor="pointer"
+                                            fontSize= "10px"
+                                            lineHeight= "16px"
+                                            transition= ".3s"
+                                            padding= "15px 15px 14px"
+                                            borderTop= "1.5px solid #fafafa"
+                                            borderBottom= "1.5px solid #fafafa"
+                                            onClick={cityClick(item)}
+                                            bg={
+                                                item.keyid != getCityItem?.keyid?
+                                                "#ffffff":
+                                                "#f7f7f7"}
+                                            borderLeft= {
+                                                item.keyid != getCityItem?.keyid?
+                                                "2px solid #fafafa":
+                                                "2px solid black"
+                                            }
+                                            key={item.keyid}
+                                            keyid={item.keyid}
+                                            onMouseEnter={cityHover(item)}>
+                                            {item.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </MenuList>
+                        </MenuChakra>
+                    </Box>
+                    
+                    <Box 
+                        position="relative"
+                        onClick={onNeighborhoodMenuOpen}>
+                        {
+                        (getColombiaNeighborhoodName != "" || isNeighborhoodMenuOpen)?
+                        <Text
+                            position="absolute"
+                            bg="white"
+                            top="-11px"
+                            left="14px"
+                            zIndex="1"
+                            background= "#fff"
+                            fontSize= "14px"
+                            color= "#4a4a4a"
+                            transition= ".3s"
+                            padding= "2px 8px 1px"
+                            >
+                            Barrio
+                        </Text>:
+                        <></>}
+                        <InputGroup size="md">
+                            <Input
+                                ref={inputNeighborhood}
+                                height= "48px"
+                                type="text"
+                                border="1px solid #767676"
+                                boxSizing= "border-box"
+                                borderRadius= "4px"
+                                padding= "16px 90px 15px 15px"
+                                outline= "none"
+                                fontWeight= "400"
+                                fontSize= "16px"
+                                lineHeight= "19px"
+                                color= "#333"
+                                _placeholder={{ color: '#7e849a' }}
+                                disabled={getCityItem == null}
+                                placeholder="Ingresa un Barrio"
+                                onChange={cityChange()}
+                            />
+                            <InputRightElement
+                                as="span"
+                                top="4%"
+                                right="1px"
+                                fontSize="16px"
+                                transition=".3s"
+                                borderRadius="5px"
+                                bottom="1px"
+                                onClick={neighborhoodClickReset}
+                                cursor={(getColombiaNeighborhoodName != "" || isNeighborhoodMenuOpen)?"pointer":"auto"}
+                            >
+                                <Flex
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    {(getColombiaNeighborhoodName == "") ? (
+                                        <SearchIcon
+                                            width="20px"
+                                            height="20px"
+                                            color="#bbbbbb"
+                                        />
+                                    ) : (
+                                        <Box
+                                            width="20px"
+                                            height="20px">
+                                                <X
+                                                    width="20px"
+                                                    height="20px"
+                                                    color="#bbbbbb"
+                                                />
+                                        </Box>
+                                    )
+                                    }
+                                </Flex>
+                            </InputRightElement>
+                        </InputGroup>
+                        <MenuChakra
+                            isOpen={isNeighborhoodMenuOpen}
+                            onClose={onNeighborhoodMenuClose}
+                            closeOnSelect={true}
+                            >
+                            <MenuList
+                                minW="422px"
+                                maxH="150px"
+                                position="absolute"
+                                overflowY="scroll"
+                                top="48px"
+                                pt="0">
+                                {getColombiaNeighborhoods.map((item)=>{
+                                    return(
+                                        <MenuItem 
+                                            cursor="pointer"
+                                            fontSize= "10px"
+                                            lineHeight= "16px"
+                                            transition= ".3s"
+                                            padding= "15px 15px 14px"
+                                            borderTop= "1.5px solid #fafafa"
+                                            borderBottom= "1.5px solid #fafafa"
+                                            onClick={neighborhoodClick(item)}
+                                            bg={
+                                                item.keyid != getNeighborhoodItem?.keyid?
+                                                "#ffffff":
+                                                "#f7f7f7"}
+                                            borderLeft= {
+                                                item.keyid != getNeighborhoodItem?.keyid?
+                                                "2px solid #fafafa":
+                                                "2px solid black"
+                                            }
+                                            key={item.keyid}
+                                            keyid={item.keyid}
+                                            onMouseEnter={neighborhoodHover(item)}>
+                                            {item.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </MenuList>
+                        </MenuChakra>
+                    </Box>
+                    <Flex
+                        width="100%"
+                        height="100%"
+                        justifyContent="center"
+                        alignItems="center">
+                        <Button 
+                            onClick={onClose}
+                            borderRadius= "20px"
+                            width= "240px"
+                            height= "40px"
+                            letterSpacing= "0"
+                            _hover={{}}
+                            >
+                        Guardar
+                        </Button>
+                    </Flex>
+                </Stack>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+      )
 }
 
 function HelpBarMenu({ isMobile }) {

@@ -28,7 +28,6 @@ export function useHover(){
         return (e)=>{
           e.preventDefault();
           if(e.target[Object.keys(e.target)[1]]["keyid"] == index.keyid){
-                console.log(e.target[Object.keys(e.target)[1]]["keyid"])
               setHoverFocus(index);
               setIndex(index);
               onModalOpen(e);

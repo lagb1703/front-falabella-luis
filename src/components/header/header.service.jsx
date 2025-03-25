@@ -1,8 +1,21 @@
-import { useContext, useState, useEffect } from "react";
+import { 
+    useContext, 
+    useState, 
+    useEffect, 
+    useCallback,
+    useRef
+} from "react";
 import shoppingCartContext from "@/gobal/shoppingCart/shoppingCart.context";
 import userContext from "@/gobal/user/user.context"
+import { useDisclosure } from "@chakra-ui/react";
+import { v4 as uuid } from "uuid";
+import colombiaStates from "./mocks/states.mock"
+import colombiaCity from "./mocks/city.mock"
+import colombiaNeighborhood from "./mocks/neighborhood.mock"
 
 export const defaultUserName = "Inicia sesión";
+
+export const defaultUserLocation = "Ingresa tu locación";
 
 export function useShoppingCartNumberItems(){
     const {getCartItems, ...rest} = useContext(shoppingCartContext);
@@ -81,4 +94,170 @@ export function useUserLogin(){
         showLoginForm, 
         setShowLoginForm
     };
+}
+
+export function useUserLocationChance(){
+    const {
+        getUserState,
+        setUserState,
+        getUserCity,
+        setUserCity,
+        getUserNeighborhood,
+        setUserNeighborhood
+    } = useContext(userContext);
+    const {isOpen: isLocationModalOpen, onClose: onLocationModalClose, onOpen: onLocationModalOpen} = useDisclosure();
+    useEffect(()=>{
+        if(!isLocationModalOpen){
+            document.body.style.overflowY = 'scroll';
+            return
+        }
+        document.body.style.overflowY = 'hidden';
+    }, [isLocationModalOpen]);
+    useEffect(()=>{
+        if(getUserCity == ""){
+            setUserCity(defaultUserLocation);
+        }
+    }, [getUserCity]);
+    return{
+        getUserState,
+        setUserState,
+        getUserCity,
+        setUserCity,
+        getUserNeighborhood,
+        setUserNeighborhood,
+        isLocationModalOpen,
+        onLocationModalClose,
+        onLocationModalOpen
+    }
+}
+
+export function useAdministrateMenu(){
+    const {
+        isOpen, 
+        onOpen, 
+        onClose
+    } = useDisclosure();
+    const inputRef = useRef();
+    useEffect(()=>{
+        if(isOpen)
+            setTimeout(() => {
+                if (inputRef.current) {
+                    inputRef.current.focus();
+                }
+            }, 10);
+    }, [isOpen]);
+    return{
+        isOpen, 
+        onOpen, 
+        onClose,
+        inputRef
+    }
+
+}
+
+export function useGetColombiaStatesMenuOption(getColombiaStateName){
+    const [getColombiaStates, setColombiaStates] = useState([]);
+    useEffect(()=>{
+        setColombiaStates(colombiaStates.map(item => {
+            item.keyid = uuid()
+            return item;
+        }).filter((item)=>item.name.toLowerCase().includes(getColombiaStateName.toLowerCase())));
+    }, [getColombiaStateName])
+    return getColombiaStates
+}
+
+export function useGetColombiaCityMenuOption(getColombiaStateItem, getColombiaCityName){
+    const [getColombiaCity, setColombiaCity] = useState([]);
+    useEffect(()=>{
+        setColombiaCity(colombiaCity.map(item => {
+            item.keyid = uuid()
+            return item;
+        }).filter(
+            (item)=>{
+                return (
+                    item.name.toLowerCase().includes(getColombiaCityName.toLowerCase()) && 
+                    item.state_id == getColombiaStateItem?.state_id
+                )
+            }
+            )
+        );
+    }, [getColombiaStateItem, getColombiaCityName])
+    return getColombiaCity
+}
+
+export function useGetColombiaNeighborhoodMenuOption(getColombiaCityItem, getColombiaNeighborhoodName){
+    const [getColombiaNeighborhood, setColombiaNeighborhood] = useState([]);
+    useEffect(()=>{
+        setColombiaNeighborhood(colombiaNeighborhood.map(item => {
+            item.keyid = uuid()
+            return item;
+        }).filter(
+            (item)=>{
+                return (
+                    item.name.toLowerCase().includes(getColombiaNeighborhoodName.toLowerCase()) && 
+                    item.city_id == getColombiaCityItem?.city_id
+                )
+            }
+            )
+        );
+    }, [getColombiaCityItem, getColombiaNeighborhoodName])
+    return getColombiaNeighborhood;
+}
+
+export function useDeleteInput(getItem, inputRef){
+    useEffect(()=>{
+        if(getItem == null && inputRef.current)
+            inputRef.current.value = "";
+    }, [getItem]);
+}
+
+export function useItemEvents(inputRef, {isMenuOpen,onMenuOpen,onMenuClose}){
+    const [getItem, setItem] = useState(null);
+    const [getClose, setClose] = useState(true);
+    const [getName, setName] = useState("");
+    useEffect(()=>{
+        if(inputRef.current)
+            setName(inputRef.current.value);
+    }, [isMenuOpen]);
+    useEffect(()=>{
+        onMenuClose();
+    }, [getClose]);
+    const hover = useCallback((item)=>{
+        return () => {
+            setItem(item);
+        }
+    }, [])
+    const change = useCallback(()=>{
+        return (e)=>{
+            e.preventDefault();
+            setName(e.target.value);
+            if(!isMenuOpen){
+                onMenuOpen(e);
+            }
+        }
+    }, []);
+    const click = useCallback((item)=>{
+        return (e)=>{
+            e.preventDefault();
+            inputRef.current.value = item.name;
+            setItem(item);
+            setName(item.name);
+            setClose(op => !op);
+        }
+    }, [])
+    const clickReset = useCallback((e)=>{
+        e.preventDefault();
+        inputRef.current.value = "";
+        setItem(null);
+        setName("");
+        setClose(op => !op);
+    }, [])
+    return {
+        getItem,
+        hover,
+        getName,
+        change,
+        click,
+        clickReset
+    }
 }
