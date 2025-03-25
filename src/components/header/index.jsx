@@ -58,7 +58,8 @@ import {
     useAdministrateMenu,
     useGetColombiaCityMenuOption,
     useDeleteInput,
-    useGetColombiaNeighborhoodMenuOption
+    useGetColombiaNeighborhoodMenuOption,
+    saveClick
 } from "./header.service"
 import { v4 as uuid } from "uuid";
 import LoginForm from "../loginForm";
@@ -249,26 +250,38 @@ function UserCity() {
                     <Text
                         fontWeight="100"
                         as="p">
-                        {(getUserCity != defaultUserLocation)?
+                        {(getUserCity != null)?
                         (<>
                             Entrega en&nbsp;
                             <Text
                                 as="b"
                                 fontWeight="700">
-                                {getUserCity}
+                                {getUserCity.name}
                             </Text>
                         </>)
                         :
-                        <>{getUserCity}</>}
+                        <>{defaultUserLocation}</>}
                     </Text>
                 </Button>
             </Box>
-            <PlaceModal isOpen={isLocationModalOpen} onClose={onLocationModalClose}/>
+            <PlaceModal 
+                isOpen={isLocationModalOpen} 
+                onClose={onLocationModalClose}
+                setUserState={setUserState}
+                setUserCity={setUserCity}
+                setUserNeighborhood={setUserNeighborhood}/>
         </>
     );
 }
 
-function PlaceModal({ isOpen, onClose }){
+function PlaceModal(
+    { 
+        isOpen, 
+        onClose,
+        setUserState,
+        setUserCity,
+        setUserNeighborhood
+     }){
     const {
         isOpen:isDepartamentMenuOpen,
         onOpen: onDepartamentMenuOpen,
@@ -299,6 +312,8 @@ function PlaceModal({ isOpen, onClose }){
     } = useAdministrateMenu();
     const {
         getItem: getCityItem,
+        setItem: setCityItem,
+        setName: setCityName,
         hover: cityHover,
         getName:getColombiaCityName,
         change: cityChange,
@@ -312,7 +327,7 @@ function PlaceModal({ isOpen, onClose }){
             onMenuClose:onCityMenuClose
         }
     );
-    useDeleteInput(getItem, inputCity);
+    useDeleteInput(getItem, inputCity, setCityItem, setCityName);
     const getColombiaCities = useGetColombiaCityMenuOption(getItem, getColombiaCityName);
     const {
         isOpen:isNeighborhoodMenuOpen,
@@ -322,6 +337,8 @@ function PlaceModal({ isOpen, onClose }){
     } = useAdministrateMenu();
     const {
         getItem: getNeighborhoodItem,
+        setItem: setNeighborhoodItem,
+        setName: setNeighborhoodName,
         hover: neighborhoodHover,
         getName:getColombiaNeighborhoodName,
         change: neighborhoodChange,
@@ -335,7 +352,7 @@ function PlaceModal({ isOpen, onClose }){
             onMenuClose:onNeighborhoodMenuClose
         }
     );
-    //useDeleteInput(getItem, inputNeighborhood);
+    useDeleteInput(getCityItem, inputNeighborhood, setNeighborhoodItem, setNeighborhoodName);
     const getColombiaNeighborhoods = useGetColombiaNeighborhoodMenuOption(getCityItem, getColombiaNeighborhoodName);
     return (
           <Modal 
@@ -619,8 +636,7 @@ function PlaceModal({ isOpen, onClose }){
                                 })}
                             </MenuList>
                         </MenuChakra>
-                    </Box>
-                    
+                    </Box>             
                     <Box 
                         position="relative"
                         onClick={onNeighborhoodMenuOpen}>
@@ -658,7 +674,7 @@ function PlaceModal({ isOpen, onClose }){
                                 _placeholder={{ color: '#7e849a' }}
                                 disabled={getCityItem == null}
                                 placeholder="Ingresa un Barrio"
-                                onChange={cityChange()}
+                                onChange={neighborhoodChange()}
                             />
                             <InputRightElement
                                 as="span"
@@ -746,11 +762,20 @@ function PlaceModal({ isOpen, onClose }){
                         justifyContent="center"
                         alignItems="center">
                         <Button 
-                            onClick={onClose}
+                            onClick={saveClick({
+                                getStateItem: getItem,
+                                getCityItem: getCityItem,
+                                getNeighborhoodItem: getNeighborhoodItem,
+                                saveState: setUserState,
+                                saveCity: setUserCity,
+                                saveNeighborhood: setUserNeighborhood,
+                                onClose: onClose
+                            })}
                             borderRadius= "20px"
                             width= "240px"
                             height= "40px"
                             letterSpacing= "0"
+                            disabled={getItem == null || getCityItem == null || getNeighborhoodItem == null}
                             _hover={{}}
                             >
                         Guardar

@@ -20,7 +20,7 @@
         "state_id":"0"
     },
     {
-        "city_id":"5",
+        "city_id":"6",
         "name":"Pereira",
         "state_id":"24"
     },
@@ -92,131 +92,131 @@
     {
         "city_id":"19",
         "name":"Manizales",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"20",
         "name":"Aguadas",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"21",
         "name":"Anserma",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"22",
         "name":"Aranzazu",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"23",
         "name":"Belalcázar",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"24",
         "name":"Chinchiná",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"25",
         "name":"Filadelfia",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"26",
         "name":"La Dorada",
-        "state_id":"5"
+        "state_id":"6"
     },
    {
         "city_id":"27",
         "name":"La Merced",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"28",
         "name":"Manzanares",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"29",
         "name":"Marmato",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"30",
         "name":"Marquetalia",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"31",
         "name":"Marulanda",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"32",
         "name":"Neira",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"33",
         "name":"Norcasia",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"34",
         "name":"Pácora",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"35",
         "name":"Palestina",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"36",
         "name":"Pensilvania",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"37",
         "name":"Riosucio",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"38",
         "name":"Risaralda",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"39",
         "name":"Salamina",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"40",
         "name":"Samaná",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"41",
         "name":"Supía",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"42",
         "name":"Victoria",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"43",
         "name":"Villamaría",
-        "state_id":"5"
+        "state_id":"6"
     },
     {
         "city_id":"44",
         "name":"Viterbo",
-        "state_id":"5"
+        "state_id":"6"
     }
 ]

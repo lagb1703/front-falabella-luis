@@ -113,11 +113,6 @@ export function useUserLocationChance(){
         }
         document.body.style.overflowY = 'hidden';
     }, [isLocationModalOpen]);
-    useEffect(()=>{
-        if(getUserCity == ""){
-            setUserCity(defaultUserLocation);
-        }
-    }, [getUserCity]);
     return{
         getUserState,
         setUserState,
@@ -204,10 +199,13 @@ export function useGetColombiaNeighborhoodMenuOption(getColombiaCityItem, getCol
     return getColombiaNeighborhood;
 }
 
-export function useDeleteInput(getItem, inputRef){
+export function useDeleteInput(getItem, inputRef, setOtherItem, setName){
     useEffect(()=>{
-        if(getItem == null && inputRef.current)
+        if(getItem == null && inputRef.current){
             inputRef.current.value = "";
+            setOtherItem(null);
+            setName("");
+        }
     }, [getItem]);
 }
 
@@ -254,10 +252,37 @@ export function useItemEvents(inputRef, {isMenuOpen,onMenuOpen,onMenuClose}){
     }, [])
     return {
         getItem,
+        setItem,
+        setName,
         hover,
         getName,
         change,
         click,
         clickReset
     }
+}
+
+export function saveClick(
+    {
+        getStateItem, 
+        getCityItem,
+        getNeighborhoodItem,
+        saveState,
+        saveCity,
+        saveNeighborhood,
+        onClose
+    }){
+        return (e)=>{
+            e.preventDefault();
+            if(!getStateItem)
+                return
+            saveState(getStateItem)
+            if(!getCityItem)
+                return
+            saveCity(getCityItem)
+            if(!getNeighborhoodItem)
+                return
+            saveNeighborhood(getNeighborhoodItem)
+            onClose(e);
+        }
 }

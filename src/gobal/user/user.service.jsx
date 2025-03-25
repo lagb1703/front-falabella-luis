@@ -18,9 +18,9 @@ function useUserAccount(){
 }
 
 function useUserLocation(){
-    const [getUserState, setUserState] = useState("");
-    const [getUserCity, setUserCity] = useState("");
-    const [getUserNeighborhood, setUserNeighborhood] = useState("");
+    const [getUserState, setUserState] = useState(null);
+    const [getUserCity, setUserCity] = useState(null);
+    const [getUserNeighborhood, setUserNeighborhood] = useState(null);
     return{
         getUserState,
         setUserState,
