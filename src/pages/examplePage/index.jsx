@@ -25,10 +25,10 @@ import { v4 as uuid } from "uuid";
 export default function ExamplePage() {
   return (  
     <>
-      <Image 
+      {/* <Image 
         width="100%"
         src="/home_images/anuncio1.png" 
-        alt="Imagen de primer anuncio" />
+        alt="Imagen de primer anuncio" /> */}
       <Carousel />
       <SubFooter />
     </>
@@ -36,70 +36,75 @@ export default function ExamplePage() {
 }
 
 function Carousel() {
-  
   const [slider, setSlider] = useState(null);
 
-  const top = useBreakpointValue({ base: "90%", md: "50%" });
-  const side = useBreakpointValue({ base: "30%", md: "10px" });
+  const top = useBreakpointValue({ base: "50%", md: "50%" }); // Centrar
+  const side = useBreakpointValue({ base: "5%", md: "20px" }); // Separar del borde
+  const sizeBox= "345px"
 
   const cards = [
-    "/home_images/anuncio2.png",
-    "/home_images/anuncio3.png",
+    "/home_images/anuncioHome1.webp",
+    "/home_images/anuncioHome2.webp",
+    "/home_images/anuncioHome3.webp",
+    "/home_images/anuncioHome4.webp",
   ];
 
   const settings = {
     dots: true,
-    infinite: true,  
+    infinite: true,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1, 
-    arrows: false,
-    autoplay: true,  
-    autoplaySpeed: 3000
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,  // para que solo se vea una imagen a la vez
+    slidesToScroll: 1,
+    variableWidth: false,  // Que la imagen no se vaya a alargar
+    adaptiveHeight: true,  // Que se adapte al alto de la imagen
   };
 
   return (
-    <Box position={"relative"} height={"345px"} width={"full"} overflow={"hidden"}>
+    <Box position="relative" height={sizeBox} width="full" overflow="hidden" lignItems="center">
       {/* Left Icon */}
       <IconButton
         aria-label="left-arrow"
-        colorScheme="messenger"
         borderRadius="full"
         position="absolute"
         left={side}
         top={top}
-        transform={"translate(0%, -50%)"}
+        transform="translate(0%, -50%)"
         zIndex={2}
         onClick={() => slider?.slickPrev()}
       >
         <IoIosArrowBack />
       </IconButton>
+
       {/* Right Icon */}
       <IconButton
         aria-label="right-arrow"
-        colorScheme="messenger"
         borderRadius="full"
         position="absolute"
         right={side}
         top={top}
-        transform={"translate(0%, -50%)"}
+        transform="translate(0%, -50%)"
         zIndex={2}
         onClick={() => slider?.slickNext()}
       >
         <IoIosArrowForward />
       </IconButton>
+
       {/* Slider */}
-      <Slider {...settings} ref={setSlider}>
+      <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((url, index) => (
-          <Box
-            key={index}
-            height={"345px"}
-            position="relative"
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            backgroundSize="cover"
-            backgroundImage={`url(${url})`}
-          />
+          <Box key={index} height={sizeBox} minHeight={sizeBox} position="relative" >
+            <Image 
+              src={url}
+              alt={`Slide ${index}`}
+              objectFit="cover"
+              width="100%"
+              height="100%"
+              display="block"
+            />
+          </Box>
         ))}
       </Slider>
     </Box>
