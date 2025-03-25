@@ -40,10 +40,13 @@ function Carousel() {
 
   const top = useBreakpointValue({ base: "50%", md: "50%" }); // Centrar
   const side = useBreakpointValue({ base: "5%", md: "20px" }); // Separar del borde
+  const sizeBox= "345px"
 
   const cards = [
-    "/home_images/anuncio2.png",
-    "/home_images/anuncio3.png",
+    "/home_images/anuncioHome1.webp",
+    "/home_images/anuncioHome2.webp",
+    "/home_images/anuncioHome3.webp",
+    "/home_images/anuncioHome4.webp",
   ];
 
   const settings = {
@@ -60,7 +63,7 @@ function Carousel() {
   };
 
   return (
-    <Box position="relative" height="345px" width="full" overflow="hidden">
+    <Box position="relative" height={sizeBox} width="full" overflow="hidden" lignItems="center">
       {/* Left Icon */}
       <IconButton
         aria-label="left-arrow"
@@ -92,7 +95,7 @@ function Carousel() {
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((url, index) => (
-          <Box key={index} height="345px" minHeight="345px" position="relative">
+          <Box key={index} height={sizeBox} minHeight={sizeBox} position="relative" >
             <Image 
               src={url}
               alt={`Slide ${index}`}
