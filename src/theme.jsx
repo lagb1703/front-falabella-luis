@@ -71,7 +71,7 @@ const theme = extendTheme({
       },
       variants: {
         solid: {
-          bg: "primary.500",
+          bg: "text.400",
           color: "white"
         }
       },

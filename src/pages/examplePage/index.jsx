@@ -1,5 +1,14 @@
-import { Box, IconButton, useBreakpointValue,Container, Stack, SimpleGrid, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { 
+  Box, 
+  IconButton, 
+  useBreakpointValue,
+  Container, 
+  Stack, 
+  SimpleGrid, 
+  Text,
+  Image
+} from "@chakra-ui/react";
+import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick"; // npm install react-slick slick-carousel
 import "./examplePage.css";
@@ -16,7 +25,10 @@ import { v4 as uuid } from "uuid";
 export default function ExamplePage() {
   return (  
     <>
-      <img src="/home_images/anuncio1.png" alt="Imagen de primer anuncio" />
+      <Image 
+        width="100%"
+        src="/home_images/anuncio1.png" 
+        alt="Imagen de primer anuncio" />
       <Carousel />
       <SubFooter />
     </>
@@ -96,7 +108,7 @@ function Carousel() {
 
 function SubFooter() {
   return (
-    <Box as="subfooter" color="#525252">
+    <Box as="section" color="#525252">
       <Container
         bg={
           {

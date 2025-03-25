@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import falabellaLogo from "@/assets/icons/logo-falabella-letras.svg"
 import {
   useGetNavigationOptions, 
@@ -77,9 +77,9 @@ export default function Menu({isOpen, onClose}) {
                     key={category.keyid}
                     py={2.5}
                     px={2}
-                    borderLeftWidth={getHoverFocus == category.keyid ? "4px" : "0px"}
+                    borderLeftWidth={getHoverFocus.keyid == category.keyid ? "4px" : "0px"}
                     borderLeftColor="primary.500"
-                    bg={getHoverFocus == category.keyid ? "#f7f7f7" : "white"}
+                    bg={getHoverFocus.keyid == category.keyid ? "#f7f7f7" : "white"}
                     cursor="pointer"
                     borderRadius="4px"
                     keyid={category.keyid}
@@ -88,7 +88,7 @@ export default function Menu({isOpen, onClose}) {
                       flex={1}
                       fontSize= "12px"
                       lineHeight= "19.2px"
-                      fontWeight={getHoverFocus == category.keyid ? "700" : "400"}>
+                      fontWeight={getHoverFocus.keyid == category.keyid ? "700" : "400"}>
                       {category.name}
                       {category.isActive && (
                         <Box 
@@ -110,7 +110,7 @@ export default function Menu({isOpen, onClose}) {
                     <Icon 
                       as={FaAngleRight} 
                       boxSize={3}
-                      color={getHoverFocus == category.keyid ? "primary.500" : "#767676"}/>
+                      color={getHoverFocus.keyid == category.keyid ? "primary.500" : "#767676"}/>
                   </HStack>
               )}
             )
