@@ -269,7 +269,10 @@ function UserCity() {
                 onClose={onLocationModalClose}
                 setUserState={setUserState}
                 setUserCity={setUserCity}
-                setUserNeighborhood={setUserNeighborhood}/>
+                setUserNeighborhood={setUserNeighborhood}
+                getUserState={getUserState}
+                getUserNeighborhood={getUserNeighborhood}
+                getUserCity={getUserCity}/>
         </>
     );
 }
@@ -279,8 +282,11 @@ function PlaceModal(
         isOpen, 
         onClose,
         setUserState,
+        getUserState,
         setUserCity,
-        setUserNeighborhood
+        getUserCity,
+        setUserNeighborhood,
+        getUserNeighborhood
      }){
     const {
         isOpen:isDepartamentMenuOpen,
@@ -301,7 +307,8 @@ function PlaceModal(
             isMenuOpen:isDepartamentMenuOpen,
             onMenuOpen:onDepartamentMenuOpen,
             onMenuClose:onDepartamentMenuClose
-        }
+        },
+        getUserState
     );
     const getColombiaStates = useGetColombiaStatesMenuOption(getColombiaStateName);
     const {
@@ -325,7 +332,8 @@ function PlaceModal(
             isMenuOpen:isCityMenuOpen,
             onMenuOpen:onCityMenuOpen,
             onMenuClose:onCityMenuClose
-        }
+        },
+        getUserCity
     );
     useDeleteInput(getItem, inputCity, setCityItem, setCityName);
     const getColombiaCities = useGetColombiaCityMenuOption(getItem, getColombiaCityName);
@@ -350,7 +358,8 @@ function PlaceModal(
             isMenuOpen:isNeighborhoodMenuOpen,
             onMenuOpen:onNeighborhoodMenuOpen,
             onMenuClose:onNeighborhoodMenuClose
-        }
+        },
+        getUserNeighborhood
     );
     useDeleteInput(getCityItem, inputNeighborhood, setNeighborhoodItem, setNeighborhoodName);
     const getColombiaNeighborhoods = useGetColombiaNeighborhoodMenuOption(getCityItem, getColombiaNeighborhoodName);

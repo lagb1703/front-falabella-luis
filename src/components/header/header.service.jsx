@@ -209,10 +209,17 @@ export function useDeleteInput(getItem, inputRef, setOtherItem, setName){
     }, [getItem]);
 }
 
-export function useItemEvents(inputRef, {isMenuOpen,onMenuOpen,onMenuClose}){
+export function useItemEvents(inputRef, {isMenuOpen,onMenuOpen,onMenuClose}, defaultValue=null){
     const [getItem, setItem] = useState(null);
     const [getClose, setClose] = useState(true);
     const [getName, setName] = useState("");
+    useEffect(()=>{
+        if(defaultValue){
+            setItem(defaultValue);
+            if(inputRef.current)
+                inputRef.current.value = defaultValue.name;
+        }
+    }, []);
     useEffect(()=>{
         if(inputRef.current)
             setName(inputRef.current.value);
