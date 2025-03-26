@@ -303,12 +303,12 @@ function PlaceModal(
         clickReset
     } = useItemEvents(
         inputDepartament, 
+        setUserState,
         {
             isMenuOpen:isDepartamentMenuOpen,
             onMenuOpen:onDepartamentMenuOpen,
             onMenuClose:onDepartamentMenuClose
-        },
-        getUserState
+        }
     );
     const getColombiaStates = useGetColombiaStatesMenuOption(getColombiaStateName);
     const {
@@ -316,7 +316,7 @@ function PlaceModal(
         onOpen: onCityMenuOpen,
         onClose: onCityMenuClose,
         inputRef: inputCity
-    } = useAdministrateMenu();
+    } = useAdministrateMenu(getUserCity);
     const {
         getItem: getCityItem,
         setItem: setCityItem,
@@ -328,12 +328,12 @@ function PlaceModal(
         clickReset: cityClickReset
     } = useItemEvents(
         inputCity, 
+        setUserCity,
         {
             isMenuOpen:isCityMenuOpen,
             onMenuOpen:onCityMenuOpen,
             onMenuClose:onCityMenuClose
-        },
-        getUserCity
+        }
     );
     useDeleteInput(getItem, inputCity, setCityItem, setCityName);
     const getColombiaCities = useGetColombiaCityMenuOption(getItem, getColombiaCityName);
@@ -354,12 +354,12 @@ function PlaceModal(
         clickReset: neighborhoodClickReset
     } = useItemEvents(
         inputNeighborhood, 
+        setUserNeighborhood,
         {
             isMenuOpen:isNeighborhoodMenuOpen,
             onMenuOpen:onNeighborhoodMenuOpen,
             onMenuClose:onNeighborhoodMenuClose
-        },
-        getUserNeighborhood
+        }
     );
     useDeleteInput(getCityItem, inputNeighborhood, setNeighborhoodItem, setNeighborhoodName);
     const getColombiaNeighborhoods = useGetColombiaNeighborhoodMenuOption(getCityItem, getColombiaNeighborhoodName);
@@ -446,6 +446,7 @@ function PlaceModal(
                                 _placeholder={{ color: '#7e849a' }}
                                 placeholder="Ingresa un Departamento"
                                 onChange={change()}
+                                value={getColombiaStateName}
                             />
                             <InputRightElement
                                 as="span"
@@ -565,6 +566,7 @@ function PlaceModal(
                                 disabled={getItem == null}
                                 placeholder="Ingresa una Ciudad"
                                 onChange={cityChange()}
+                                value={getColombiaCityName}
                             />
                             <InputRightElement
                                 as="span"
@@ -684,6 +686,7 @@ function PlaceModal(
                                 disabled={getCityItem == null}
                                 placeholder="Ingresa un Barrio"
                                 onChange={neighborhoodChange()}
+                                value={getColombiaNeighborhoodName}
                             />
                             <InputRightElement
                                 as="span"

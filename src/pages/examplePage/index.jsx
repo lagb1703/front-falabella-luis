@@ -53,7 +53,6 @@ function Carousel() {
     dots: true,
     infinite: true,
     speed: 500,
-    dots: true,
     autoplay: true,
     autoplaySpeed: 3000,
     slidesToShow: 1,  // para que solo se vea una imagen a la vez
