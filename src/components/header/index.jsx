@@ -981,14 +981,15 @@ function HelpBarMenu({ isMobile }) {
 }
 
 function AccountBarMenu({ isMobile }) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const {
         getUserName,
         getMenuItems,
-        showLoginForm, 
-        setShowLoginForm
-    } = useUserLogin();
+        isOpenLogin,
+        onOpenLogin,
+        onCloseLogin
+    } = useUserLogin(onClose);
     const cartCount = useShoppingCartNumberItems();
-    const { isOpen, onOpen, onClose } = useDisclosure();
     if (isMobile)
         return (
             <GridItem
@@ -1158,16 +1159,9 @@ function AccountBarMenu({ isMobile }) {
                         </MenuChakra>
                     </Flex>
                 </Box>
-
-            {showLoginForm && (
-                <div style={{     
-                    position: "absolute", 
-                    top: "50%", 
-                    left: "50%", 
-                    transform: "translate(-50%, -50%)" }}>
-                    <LoginForm onClose={() => setShowLoginForm(false)} />
-                </div>
-            )}
+                <LoginForm 
+                    isOpen={isOpenLogin}
+                    onClose={onCloseLogin} />
                 <Box
                     py="3px">
                     <Box

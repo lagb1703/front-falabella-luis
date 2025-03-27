@@ -62,7 +62,7 @@ function Carousel() {
   };
 
   return (
-    <Box position="relative" height={sizeBox} width="full" overflow="hidden" lignItems="center">
+    <Box position="relative" height={sizeBox} width="full" overflow="hidden" alignItems="center">
       {/* Left Icon */}
       <IconButton
         aria-label="left-arrow"

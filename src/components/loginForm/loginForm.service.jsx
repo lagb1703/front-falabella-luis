@@ -1,8 +1,9 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { backendURL } from "@/pages";
 import userContext from "@/gobal/user/user.context";
+import { useLocation } from 'react-router';
 export function useLogin() {
-  const {setUser} = useContext(userContext);
+  const { setUser } = useContext(userContext);
   const [isLoading, setIsLoading] = useState(false); // Estado para manejar la carga
   const [error, setError] = useState(null); // Estado para manejar errores
 
@@ -17,7 +18,7 @@ export function useLogin() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({correo, contrasena }), // Envía las credenciales
+        body: JSON.stringify({ correo, contrasena }), // Envía las credenciales
       });
 
       // Verifica si la respuesta es exitosa
@@ -43,4 +44,12 @@ export function useLogin() {
   };
 
   return { login, isLoading, error };
+}
+
+export function useLoginClose(isOpen, onClose) {
+  const location = useLocation();
+  useEffect(() => {
+    if (isOpen)
+      onClose()
+  }, [location]);
 }

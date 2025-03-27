@@ -12,6 +12,7 @@ import { v4 as uuid } from "uuid";
 import colombiaStates from "./mocks/states.mock"
 import colombiaCity from "./mocks/city.mock"
 import colombiaNeighborhood from "./mocks/neighborhood.mock"
+import { useLocation } from "react-router";
 
 export const defaultUserName = "Inicia sesión";
 
@@ -22,8 +23,15 @@ export function useShoppingCartNumberItems(){
     return getCartItems.length
 }
 
-export function useUserLogin(){
-    const [ showLoginForm, setShowLoginForm ] = useState(false);
+export function useUserLogin(onCloseUserMenu){
+    const {
+        isOpen: isOpenLogin, 
+        onOpen: onOpenLogin, 
+        onClose: onCloseLogin
+    } = useDisclosure();
+    useEffect(()=>{
+        onCloseUserMenu();
+    }, [isOpenLogin]);
     const defaultUserLinks = [
         {
             name: "Inicia sesión",
@@ -31,7 +39,7 @@ export function useUserLogin(){
             description: null,
             callback: (e) => {
                 e.preventDefault()
-                setShowLoginForm(true);
+                onOpenLogin(e);
             } 
         },
         {
@@ -91,8 +99,9 @@ export function useUserLogin(){
     return {
         getUserName,
         getMenuItems,
-        showLoginForm, 
-        setShowLoginForm
+        isOpenLogin,
+        onOpenLogin,
+        onCloseLogin
     };
 }
 
