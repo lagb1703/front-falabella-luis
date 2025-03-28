@@ -47,6 +47,7 @@ function Carousel() {
     "/home_images/anuncioHome2.webp",
     "/home_images/anuncioHome3.webp",
     "/home_images/anuncioHome4.webp",
+    "/home_images/cute.jpg",
   ];
 
   const settings = {
