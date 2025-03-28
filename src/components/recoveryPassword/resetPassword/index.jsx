@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./ResetPassword.css";
 import { X } from "lucide-react"; 
-import lockImage from "../../assets/lock-gray-21-04-2023.svg"
-import { useNavigate } from "react-router-dom";
+// import lockImage from "../../assets/lock-gray-21-04-2023.svg"
+import { useNavigate } from "react-router";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +31,7 @@ const ResetPassword = () => {
       email: email,
     };
 
-    navigate("/ResetPasswordForm", { state: userData }); 
+    navigate("/recover/ResetPasswordForm", { state: userData }); 
   };
 
   return (
@@ -39,10 +39,10 @@ const ResetPassword = () => {
       <div className="card">
         <div className="title-container">
           <div className="icon-container">
-            <img
+            {/* <img
               src={lockImage}
               alt="password"
-            />
+            /> */}
           </div>
           <h1 className="title">Restablecer contraseña</h1>
         </div>

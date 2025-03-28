@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ConfirmCard.css";
 import { X } from "lucide-react"; 
-import lockImage from "../../assets/lock-gray-21-04-2023.svg"
+// import lockImage from "../../assets/lock-gray-21-04-2023.svg"
 
 const ConfirmCard = () => {
   const [email, setEmail] = useState("");

@@ -189,7 +189,7 @@ export default function LoginForm({ isOpen, onClose }) {
               ¿Olvidaste tu contraseña? No te preocupes, pide un código verificador por&nbsp;
               <Link
                 as={RouterLink}
-                to="/recuperar-contrasena"
+                to="/recover/email"
                 borderBottom="1px solid #495867"
                 color="#495867">
                 correo
@@ -197,7 +197,7 @@ export default function LoginForm({ isOpen, onClose }) {
               &nbsp;o&nbsp;
               <Link
                 as={RouterLink}
-                to="/recuperar-contrasena"
+                to="/recover/email"
                 borderBottom="1px solid #495867"
                 color="#495867">
                 SMS
