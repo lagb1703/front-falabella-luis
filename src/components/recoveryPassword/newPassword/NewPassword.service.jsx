@@ -23,16 +23,15 @@ export const passwordResetService = {
   /**
    * Actualiza la contraseña del usuario
    * @param {string} correo - Correo electrónico del usuario
-   * @param {string} pin - Código de verificación
    * @param {string} nueva_contrasena - Nueva contraseña
    
    * @returns {Promise<Object>} Respuesta del servidor
    */
-  async actualizarContrasena(correo, pin, nueva_contrasena) {
+
+  async actualizarContrasena(correo, nueva_contrasena) {
     try {
       const response = await axios.post(`${backendURL}auth/change_password`, {
         correo,
-        pin,
         nueva_contrasena
         
       });
@@ -49,7 +48,7 @@ export const passwordResetService = {
    */
   async solicitarNuevoCodigo(correo) {
     try {
-      const response = await axios.post(`${backendURL}auth/change_password`, {
+      const response = await axios.post(`${backendURL}auth/verificate_email`, {
         correo
       });
       return response.data;

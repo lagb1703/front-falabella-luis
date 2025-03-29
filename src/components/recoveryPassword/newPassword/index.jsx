@@ -55,8 +55,7 @@ const NewPassword = () => {
       // 2. Si el PIN es válido, actualizar la contraseña
       const response = await passwordResetService.actualizarContrasena(
         data.correo, 
-        nueva_contrasena, 
-        pin
+        nueva_contrasena
       );
       
       // 3. Si todo es correcto, navegar a la página de confirmación
