@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import "./ConfirmCard.css";
 
 const ConfirmPassword = () => {
   const navigate = useNavigate();
