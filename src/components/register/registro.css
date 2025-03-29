@@ -199,3 +199,80 @@ object-fit: contain;
 margin-right: 15px; 
 
 }
+/* Reglas de contraseña */
+.password-rules {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #666; /* Color neutral inicial */
+    list-style-type: none;
+    padding-left: 0;
+}
+  
+.password-rules li {
+    display: flex;
+    align-items: center;
+}
+  
+.password-rules li:before {
+    content: "•";
+    margin-right: 5px;
+}
+  
+/* Solo muestra colores cuando el input de contraseña tiene foco o contenido */
+.password-input:focus-within .password-rules li,
+.password-input:not(:empty) .password-rules li {
+    color: #bc001c; /* Rojo para reglas no cumplidas */
+}
+  
+.password-input:focus-within .password-rules li.valid,
+.password-input:not(:empty) .password-rules li.valid {
+    color: #00C851; /* Verde para reglas cumplidas */
+}
+
+.button-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.register-button {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  background-color: #343e49; /* Color base gris oscuro */
+  color: white;
+  border: none;
+  border-radius: 40px; /* Bordes muy redondeados */
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-button.active {
+  background-color: #3e4b58; /* Azul oscuro de Falabella cuando está activo */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.register-button:hover:not(:disabled) {
+  background-color: #3e4b58; /* Azul más oscuro al hover */
+  transform: translateY(-2px);
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+    color: #bc001c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+  
