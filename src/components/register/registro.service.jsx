@@ -4,7 +4,7 @@ import {backendURL} from "@/pages"
 
 export const registerUser = async (userData) => {
     try {
-      const response = await fetch(`${backendURL}auth/register`, {
+      const response = await fetch(`${backendURL}auth/register_TEST`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

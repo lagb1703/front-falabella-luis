@@ -1,37 +1,53 @@
 import React, { useState } from "react";
 import "./ResetPassword.css";
-import { X } from "lucide-react"; 
-// import lockImage from "../../assets/lock-gray-21-04-2023.svg"
+import { X } from "lucide-react";
 import { useNavigate } from "react-router";
+import { resetPasswordService } from "./ResetPassword.service";
 
 const ResetPassword = () => {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState(false);
+  const [correo, setCorreo] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const validateCorreo = (correo) => {
+    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return correoRegex.test(correo);
   };
 
   const handleChange = (e) => {
     const value = e.target.value;
-    setEmail(value);
-    setError(value && !validateEmail(value));
+    setCorreo(value);
+    setError(value && !validateCorreo(value) ? "Ingresa un correo electrónico válido" : "");
   };
 
   const handleOnBlur = () => {
-    setError(!validateEmail(email));
+    if (correo && !validateCorreo(correo)) {
+      setError("Ingresa un correo electrónico válido");
+    }
   };
 
   const navigate = useNavigate();
 
-  const enviarDatos = () => {
-    const userData = {
-      nombre: "Juan",
-      email: email,
-    };
+  const handleSubmit = async () => {
+    if (!correo || error) return;
 
-    navigate("/recover/ResetPasswordForm", { state: userData }); 
+    setIsLoading(true);
+    setError("");
+
+    try {
+      // Paso 1: Verificar si el correo existe en la base de datos
+      await resetPasswordService.verifyCorreo(correo);
+      
+      // Si todo sale bien, navegar al formulario de reset
+      const userData = {
+        correo: correo,
+      };
+      navigate("/recover/ResetPasswordForm", { state: userData });
+    } catch (err) {
+      setError(err.message || "Ocurrió un error al verificar el correo");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -39,16 +55,15 @@ const ResetPassword = () => {
       <div className="card">
         <div className="title-container">
           <div className="icon-container">
-            {/* <img
-              src={lockImage}
-              alt="password"
-            /> */}
+            {/* <img src={lockImage} alt="password" /> */}
           </div>
           <h1 className="title">Restablecer contraseña</h1>
         </div>
+        
         <p className="description">
           Ingresa tu correo electrónico y te enviaremos las instrucciones para una nueva contraseña.
         </p>
+        
         <div className={`input-container ${error ? "error" : ""}`}>
           <label className="label">Correo electrónico</label>
           <div className="input-wrapper">
@@ -56,19 +71,26 @@ const ResetPassword = () => {
               type="email"
               className="input"
               placeholder="Ingresa tu correo electrónico"
-              value={email}
+              value={correo}
               onChange={handleChange}
               onBlur={handleOnBlur}
+              disabled={isLoading}
             />
-            {email && (
-              <X className="clear-icon" onClick={() => setEmail("")} />
+            {correo && !isLoading && (
+              <X className="clear-icon" onClick={() => setCorreo("")} />
             )}
           </div>
-          {error && <p className="error-message">Ingresa un correo electrónico válido</p>}
+          {error && <p className="error-message">{error}</p>}
         </div>
-        <button className={`button ${email && !error ? "active" : ""}`} disabled={!email || error} onClick={enviarDatos}>
-          Continuar
+        
+        <button 
+          className={`button ${correo && !error ? "active" : ""}`} 
+          disabled={!correo || error || isLoading}
+          onClick={handleSubmit}
+        >
+          {isLoading ? "Procesando..." : "Continuar"}
         </button>
+        
         <p className="link">
           <a href="#">Ya tengo el código verificador</a>
         </p>
