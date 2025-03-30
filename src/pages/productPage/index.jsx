@@ -76,6 +76,7 @@ const Product = ({ product }) => {
       boxShadow="md"
       marginTop={4}
       marginBottom={4}
+      fontFamily="products.title"
     >
       <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
         {/* Product Image */}
@@ -157,7 +158,7 @@ function ProductHeader({ product }) {
   return (
     <Grid templateColumns={{ base: "3fr", md: "2fr 1fr" }} gap={6}>
 
-      <Text fontSize="13px" fontWeight="bold">
+      <Text  fontSize="13px" fontWeight="bold">
         {product.brand}
       </Text>
 

@@ -4,11 +4,13 @@ import {
   Image,
   HStack,
   IconButton,
+  border,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick";
 import "./productPageStyles.css";
+import { BsBorderBottom } from "react-icons/bs";
 
 export default function ImageCarousel({imagesProduct}) {
 
@@ -54,9 +56,16 @@ export default function ImageCarousel({imagesProduct}) {
         top="30%"
         transform="translate(0%, -50%)"
         zIndex={2}
+        opacity={0.5}
+        borderRadius="none"
+        _hover={{ }}
+        color={"#343E49"}
+        height="70px"
+        backgroundColor={"white"}
+        boxShadow="0 0 5px rgba(0, 0, 0, 0.2)"
         onClick={() => slider?.slickPrev()}
       >
-        <IoIosArrowBack />
+        <IoIosArrowBack size="25px" />
       </IconButton>
 
       {/* Right Icon */}
@@ -68,9 +77,16 @@ export default function ImageCarousel({imagesProduct}) {
         top="30%"
         transform="translate(0%, -50%)"
         zIndex={2}
+        opacity={0.5}
+        borderRadius="none"
+        _hover={{ }}
+        color={"#343E49"}
+        height="70px"
+        backgroundColor={"white"}
+        boxShadow="0 0 5px rgba(0, 0, 0, 0.2)"
         onClick={() => slider?.slickNext()}
       >
-        <IoIosArrowForward />
+        <IoIosArrowForward size="25px" />
       </IconButton>
 
       {/* Slider */}
@@ -114,15 +130,11 @@ export default function ImageCarousel({imagesProduct}) {
             height={thumbnailBox}
             objectFit="cover"
             cursor="pointer"
-            borderRadius="md"
-            border={
-              index === currentSlide
-                ? "3px solid blue"
-                : "2px solid transparent"
-            }
+            borderRadius="none"
+            borderBottom={index === currentSlide ? "3px solid gray" : "2px solid transparent"}
             onClick={() => slider?.slickGoTo(index)}
             transition="0.3s"
-            _hover={{ transform: "scale(1.1)", border: "3px solid blue" }}
+            _hover={{ transform: "scale(1.1)"}}
           />
         ))}
       </HStack>
