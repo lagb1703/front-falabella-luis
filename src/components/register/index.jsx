@@ -8,8 +8,8 @@ import {
   useVisibilityPassword 
 } from './registro.service';
 
-export default function Registro(){
-  const {formData, handleInputChange} = useFormData();
+export default function Registro() {
+  const { formData, handleInputChange } = useFormData();
   const {
     isChecked1, 
     isChecked2, 
@@ -21,6 +21,23 @@ export default function Registro(){
     showPassword, 
     togglePasswordVisibility
   } = useVisibilityPassword();
+  
+  const password = formData.contrasena || '';
+  
+  // Validaciones de contraseña
+  const validLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasNoSpaces = !/\s/.test(password);
+  const hasNoSpecialChars = !/[\\¡¿"ºª·`´çñÑ]/.test(password);
+  
+  const isPasswordValid = validLength && hasUpperCase && hasLowerCase && 
+                         hasNumber && hasNoSpaces && hasNoSpecialChars;
+
+  // Validación para el botón
+  const isButtonActive = isChecked2 && isPasswordValid && formData.celular?.length === 10;
+
   return (
     <div className="wrapper1">
       <div className="container">
@@ -39,6 +56,9 @@ export default function Registro(){
                 onChange={handleInputChange}
                 required
               />
+              {formData.correo?.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.correo) && (
+                <span style={{ color: 'red', fontSize: '12px' }}>Ingresa un correo válido.</span>
+              )}
             </div>
 
             <div className="input-box">
@@ -51,6 +71,9 @@ export default function Registro(){
                 onChange={handleInputChange}
                 required
               />
+              {formData.nombres?.length > 0 && /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(formData.nombres) && (
+                <span style={{ color: 'red', fontSize: '12px' }}>Ingresa un nombre sin símbolos ni caracteres especiales.</span>
+              )}
             </div>
 
             <div className="input-box">
@@ -63,6 +86,9 @@ export default function Registro(){
                 onChange={handleInputChange}
                 required
               />
+              {formData.apellidos?.length > 0 && /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(formData.apellidos) && (
+                <span style={{ color: 'red', fontSize: '12px' }}>Ingresa apellidos sin símbolos ni caracteres especiales.</span>
+              )}
             </div>
 
             <div className="input-box">
@@ -86,18 +112,37 @@ export default function Registro(){
                   required
                 />
               </div>
+              {formData.identificador?.length > 0 && !/^\d+$/.test(formData.identificador) && (
+                <span style={{ color: 'red', fontSize: '12px' }}>Ingresa un Carnet de Extranjería válido</span>
+              )}
             </div>
 
             <div className="input-box">
               <label>Celular</label>
-              <input
-                type="tel"
-                name="celular"
-                placeholder="Ingresa tu número de celular"
-                value={formData.celular}
-                onChange={handleInputChange}
-                required
-              />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{ marginRight: '5px' }}>+57</span>
+                <input
+                  type="tel"
+                  name="celular"
+                  placeholder="Ingresa tu número de celular"
+                  value={formData.celular}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    handleInputChange({
+                      target: {
+                        name: 'celular',
+                        value: value
+                      }
+                    });
+                  }}
+                  style={{ flex: 1 }}
+                  pattern="[0-9]{10}"
+                  required
+                />
+              </div>
+              {formData.celular?.length > 0 && formData.celular?.length < 10 && (
+                <span style={{ color: 'red', fontSize: '12px' }}>Ingresa número de celular válido</span>
+              )}
             </div>
 
             <div className="input-box password-input">
@@ -113,19 +158,18 @@ export default function Registro(){
               <span className="icon" onClick={togglePasswordVisibility}>
                 {showPassword ? <FiEye /> : <FiEyeOff />}
               </span>
+              {formData.contrasena?.length === 0 && (
+                <span style={{ color: 'red', fontSize: '12px' }}>Recuerda ingresar una contraseña.</span>
+              )}
 
-              <div className="password-requerimientos-flex">
-                <div className="requerimientos-fila">
-                  <div className="requerimientos">• Mín. 8 caracteres</div>
-                  <div className="requerimientos">• 1 número</div>
-                  <div className="requerimientos">• 1 mayúscula</div>
-                </div>
-                <div className="requerimientos-fila">
-                  <div className="requerimientos">• 1 minúscula</div>
-                  <div className="requerimientos">• Sin espacio</div>
-                  <div className="requerimientos">• Sin usar \¡¿"ºª·`´çñÑ</div>
-                </div>
-              </div>
+              <ul className="password-rules">
+                <li className={validLength ? "valid" : ""}>Min. 8 caracteres</li>
+                <li className={hasUpperCase ? "valid" : ""}>1 mayúscula</li>
+                <li className={hasLowerCase ? "valid" : ""}>1 minúscula</li>
+                <li className={hasNumber ? "valid" : ""}>1 número</li>
+                <li className={hasNoSpaces ? "valid" : ""}>Sin espacios</li>
+                <li className={hasNoSpecialChars ? "valid" : ""}>Sin caracteres especiales</li>
+              </ul>
             </div>
 
             <div>
@@ -152,9 +196,15 @@ export default function Registro(){
               </label>
             </div>
 
-            <button type="submit" disabled={!isChecked2}>
-              Registrarse
-            </button>
+            <div className="button-container">
+              <button 
+                type="submit" 
+                className={`register-button ${isButtonActive ? 'active' : ''}`}
+                disabled={!isButtonActive}
+              >
+                Registrarse
+              </button>
+            </div>
           </form>
         </div>
 
@@ -192,4 +242,4 @@ export default function Registro(){
       </div>
     </div>
   );
-};
+}

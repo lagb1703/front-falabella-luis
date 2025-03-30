@@ -58,17 +58,17 @@ export default function PersonalInformation() {
 
                     {
                         inputPersonalInformation.map((item) => {
-                            console.log(personalInformation == null)
+                            const defaultValue = (personalInformation)?"pepe":"";
+                            console.log(defaultValue)
                             const {
                                 isValid,
                                 getValue,
                                 handleChange,
                                 handleCloseButtom
                             } = useValidateValue(
-                                item.regex, 
-                                (personalInformation != null)?
-                                    personalInformation[item.defaultValueName]:
-                                    "");
+                                item.regex,
+                                defaultValue
+                            )
                             return (
                                 <Flex
                                     key={item.id}
@@ -93,7 +93,7 @@ export default function PersonalInformation() {
                                             borderRadius="none"
                                             border="none"
                                             outline="none"
-                                            borderBottom={isValid?"1px solid #767676":"1px solid #e4022d"}
+                                            borderBottom={isValid ? "1px solid #767676" : "1px solid #e4022d"}
                                             color="#333"
                                             pl="0px"
                                             pr="0px"
@@ -110,7 +110,7 @@ export default function PersonalInformation() {
                                                     as={X}
                                                     onClick={handleCloseButtom}
                                                     cursor="pointer"
-                                                    color={isValid?"#767676":"#e4022d"} />}
+                                                    color={isValid ? "#767676" : "#e4022d"} />}
                                         </InputRightElement>
                                     </InputGroup>
                                     {!isValid &&
