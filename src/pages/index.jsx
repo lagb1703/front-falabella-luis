@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const projectRoutes = [
     <Route path="/" element={<ExamplePage/>} key={uuidv4()}/>,
     <Route path="/registration" element={<RegisterPage/>} key={uuidv4()}/>,
-    <Route path="/categories" element={<Products/>} key={uuidv4()}/>,
+    <Route path="/categories/*" element={<Products/>} key={uuidv4()}/>,
     <Route path="/recover/email" element={<RecoveryEmailPage/>} key={uuidv4()}/>,
     <Route path="/recover/ResetPasswordForm" element={<ChangePasswordPage/>} key={uuidv4()}/>,
     <Route path="/myAccount/*" element={<AccountPage/>} key={uuidv4()}/>,
