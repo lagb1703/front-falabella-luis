@@ -14,6 +14,7 @@ import { useState } from "react";
 import "./productPageStyles.css";
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Circle} from "@chakra-ui/react";
 import ImageCarousel from "./productPageCarrousel.jsx";
+import { RiHeartAddLine } from "react-icons/ri";
 // import { RatingGroup } from "@chakra-ui/react"
 
 export default function ProductPage() { //Here the info about the product is loaded
@@ -50,7 +51,13 @@ export default function ProductPage() { //Here the info about the product is loa
             { name: "Resolución de pantalla", value: "Full HD+" },
             { name: "Tipo de pantalla", value: "pOLED" }
           ],
-      }
+      },
+      imagesProduct: [
+        "/testingImages/placeholder1.webp",
+        "/testingImages/placeholder2.webp",
+        "/testingImages/placeholder3.webp",
+        "/testingImages/placeholder4.webp",
+      ]
       }}
     />
     </>
@@ -71,10 +78,11 @@ const Product = ({ product }) => {
       marginTop={4}
       marginBottom={4}
     >
-      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+      <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
         {/* Product Image */}
 
-        <ImageCarousel />
+          <ImageCarousel imagesProduct={product.imagesProduct}/>
+
 
         <VStack align="right" p={4} borderRadius="md">
 
@@ -88,11 +96,21 @@ const Product = ({ product }) => {
             </VStack>
 
             <Box bg="green.200" p={4} borderRadius="md"> {/*Columna de la derecha*/}
-              <Badge colorScheme="green">{product.discount}% OFF</Badge>
 
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+              <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
+              <Box display="flex" justifyContent="right" alignContent="right">
+                <RiHeartAddLine size="30px" color="black" />
+              </Box>
+            </Grid> 
+
+            <HStack>
               <Text fontSize="xl" color="red.500" fontWeight="bold">
-                ${product.price}
+                  ${product.price}
               </Text>
+              <Badge colorScheme="red" >{product.discount}% OFF</Badge>
+            </HStack>
+
 
               <Text
                 fontSize="lg"
@@ -105,7 +123,7 @@ const Product = ({ product }) => {
               <Divider />
 
               <HStack>
-                <Button colorScheme="blue">Agregar al Carrito</Button>
+                <Button>Agregar al Carro</Button>
               </HStack>
             </Box>
           </Grid>
@@ -138,7 +156,7 @@ function ProductHeader({ product }) {
     
 
   return (
-    <Grid templateColumns="repeat(3, 1fr)" gap={4} fontFamily="products.title">
+    <Grid templateColumns={{ base: "3fr", md: "2fr 1fr" }} gap={6}>
 
       <Text fontSize="13px" fontWeight="bold">
         {product.brand}
@@ -163,6 +181,7 @@ function ProductHeader({ product }) {
 const ProductSpecifications = ({ basicSpecifications }) => {
   return (
     <Box 
+      bg="#FAFAFA"
       mt={6} 
       borderWidth="1px" 
       borderRadius="lg" 
@@ -188,7 +207,7 @@ const ProductSpecifications = ({ basicSpecifications }) => {
         <AccordionItem border="none">
           <AccordionButton px={0} _hover={{ bg: "transparent" }}>
             <Box flex="1" textAlign="left">
-              <Text color="blue.500" fontWeight="medium">
+              <Text color="text.200" fontWeight="medium">
                 Ver más especificaciones
               </Text>
             </Box>

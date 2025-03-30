@@ -10,54 +10,29 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick";
 import "./productPageStyles.css";
 
-export default function ImageCarousel() {
+export default function ImageCarousel({imagesProduct}) {
+
   const [slider, setSlider] = useState(null);
-
   const [hoverPos, setHoverPos] = useState({ x: 50, y: 50 }); // Initial position
-
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const sizeBox = "200px";
-
+  const sizeBox = "486px";
   const thumbnailBox = "60px";
-
-  const cards = [
-    "/home_images/anuncioHome1.webp",
-
-    "/home_images/anuncioHome2.webp",
-
-    "/home_images/anuncioHome3.webp",
-
-    "/home_images/anuncioHome4.webp",
-
-    "/home_images/cute.jpg",
-  ];
 
   const settings = {
     infinite: true,
-
     speed: 500,
-
     slidesToShow: 1,
-
     slidesToScroll: 1,
-
     variableWidth: false,
-
     adaptiveHeight: true,
-
     arrows: false,
-
     beforeChange: (_, newIndex) => setCurrentSlide(newIndex), // Update current slide index
   };
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
-
     const x = ((e.clientX - left) / width) * 100; // % position inside image
-
     const y = ((e.clientY - top) / height) * 100;
-
     setHoverPos({ x, y });
   };
 
@@ -69,14 +44,14 @@ export default function ImageCarousel() {
       overflow="hidden"
       alignItems="center"
     >
+
       {/* Left Icon */}
 
       <IconButton
         aria-label="left-arrow"
-        borderRadius="full"
         position="absolute"
-        left="5%"
-        top="50%"
+        left="0%"
+        top="30%"
         transform="translate(0%, -50%)"
         zIndex={2}
         onClick={() => slider?.slickPrev()}
@@ -88,10 +63,9 @@ export default function ImageCarousel() {
 
       <IconButton
         aria-label="right-arrow"
-        borderRadius="full"
         position="absolute"
-        right="5%"
-        top="50%"
+        right="0%"
+        top="30%"
         transform="translate(0%, -50%)"
         zIndex={2}
         onClick={() => slider?.slickNext()}
@@ -102,7 +76,7 @@ export default function ImageCarousel() {
       {/* Slider */}
 
       <Slider {...settings} ref={setSlider}>
-        {cards.map((url, index) => (
+        {imagesProduct.map((url, index) => (
           <Box
             key={index}
             height={sizeBox}
@@ -112,7 +86,7 @@ export default function ImageCarousel() {
             <Image
               src={url}
               alt={`Slide ${index}`}
-              objectFit="cover"
+              objectFit="contain"
               width="100%"
               height="100%"
               display="block"
@@ -131,7 +105,7 @@ export default function ImageCarousel() {
       {/* Thumbnails Below Carousel */}
 
       <HStack mt={4} justify="center" spacing={2}>
-        {cards.map((url, index) => (
+        {imagesProduct.map((url, index) => (
           <Image
             key={index}
             src={url}
