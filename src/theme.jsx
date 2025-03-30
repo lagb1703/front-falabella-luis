@@ -4,6 +4,7 @@ import { extendTheme } from "@chakra-ui/react";
 const theme = extendTheme({
   colors: {
     background:"#FAFAFA",
+    unfocusedBackground:"#EEEEEE",
     gradient: "linear-gradient(90deg, #668F00 0%, #8FCA00 100%)",
     footer:{
       500: "#1e364b",
@@ -19,6 +20,7 @@ const theme = extendTheme({
         400: "#343E49",
         500:"#212529",
         666: "#525252",
+        777: "#515151",
     },
     ofertText: "#e4022d",
     primary: {
@@ -33,6 +35,9 @@ const theme = extendTheme({
   fonts: {
     heading: "'Helvetica Neue', Helvetica, Arial, sans-serif",
     body: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    products: {
+      title:"sans-serif",
+    },
     footer: {
       p: "Lato, sans-serif"
     }
