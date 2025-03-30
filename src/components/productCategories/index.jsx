@@ -3,6 +3,74 @@ import { FiTruck, FiStar, FiChevronDown, FiChevronLeft, FiChevronRight } from "r
 import { getProducts, getFilters } from "./products.service.jsx";
 import "./products.css";
 
+const ProductCard = ({ product }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const discount = Math.round(100 - (product.price / product.originalPrice * 100));
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-CO').format(price);
+  };
+
+  return (
+    <div 
+      className="product-card"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {product.sponsored && (
+        <span className="sponsored-badge">Patrocinado</span>
+      )}
+      {product.freeShipping && (
+        <span className="free-shipping-badge">
+          <FiTruck className="truck-icon" /> Envío gratis
+        </span>
+      )}
+      
+      <div className="product-image">
+        <img
+          src={product.thumbnail}
+          alt={product.name}
+          className="product-img"
+          onError={(e) => {
+            e.target.src = '/images/placeholder-product.jpg';
+          }}
+        />
+      </div>
+      
+      <div className="product-info">
+        <div className="product-brand">{product.brand}</div>
+        <h3 className="product-name">{product.name}</h3>
+        <p className="product-seller">Por {product.brand}</p>
+        
+        <div className="price-container">
+          <span className="current-price">$ {formatPrice(product.price)}</span>
+          {discount > 0 && (
+            <>
+              <span className="discount">{discount}% OFF</span>
+              <span className="original-price">$ {formatPrice(product.originalPrice)}</span>
+            </>
+          )}
+        </div>
+        
+        <div className="rating-info">
+          <FiStar className="star-icon" />
+          <span>{product.rating.toFixed(1)}</span>
+        </div>
+        
+        <div className="product-color">
+          Color: {product.color}
+        </div>
+
+        <div className={`view-product-button ${isHovered ? 'visible' : ''}`}>
+          <button className="view-product-btn">
+            Ver producto
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -13,6 +81,8 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 6;
   const [filters, setFilters] = useState({});
+  const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const [selectedPickup, setSelectedPickup] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +91,6 @@ const Products = () => {
           getProducts(),
           getFilters()
         ]);
-        
         setProducts(productsData);
         setFilteredProducts(productsData);
         setFilters(filtersData);
@@ -31,9 +100,18 @@ const Products = () => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
+
+  const handleDeliverySelect = (option) => {
+    setSelectedDelivery(option === selectedDelivery ? null : option);
+    setSelectedPickup(null);
+  };
+
+  const handlePickupSelect = (option) => {
+    setSelectedPickup(option === selectedPickup ? null : option);
+    setSelectedDelivery(null);
+  };
 
   // Lógica de paginación
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -45,17 +123,6 @@ const Products = () => {
   const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
   const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
-  // Formatear precios
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-CO').format(price);
-  };
-
-  // Calcular descuento
-  const calculateDiscount = (price, originalPrice) => {
-    return Math.round(100 - (price / originalPrice * 100));
-  };
-
-  // Opciones de ordenamiento
   const sortOptions = [
     { value: "recommended", label: "Recomendados" },
     { value: "price-asc", label: "Precio de menor a mayor" },
@@ -71,34 +138,65 @@ const Products = () => {
 
   return (
     <div className="productos-container">
-      <h1 className="category-title">Refrigeración Congeladores</h1>
-      <p className="results-count">Resultados ({filteredProducts.length})</p>
-      
       <div className="productos-content">
-        {/* Panel de filtros lateral */}
         <div className="filters-sidebar">
+          <h1 className="category-title">Producto X</h1>
+          <p className="results-count">Resultados ({filteredProducts.length})</p>
+
+          {/* 1. Filtro de Envío Gratis */}
           <div className="filter-box">
-            <h3 className="filter-section-title">Envío</h3>
-            <div className="filter-option">
-              <div className="shipping-icon-container">
-                <FiTruck className="shipping-icon" />
-              </div>
-              <div className="shipping-info">
-                <span className="filter-label">Envío gratis</span>
-                <span className="filter-description">En productos seleccionados por compras desde $149.990</span>
-              </div>
-            </div>
-            <div className="filter-option">
-              <div className="shipping-icon-container">
-                <FiTruck className="shipping-icon" />
-              </div>
-              <div className="shipping-info">
-                <span className="filter-label">Envío a domicilio</span>
-                <span className="filter-description">Llega mañana</span>
+            <div className="shipping-option">
+              <FiTruck className="shipping-icon" />
+              <div>
+                <h3 className="filter-label">Envío gratis</h3>
+                <p className="filter-description">En productos seleccionados por compras desde $149.990</p>
               </div>
             </div>
           </div>
 
+          {/* 2. Filtro de Envío a Domicilio - CON ICONO */}
+          <div className="filter-box">
+            <div className="filter-header">
+              <FiTruck className="filter-icon" />
+              <h3 className="filter-section-title">Envío a domicilio</h3>
+            </div>
+            <div className="shipping-time-options">
+              <button
+                className={`time-option ${selectedDelivery === 'today' ? 'active' : ''}`}
+                onClick={() => handleDeliverySelect('today')}
+              >
+                Llega hoy
+              </button>
+              <button
+                className={`time-option ${selectedDelivery === 'tomorrow' ? 'active' : ''}`}
+                onClick={() => handleDeliverySelect('tomorrow')}
+              >
+                Llega mañana
+              </button>
+            </div>
+          </div>
+
+          {/* 3. Filtro de Retiro en Tienda */}
+          <div className="filter-box">
+            <h3 className="filter-section-title">Retiro en un punto</h3>
+            <p className="filter-description">Si compras hasta las 16:00 horas retira hoy</p>
+            <div className="pickup-time-options">
+              <button
+                className={`time-option ${selectedPickup === 'today' ? 'active' : ''}`}
+                onClick={() => handlePickupSelect('today')}
+              >
+                Retira hoy
+              </button>
+              <button
+                className={`time-option ${selectedPickup === 'tomorrow' ? 'active' : ''}`}
+                onClick={() => handlePickupSelect('tomorrow')}
+              >
+                Retira mañana
+              </button>
+            </div>
+          </div>
+
+          {/* 4. Filtro de Marcas */}
           <div className="filter-box">
             <div 
               className="filter-header" 
@@ -119,6 +217,7 @@ const Products = () => {
             )}
           </div>
 
+          {/* 5. Filtro de Precio */}
           <div className="filter-box">
             <div 
               className="filter-header" 
@@ -139,6 +238,7 @@ const Products = () => {
             )}
           </div>
 
+          {/* 6. Filtro de Color */}
           <div className="filter-box">
             <div 
               className="filter-header" 
@@ -160,11 +260,9 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Contenido principal */}
         <div className="products-main">
-          {/* Barra de ordenamiento y paginación */}
           <div className="sort-and-pagination">
-            <div className="sort-banner">
+            <div className="sort-container">
               <span className="sort-label">Ordenar por:</span>
               
               <div className="sort-dropdown">
@@ -204,15 +302,11 @@ const Products = () => {
                 <FiChevronLeft />
               </button>
               
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
-                <button
-                  key={number}
-                  onClick={() => paginate(number)}
-                  className={`pagination-number ${currentPage === number ? 'active' : ''}`}
-                >
-                  {number}
-                </button>
-              ))}
+              <button
+                className="pagination-number active"
+              >
+                {currentPage}
+              </button>
               
               <button 
                 onClick={nextPage} 
@@ -224,56 +318,10 @@ const Products = () => {
             </div>
           </div>
 
-          {/* Grid de productos */}
           <div className="products-grid">
-            {currentProducts.map(product => {
-              const discount = calculateDiscount(product.price, product.originalPrice);
-              
-              return (
-                <div key={product.id} className="product-card">
-                  {product.sponsored && (
-                    <span className="sponsored-badge">Patrocinado</span>
-                  )}
-                  {product.freeShipping && (
-                    <span className="free-shipping-badge">
-                      <FiTruck className="truck-icon" /> Envío gratis
-                    </span>
-                  )}
-                  
-                  <div className="product-image">
-                    <img
-                      src={`https://via.placeholder.com/250x250?text=${product.brand}+${product.id}`}
-                      alt={product.name}
-                    />
-                  </div>
-                  
-                  <div className="product-info">
-                    <div className="product-brand">{product.brand}</div>
-                    <h3 className="product-name">{product.name}</h3>
-                    <p className="product-seller">Por {product.brand}</p>
-                    
-                    <div className="price-container">
-                      <span className="current-price">$ {formatPrice(product.price)}</span>
-                      {discount > 0 && (
-                        <>
-                          <span className="discount">{discount}% OFF</span>
-                          <span className="original-price">$ {formatPrice(product.originalPrice)}</span>
-                        </>
-                      )}
-                    </div>
-                    
-                    <div className="rating-info">
-                      <FiStar className="star-icon" />
-                      <span>{product.rating.toFixed(1)}</span>
-                    </div>
-                    
-                    <div className="product-color">
-                      Color: {product.color}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+            {currentProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </div>
