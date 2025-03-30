@@ -16,7 +16,7 @@ import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIco
 import ImageCarousel from "./productPageCarrousel.jsx";
 // import { RatingGroup } from "@chakra-ui/react"
 
-export default function ProductPage() {
+export default function ProductPage() { //Here the info about the product is loaded
   return (
     <>
     <Product
@@ -32,13 +32,25 @@ export default function ProductPage() {
         discount: 61,
         description:
           "Celular con cámara de 50MP, pantalla de 6.7 pulgadas y procesador Snapdragon 6 Gen 1.",
-        specifications: [
+        basicSpecifications: [
             { name: "Capacidad de almacenamiento", value: "256GB" },
             { name: "Conectividad", value: "5G" },
             { name: "Marca y modelo del procesador", value: "Snapdragon 6 Gen 1" },
             { name: "Sistema operativo", value: "Android 14" },
             { name: "Memoria RAM", value: "8GB" }
         ],
+        specifications: [
+          { name: "Memoria externa incluida", value: "No" },
+          { name: "GPS integrado", value: "Sí" },
+          { name: "Marca", value: "Motorola" }
+        ],
+        moreInfo: {
+          title: "Información adicional",
+          additionalSpecs: [
+            { name: "Resolución de pantalla", value: "Full HD+" },
+            { name: "Tipo de pantalla", value: "pOLED" }
+          ],
+      }
       }}
     />
     </>
@@ -47,6 +59,7 @@ export default function ProductPage() {
 
 const Product = ({ product }) => {
   return (
+    <>
     <Box
       p={5}
       bg="white"
@@ -69,13 +82,12 @@ const Product = ({ product }) => {
 
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
 
-            <VStack bg="red.200" p={4} borderRadius="md">
-                <Text>{product.description}</Text>
-                <ProductSpecifications specifications={product.specifications} />
+            <VStack bg="red.200" p={4} borderRadius="md"> {/*Columna de la izquierda*/}
+                <ProductSpecifications basicSpecifications={product.basicSpecifications} />
                 <DeliveryOptions />
             </VStack>
 
-            <Box bg="green.200" p={4} borderRadius="md">
+            <Box bg="green.200" p={4} borderRadius="md"> {/*Columna de la derecha*/}
               <Badge colorScheme="green">{product.discount}% OFF</Badge>
 
               <Text fontSize="xl" color="red.500" fontWeight="bold">
@@ -100,6 +112,15 @@ const Product = ({ product }) => {
         </VStack>
       </Grid>
     </Box>
+
+    <Box>
+    <ProductSpecsContainer 
+      specifications={product.specifications}
+      moreInfo={product.moreInfo}
+    />
+    </Box>
+
+  </>
   );
 };
 
@@ -139,7 +160,7 @@ function ProductHeader({ product }) {
   );
 }
 
-const ProductSpecifications = ({ specifications }) => {
+const ProductSpecifications = ({ basicSpecifications }) => {
   return (
     <Box 
       mt={6} 
@@ -153,7 +174,7 @@ const ProductSpecifications = ({ specifications }) => {
       </Text>
       
       <VStack align="stretch" spacing={3} divider={<Divider />}>
-        {specifications.map((spec, index) => (
+        {basicSpecifications.map((spec, index) => (
           <HStack key={index} justify="space-between">
             <Text fontWeight="medium" color="gray.600">
               {spec.name}:
@@ -211,6 +232,72 @@ const DeliveryOptions = () => {
           <Text fontWeight="medium">Stock en tienda</Text>
         </Box>
       </HStack>
+    </Box>
+  );
+};
+
+const ProductSpecsContainer = ({ specifications, moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
+  return (
+    <Box 
+      p={5}
+      bg="white"
+      maxW="92vw"
+      mx="auto"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      marginTop={4}
+      marginBottom={4}
+    >
+      <Text fontSize="xl" fontWeight="bold" mb={4}>
+        Especificaciones
+      </Text>
+      
+      {moreInfo && (
+        <Badge colorScheme="blue" mb={4}>
+          {moreInfo.title}
+        </Badge>
+      )}
+
+      <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={6}>
+        {specifications?.map((spec, index) => (
+          <Box key={index}>
+            <Text fontSize="sm" color="gray.600" mb={1}>
+              {spec.name}
+            </Text>
+            <Text fontWeight="medium">{spec.value}</Text>
+            {index < specifications.length - 1 && <Divider my={3} />}
+          </Box>
+        ))}
+      </Grid>
+
+      {moreInfo?.additionalSpecs && (
+        <Accordion allowToggle>
+          <AccordionItem border="none">
+            <AccordionButton px={0} _hover={{ bg: "transparent" }}>
+              <Box flex="1" textAlign="left">
+                <Text color="blue.500" fontWeight="medium">
+                  Ver más
+                </Text>
+              </Box>
+              <AccordionIcon color="blue.500" />
+            </AccordionButton>
+            <AccordionPanel pb={4} px={0}>
+              <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                {moreInfo.additionalSpecs.map((spec, index) => (
+                  <Box key={index}>
+                    <Text fontSize="sm" color="gray.600" mb={1}>
+                      {spec.name}
+                    </Text>
+                    <Text fontWeight="medium">{spec.value}</Text>
+                    {index < moreInfo.additionalSpecs.length - 1 && <Divider my={3} />}
+                  </Box>
+                ))}
+              </Grid>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      )}
     </Box>
   );
 };
