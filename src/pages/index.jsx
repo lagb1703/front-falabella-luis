@@ -1,6 +1,6 @@
 import ExamplePage from "./examplePage";
 import RegisterPage from "./registerPage";
-import Products from "./productCategories";
+import Products from "../components/productCategories";
 import RecoveryEmailPage from "./recoveryEmailPage";
 import ChangePasswordPage from "./changePasswordPage";
 import AccountPage from "./accoutPage";
