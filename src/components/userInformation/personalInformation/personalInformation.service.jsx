@@ -1,6 +1,11 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { 
+    useEffect, 
+    useState, 
+    useContext 
+} from 'react';
 import userContext from '@/gobal/user/user.context';
 import PersonalInformation from './mocks/userInformation.mock';
+import { useDisclosure } from '@chakra-ui/react';
 const defaultInputPersonalInformation = [
     {
         id: "userName",
@@ -15,7 +20,7 @@ const defaultInputPersonalInformation = [
         label: "Primer apellido",
         regex: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
         placeholder: "Ingresa tu apellido",
-        defaultValueName: "apellidos",
+        defaultValueName: "primerApellido",
         invalidMessage: "Ingresa un apellido válido"
     },
     {
@@ -23,19 +28,24 @@ const defaultInputPersonalInformation = [
         label: "Segundo apellido",
         regex: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
         placeholder: "Ingresa tu apellido",
-        defaultValueName: "apellidos",
+        defaultValueName: "segundoApellido",
         invalidMessage: "Ingresa un apellido válido"
     }
 ]
 
-export function useValidateValue(regex, defaultValue = "") {
-    const [getValue, setValue] = useState(defaultValue);
+export function useValidateValue(regex, getPersonalInformation, defaultValue) {
+    const [getValue, setValue] = useState("");
     const [isValid, setIsValid] = useState(false);
     const handleChange = (e) => setValue(e.target.value);
     const handleCloseButtom = (e) => {
         e.preventDefault();
         setValue("");
     }
+    useEffect(()=>{
+        if(getPersonalInformation){
+            setValue(getPersonalInformation[defaultValue])
+        }
+    }, [getPersonalInformation]);
     useEffect(() => {
         if (getValue && regex) {
             setIsValid(regex.test(getValue));
@@ -70,4 +80,13 @@ export function useGetPersonalInformation() {
         setPersonalInformation(PersonalInformation);
     }, []);
     return getPersonalInformation;
+}
+
+export function useOpenChangeNumberModal(){
+    const {isOpen, onOpen, onClose} = useDisclosure();
+    return{
+        isOpen, 
+        onOpen, 
+        onClose
+    }
 }

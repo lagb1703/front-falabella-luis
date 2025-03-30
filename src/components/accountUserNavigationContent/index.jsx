@@ -6,6 +6,9 @@ import {
     Text,
     Icon
 } from '@chakra-ui/react'
+import {
+    Fragment
+} from "react"
 import { Link as RouterLink } from 'react-router'
 import { v4 as uuid } from 'uuid'
 import { useGetNavigationOption } from './accountUserNavigationContent.service'
@@ -34,7 +37,7 @@ export default function AccountUserNavigationContent() {
                 gap="12px"
                 alignSelf="stretch">
                 {getNavigationOptions.map((option, index) => (
-                    <>
+                    <Fragment key={index}>
                         {(index > 0) && <Divider
                             key={uuid()}
                             orientation="vertical"
@@ -74,7 +77,7 @@ export default function AccountUserNavigationContent() {
                                 </Text>
                             </Flex>
                         </Link>
-                    </>
+                    </Fragment>
                 ))}
             </Flex>
         </Box>
