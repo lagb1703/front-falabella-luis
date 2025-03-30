@@ -59,7 +59,7 @@ export function useUserLogin(onCloseUserMenu){
     const userLinks = [
         {
             name: "Mi cuenta",
-            href: "/",
+            href: "/myAccount",
             description: null,
             callback: null
         },
