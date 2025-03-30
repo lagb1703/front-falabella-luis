@@ -5,6 +5,7 @@ import RecoveryEmailPage from "./recoveryEmailPage";
 import ChangePasswordPage from "./changePasswordPage";
 import AccountPage from "./accoutPage";
 import ConfirmPasswordPage from "./confirmPasswordPage";
+import ProductPage from "./productPage";
 import { Route } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,7 +16,8 @@ export const projectRoutes = [
     <Route path="/recover/email" element={<RecoveryEmailPage/>} key={uuidv4()}/>,
     <Route path="/recover/ResetPasswordForm" element={<ChangePasswordPage/>} key={uuidv4()}/>,
     <Route path="/myAccount/*" element={<AccountPage/>} key={uuidv4()}/>,
-    <Route path="/recover/ConfirmPasswordForm" element={<ConfirmPasswordPage/>} key={uuidv4()}/>
+    <Route path="/recover/ConfirmPasswordForm" element={<ConfirmPasswordPage/>} key={uuidv4()}/>,
+    <Route path="/product" element={<ProductPage/>} key={uuidv4()}/>,
 ];
 
 projectRoutes.push(

@@ -76,12 +76,12 @@ export default function Header() {
             bg="white" >
             <Flex
                 as="section"
-                width={{ base: "100%", md: "300px" }}
+                width={{ base: "100%", md: "4500px" }}
                 borderBottom="1px solid"
                 borderColor="gray.200">
                 <Link
                     href="#"
-                    flexBasis={{ base: "33.33%", md: "100px" }}
+                    flexBasis={{ base: "33.33%", md: "150px" }}
                     backgroundColor="neutral.200"
                     borderColor="neutral.200"
                     maxHeight="27px"
@@ -99,7 +99,7 @@ export default function Header() {
                 </Link>
                 <Link
                     href="https://homecenter.falabella.com.co/homecenter-co"
-                    flexBasis={{ base: "33.33%", md: "100px" }}
+                    flexBasis={{ base: "33.33%", md: "150px" }}
                     maxHeight="27px"
                     borderRight="1px"
                     borderRightColor="#eee"
@@ -113,7 +113,7 @@ export default function Header() {
                 </Link>
                 <Link
                     href="https://linio.falabella.com.co/linio-co"
-                    flexBasis={{ base: "33.33%", md: "100px" }}
+                    flexBasis={{ base: "33.33%", md: "150px" }}
                     maxHeight="27px"
                     borderRight="1px"
                     borderRightColor="#eee"
@@ -1065,7 +1065,7 @@ function AccountBarMenu({ isMobile }) {
                         height="100%">
                         <Text
                             as="span"
-                            fontSize="13px"
+                            fontSize="1px"
                             fontWeight="600"
                             letterSpacing="0">
                             Hola,<br />
