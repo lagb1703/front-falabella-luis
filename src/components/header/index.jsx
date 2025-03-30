@@ -76,7 +76,7 @@ export default function Header() {
             bg="white" >
             <Flex
                 as="section"
-                width={{ base: "100%", md: "4500px" }}
+                width={{ base: "100%", md: "100%" }}
                 borderBottom="1px solid"
                 borderColor="gray.200">
                 <Link

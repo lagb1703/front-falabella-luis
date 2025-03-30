@@ -26,7 +26,6 @@ export default function ProductPage() { //Here the info about the product is loa
         brand: "MOTOROLA",
         code: "MOT50FUSION256",
         shopCode: "MOT50FUSION256",
-        image: "https://link-to-image.com",
         rating: 4.5,
         price: 899900,
         originalPrice: 2299900,
