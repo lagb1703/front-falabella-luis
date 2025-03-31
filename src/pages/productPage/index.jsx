@@ -9,6 +9,8 @@ import {
   Divider,
   Badge,
   IconButton,
+  UnorderedList,
+  ListItem
 } from "@chakra-ui/react";
 import { useState } from "react";
 import "./productPageStyles.css";
@@ -27,8 +29,8 @@ export default function ProductPage() { //Here the info about the product is loa
         code: "MOT50FUSION256",
         shopCode: "MOT50FUSION256",
         rating: 4.5,
-        price: 899900,
-        originalPrice: 2299900,
+        price: "899.900",
+        originalPrice: "2.299.900",
         discount: 61,
         description:
           "Celular con cámara de 50MP, pantalla de 6.7 pulgadas y procesador Snapdragon 6 Gen 1.",
@@ -90,12 +92,12 @@ const Product = ({ product }) => {
 
           <Grid templateColumns="repeat(2, 1fr)" gap={4}>
 
-            <VStack bg="red.200" p={4} borderRadius="md"> {/*Columna de la izquierda*/}
+            <VStack p={4} borderRadius="md"> {/*Columna de la izquierda*/}
                 <ProductSpecifications basicSpecifications={product.basicSpecifications} />
                 <DeliveryOptions />
             </VStack>
 
-            <Box bg="green.200" p={4} borderRadius="md"> {/*Columna de la derecha*/}
+            <Box p={4} borderRadius="md"> {/*Columna de la derecha*/}
 
             <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
               <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
@@ -105,15 +107,15 @@ const Product = ({ product }) => {
             </Grid> 
 
             <HStack>
-              <Text fontSize="xl" color="red.500" fontWeight="bold">
+              <Text fontSize="1.7rem" color="red.500">
                   ${product.price}
               </Text>
-              <Badge colorScheme="red" >{product.discount}% OFF</Badge>
+              <Badge bg="red" color="white" >{product.discount}%</Badge>
             </HStack>
 
 
               <Text
-                fontSize="lg"
+                fontSize="1.2rem"
                 textDecoration="line-through"
                 color="gray.500"
               >
@@ -185,23 +187,28 @@ const ProductSpecifications = ({ basicSpecifications }) => {
       mt={6} 
       borderWidth="1px" 
       borderRadius="lg" 
+      borderColor={"white"}
       p={4}
       boxShadow="sm"
+      fontSize="14px"
     >
-      <Text fontSize="lg" fontWeight="bold" mb={4}>
+      <Text fontSize="16px" fontWeight="bold" mb={4}>
         Especificaciones principales
       </Text>
       
       <VStack align="stretch" spacing={3} divider={<Divider />}>
-        {basicSpecifications.map((spec, index) => (
-          <HStack key={index} justify="space-between">
-            <Text fontWeight="medium" color="gray.600">
-              {spec.name}:
-            </Text>
-            <Text>{spec.value}</Text>
-          </HStack>
-        ))}
+        <UnorderedList styleType="none" m={0} p={0}>
+          {basicSpecifications.map((spec, index) => (
+            <ListItem key={index} display="flex" gap={2}>
+              <Text fontWeight="medium" color="gray.600">
+                {spec.name}:
+              </Text>
+              <Text>{spec.value}</Text>
+            </ListItem>
+          ))}
+        </UnorderedList>
       </VStack>
+
 
       <Accordion allowToggle mt={4}>
         <AccordionItem border="none">
@@ -219,6 +226,7 @@ const ProductSpecifications = ({ basicSpecifications }) => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+      
     </Box>
   );
 };
@@ -228,6 +236,8 @@ const DeliveryOptions = () => {
     <Box 
       borderWidth="1px" 
       borderRadius="md" 
+      borderColor="#41E770"
+      fontSize="12px"
       p={4}
       mt={4}
     >

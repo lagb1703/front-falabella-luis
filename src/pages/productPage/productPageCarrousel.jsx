@@ -53,8 +53,8 @@ export default function ImageCarousel({imagesProduct}) {
         aria-label="left-arrow"
         position="absolute"
         left="0%"
-        top="30%"
-        transform="translate(0%, -50%)"
+        top="50%"
+        transform="translate(0%, -100%)"
         zIndex={2}
         opacity={0.5}
         borderRadius="none"
@@ -74,8 +74,8 @@ export default function ImageCarousel({imagesProduct}) {
         aria-label="right-arrow"
         position="absolute"
         right="0%"
-        top="30%"
-        transform="translate(0%, -50%)"
+        top="50%"
+        transform="translate(0%, -100%)"
         zIndex={2}
         opacity={0.5}
         borderRadius="none"
