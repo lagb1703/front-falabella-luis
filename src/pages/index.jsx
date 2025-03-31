@@ -23,4 +23,4 @@ export const projectRoutes = [
 projectRoutes.push(
     <Route path="*" element={(<h1>Esta pagina no esta disponible</h1>)} key={uuidv4()}/>
 );
-export const backendURL = "https://25djsx5x-3000.use2.devtunnels.ms/";
+export const backendURL = "https://s6511xdz-3000.use2.devtunnels.ms/";
