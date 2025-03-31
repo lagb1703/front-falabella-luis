@@ -213,7 +213,8 @@ export default function LoginForm({ isOpen, onClose }) {
             alignItems="center"
             justifyContent="center"
             pt="10px">
-            <Button 
+            <Button
+              type="submit" 
               variant="solid" 
               disabled={isLoading}
               borderRadius="23px"
