@@ -17,6 +17,9 @@ import "./productPageStyles.css";
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Circle} from "@chakra-ui/react";
 import ImageCarousel from "./productPageCarrousel.jsx";
 import { RiHeartAddLine } from "react-icons/ri";
+import { TbTruckDelivery } from "react-icons/tb";
+import { PiBoxArrowDownBold  } from "react-icons/pi";
+import { LuPackageSearch } from "react-icons/lu";
 // import { RatingGroup } from "@chakra-ui/react"
 
 export default function ProductPage() { //Here the info about the product is loaded
@@ -238,29 +241,33 @@ const DeliveryOptions = () => {
       borderRadius="md" 
       borderColor="#41E770"
       fontSize="12px"
-      p={4}
-      mt={4}
+      p={2}
+      mt={3}
     >
-      <HStack 
-        spacing={4} 
-        divider={<Divider orientation="vertical" height="40px" />}
-        justify="space-around"
-      >
-        <Box textAlign="center">
-          <Circle size="40px" bg="gray.100" mb={2} />
+      <Grid templateColumns="repeat(3, 1fr)" gap={4} > 
+
+        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
+          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
+            <TbTruckDelivery size="25px" color="#276749"/>
+          </Circle>
           <Text fontWeight="medium">Despacho a domicilio</Text>
         </Box>
         
-        <Box textAlign="center">
-          <Circle size="40px" bg="gray.100" mb={2} />
+        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
+          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
+            <PiBoxArrowDownBold  size="25px" color="#276749"/>
+          </Circle>
           <Text fontWeight="medium">Retira tu compra</Text>
         </Box>
         
-        <Box textAlign="center">
-          <Circle size="40px" bg="gray.100" mb={2} />
+        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
+          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
+            <LuPackageSearch size="25px" color="#276749"/>
+          </Circle>
           <Text fontWeight="medium">Stock en tienda</Text>
         </Box>
-      </HStack>
+      </Grid>
+
     </Box>
   );
 };
