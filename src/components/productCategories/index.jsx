@@ -1,41 +1,50 @@
 import { useState, useEffect } from "react";
 import { FiTruck, FiStar, FiChevronDown, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { getProducts, getFilters } from "./products.service.jsx";
-import ProductCard from "../productCard/productCard.jsx";
+import {
+  useGetCategory,
+  usePagination,
+  useLoading,
+  usePriceRange,
+  useGetTradeMarks,
+  useGetProductsByCategoryId
+} from "./products.service.jsx";
+import ProductCard from "../productCard/index.jsx";
 import "./products.css";
 
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const getCategory = useGetCategory();
+  const { getLoading, setLoading } = useLoading();
+  const {
+    getTradeMarks,
+    getTradeMarkFilter
+  } = useGetTradeMarks(getCategory?.id);
+  const {
+    getMin,
+    getMax,
+    getPriceFilter
+  } = usePriceRange(getCategory?.id);
+  const {
+    getCurrentPage,
+    setCurrentPage,
+    nextPage,
+    prevPage,
+    maxProducts,
+    totalPages
+  } = usePagination(getCategory?.id);
+  const getProducts = useGetProductsByCategoryId(
+    getCategory,
+    getCurrentPage,
+    getMin,
+    getMax,
+    getTradeMarkFilter,
+    setLoading
+  )
   const [activeFilter, setActiveFilter] = useState(null);
   const [sortOption, setSortOption] = useState("recommended");
   const [showSortDropdown, setShowSortDropdown] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
-  const [filters, setFilters] = useState({});
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [selectedPickup, setSelectedPickup] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [productsData, filtersData] = await Promise.all([
-          getProducts(),
-          getFilters()
-        ]);
-        setProducts(productsData);
-        setFilteredProducts(productsData);
-        setFilters(filtersData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   const handleDeliverySelect = (option) => {
     setSelectedDelivery(option === selectedDelivery ? null : option);
@@ -47,16 +56,6 @@ const Products = () => {
     setSelectedDelivery(null);
   };
 
-  // Lógica de paginación
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
-  const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
-
   const sortOptions = [
     { value: "recommended", label: "Recomendados" },
     { value: "price-asc", label: "Precio de menor a mayor" },
@@ -66,7 +65,7 @@ const Products = () => {
     { value: "new", label: "Nuevos productos" }
   ];
 
-  if (loading) {
+  if (getLoading) {
     return <div className="loading">Cargando productos...</div>;
   }
 
@@ -74,8 +73,8 @@ const Products = () => {
     <div className="productos-container">
       <div className="productos-content">
         <div className="filters-sidebar">
-          <h1 className="category-title">Producto X</h1>
-          <p className="results-count">Resultados ({filteredProducts.length})</p>
+          <h1 className="category-title">{getCategory?.name}</h1>
+          <p className="results-count">Resultados {maxProducts.current}</p>
 
           {/* 1. Filtro de Envío Gratis */}
           <div className="filter-box">
@@ -132,8 +131,8 @@ const Products = () => {
 
           {/* 4. Filtro de Marcas */}
           <div className="filter-box">
-            <div 
-              className="filter-header" 
+            <div
+              className="filter-header"
               onClick={() => setActiveFilter(activeFilter === 'brand' ? null : 'brand')}
             >
               <h3 className="filter-title">Marcas</h3>
@@ -141,10 +140,13 @@ const Products = () => {
             </div>
             {activeFilter === 'brand' && (
               <div className="filter-content">
-                {filters.brands?.map(brand => (
-                  <div className="filter-item" key={brand}>
-                    <input type="checkbox" id={`brand-${brand}`} />
-                    <label htmlFor={`brand-${brand}`}>{brand}</label>
+                {getTradeMarks?.map(brand => (
+                  <div className="filter-item" key={brand.filter}>
+                    <input 
+                      onClick={brand.click}
+                      type="checkbox" 
+                      id={`brand-${brand.filter}`} />
+                    <label htmlFor={`brand-${brand.filter}`}>{brand.filter}</label>
                   </div>
                 ))}
               </div>
@@ -153,8 +155,8 @@ const Products = () => {
 
           {/* 5. Filtro de Precio */}
           <div className="filter-box">
-            <div 
-              className="filter-header" 
+            <div
+              className="filter-header"
               onClick={() => setActiveFilter(activeFilter === 'price' ? null : 'price')}
             >
               <h3 className="filter-title">Precio</h3>
@@ -162,10 +164,15 @@ const Products = () => {
             </div>
             {activeFilter === 'price' && (
               <div className="filter-content">
-                {filters.priceRanges?.map(range => (
-                  <div className="filter-item" key={range}>
-                    <input type="checkbox" id={`price-${range}`} />
-                    <label htmlFor={`price-${range}`}>{range}</label>
+                {getPriceFilter?.map(range => (
+                  <div
+                    className="filter-item"
+                    key={range.filter}>
+                    <input
+                      onClick={range.click}
+                      type="checkbox"
+                      id={`price-${range.filter}`} />
+                    <label htmlFor={`price-${range.filter}`}>{range.filter}</label>
                   </div>
                 ))}
               </div>
@@ -173,9 +180,9 @@ const Products = () => {
           </div>
 
           {/* 6. Filtro de Color */}
-          <div className="filter-box">
-            <div 
-              className="filter-header" 
+          {/* <div className="filter-box">
+            <div
+              className="filter-header"
               onClick={() => setActiveFilter(activeFilter === 'color' ? null : 'color')}
             >
               <h3 className="filter-title">Color</h3>
@@ -191,23 +198,23 @@ const Products = () => {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div className="products-main">
           <div className="sort-and-pagination">
             <div className="sort-container">
               <span className="sort-label">Ordenar por:</span>
-              
+
               <div className="sort-dropdown">
-                <button 
+                <button
                   className="sort-dropdown-toggle"
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
                 >
                   {sortOptions.find(opt => opt.value === sortOption)?.label || "Recomendados"}
                   <FiChevronDown className={`dropdown-icon ${showSortDropdown ? 'open' : ''}`} />
                 </button>
-                
+
                 {showSortDropdown && (
                   <div className="sort-dropdown-menu">
                     {sortOptions.map(option => (
@@ -228,23 +235,23 @@ const Products = () => {
             </div>
 
             <div className="pagination">
-              <button 
-                onClick={prevPage} 
-                disabled={currentPage === 1}
+              <button
+                onClick={prevPage}
+                disabled={getCurrentPage == 1}
                 className="pagination-button"
               >
                 <FiChevronLeft />
               </button>
-              
+
               <button
                 className="pagination-number active"
               >
-                {currentPage}
+                {getCurrentPage}
               </button>
-              
-              <button 
-                onClick={nextPage} 
-                disabled={currentPage === totalPages}
+
+              <button
+                onClick={nextPage}
+                disabled={getCurrentPage == totalPages.current}
                 className="pagination-button"
               >
                 <FiChevronRight />
@@ -253,13 +260,15 @@ const Products = () => {
           </div>
 
           <div className="products-grid">
-            {currentProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+            {console.log(getProducts)}
+            {getProducts?.map(product => (
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
         </div>
       </div>
     </div>
+
   );
 };
 

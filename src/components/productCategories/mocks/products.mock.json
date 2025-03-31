@@ -1,0 +1,62 @@
+[
+    {
+        "_id": "1",
+        "nombre":"Producto 1",
+        "precio":100,
+        "descuento":10,
+        "cantidad":10,
+        "imagenes":["imagen1.jpg"],
+        "marca":"Marca 1",
+        "calificacion":4,
+        "envioGratis": true,
+        "patrocinado": false
+    },
+    {
+        "_id": "2",
+        "nombre":"Producto 2",
+        "precio":200,
+        "descuento":20,
+        "cantidad":5,
+        "imagenes":["imagen2.jpg"],
+        "marca":"Marca 2",
+        "calificacion":3,
+        "envioGratis": false,
+        "patrocinado": true
+    },
+    {
+        "_id": "3",
+        "nombre":"Producto 3",
+        "precio":300,
+        "descuento":30,
+        "cantidad":8,
+        "imagenes":["imagen3.jpg"],
+        "marca":"Marca 3",
+        "calificacion":5,
+        "envioGratis": true,
+        "patrocinado": true
+    },
+    {
+        "_id": "4",
+        "nombre":"Producto 4",
+        "precio":400,
+        "descuento":0,
+        "cantidad":2,
+        "imagenes":["imagen4.jpg"],
+        "marca":"Marca 4",
+        "calificacion":2,
+        "envioGratis": false,
+        "patrocinado": false
+    },
+    {
+        "_id": "5",
+        "nombre":"Producto 5",
+        "precio":500,
+        "descuento":50,
+        "cantidad":12,
+        "imagenes":["imagen5.jpg"],
+        "marca":"Marca 5",
+        "calificacion":4,
+        "envioGratis": true,
+        "patrocinado": false
+    }
+]

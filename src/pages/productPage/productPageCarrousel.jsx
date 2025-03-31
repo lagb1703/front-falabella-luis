@@ -10,10 +10,12 @@ import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick";
 import "./productPageStyles.css";
+import {
+  getImage
+} from "./productPage.service"
 import { BsBorderBottom } from "react-icons/bs";
 
 export default function ImageCarousel({imagesProduct}) {
-
   const [slider, setSlider] = useState(null);
   const [hoverPos, setHoverPos] = useState({ x: 50, y: 50 }); // Initial position
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -92,7 +94,7 @@ export default function ImageCarousel({imagesProduct}) {
       {/* Slider */}
 
       <Slider {...settings} ref={setSlider}>
-        {imagesProduct.map((url, index) => (
+        {imagesProduct?.map((url, index) => (
           <Box
             key={index}
             height={sizeBox}
@@ -100,7 +102,7 @@ export default function ImageCarousel({imagesProduct}) {
             overflow="hidden"
           >
             <Image
-              src={url}
+              src={getImage(url)}
               alt={`Slide ${index}`}
               objectFit="contain"
               width="100%"
@@ -121,10 +123,10 @@ export default function ImageCarousel({imagesProduct}) {
       {/* Thumbnails Below Carousel */}
 
       <HStack mt={4} justify="center" spacing={2}>
-        {imagesProduct.map((url, index) => (
+        {imagesProduct?.map((url, index) => (
           <Image
             key={index}
-            src={url}
+            src={getImage(url)}
             alt={`Thumbnail ${index}`}
             width={thumbnailBox}
             height={thumbnailBox}

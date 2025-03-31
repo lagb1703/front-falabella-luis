@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { isDevelopment } from "@/pages";
 const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -9,11 +9,12 @@ const getCookie = (name) => {
 export default function useCart() {
     const [getCartItems, setCartItems] = useState([]);
     useEffect(() => {
-        (async () => {
-            const Authorization = getCookie('Authorization');
-            if(Authorization)
-                console.log("Se estan mandando los items");
-        })()
+        if(!isDevelopment)
+            (async () => {
+                const Authorization = getCookie('Authorization');
+                if(Authorization)
+                    console.log("Se estan mandando los items");
+            })()
     }, [getCartItems.length]);
     return {
         getCartItems,
