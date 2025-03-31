@@ -29,7 +29,7 @@ export function useFormData(){
       correo: '',
       nombres: '',
       apellidos: '',
-      tipoDocumento_id: '',
+      tipoDocumento_id: '1',
       identificador: '',
       celular: '',
       contrasena: '',

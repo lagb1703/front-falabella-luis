@@ -201,6 +201,7 @@ export default function Registro() {
                 type="submit" 
                 className={`register-button ${isButtonActive ? 'active' : ''}`}
                 disabled={!isButtonActive}
+                onClick={console.log(formData.tipoDocumento_id)}
               >
                 Registrarse
               </button>
