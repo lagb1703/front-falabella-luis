@@ -36,7 +36,7 @@ const theme = extendTheme({
     heading: "'Helvetica Neue', Helvetica, Arial, sans-serif",
     body: "'Helvetica Neue', Helvetica, Arial, sans-serif",
     products: {
-      title:"sans-serif",
+      title:"Lato",
     },
     footer: {
       p: "Lato, sans-serif"
