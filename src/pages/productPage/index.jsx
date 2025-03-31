@@ -8,11 +8,13 @@ import {
   HStack,
   Divider,
   Badge,
-  IconButton,
   UnorderedList,
   ListItem
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { 
+  useGetProduct,
+  useCart
+} from "./productPage.service.jsx";
 import "./productPageStyles.css";
 import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Circle} from "@chakra-ui/react";
 import ImageCarousel from "./productPageCarrousel.jsx";
@@ -20,48 +22,37 @@ import { RiHeartAddLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
 import { PiBoxArrowDownBold  } from "react-icons/pi";
 import { LuPackageSearch } from "react-icons/lu";
-// import { RatingGroup } from "@chakra-ui/react"
 
-export default function ProductPage() { //Here the info about the product is loaded
+export default function ProductPage() {
+  const getProduct = useGetProduct();
   return (
     <>
     <Product
       product={{
-        name: "Celular Motorola Edge 50 Fusion 256GB | 8GB RAM | Cámara posterior 50MP | Cámara frontal 32MP | Pantalla 6.7 pulgadas + Qualcomm Snapdragon 6 Gen 1",
-        brand: "MOTOROLA",
-        code: "MOT50FUSION256",
-        shopCode: "MOT50FUSION256",
-        rating: 4.5,
-        price: "899.900",
-        originalPrice: "2.299.900",
-        discount: 61,
-        description:
-          "Celular con cámara de 50MP, pantalla de 6.7 pulgadas y procesador Snapdragon 6 Gen 1.",
-        basicSpecifications: [
-            { name: "Capacidad de almacenamiento", value: "256GB" },
-            { name: "Conectividad", value: "5G" },
-            { name: "Marca y modelo del procesador", value: "Snapdragon 6 Gen 1" },
-            { name: "Sistema operativo", value: "Android 14" },
-            { name: "Memoria RAM", value: "8GB" }
-        ],
-        specifications: [
-          { name: "Memoria externa incluida", value: "No" },
-          { name: "GPS integrado", value: "Sí" },
-          { name: "Marca", value: "Motorola" }
-        ],
-        moreInfo: {
-          title: "Información adicional",
-          additionalSpecs: [
-            { name: "Resolución de pantalla", value: "Full HD+" },
-            { name: "Tipo de pantalla", value: "pOLED" }
-          ],
-      },
-      imagesProduct: [
-        "/testingImages/placeholder1.webp",
-        "/testingImages/placeholder2.webp",
-        "/testingImages/placeholder3.webp",
-        "/testingImages/placeholder4.webp",
-      ]
+        name: getProduct?.nombre || "Celular Motorola Edge 50 Fusion 256GB",
+        brand: getProduct?.getProduct || "MOTOROLA",
+        code: getProduct?._id || "MOT50FUSION256",
+        shopCode: getProduct?._id || "MOT50FUSION256",
+        rating: getProduct?.calificacion || 4.5,
+        price: (getProduct?.precio*(1-getProduct?.descuento)) || "899.900",
+        originalPrice: getProduct?.precio || "2.299.900",
+        discount: getProduct?.descuento*100,
+        basicSpecifications: 
+        (getProduct)?getProduct.especificaciones.slice(0, 4).map((item)=>{
+          return {
+            name: item.expecificacion,
+            value: item.valor
+          }
+        }):[],
+        specifications: 
+        (getProduct)?getProduct.especificaciones.slice(4, getProduct.especificaciones.length).map((item)=>{
+          return {
+            name: item.expecificacion,
+            value: item.valor
+          }
+        }):[],
+        moreInfo: getProduct?.informacionAdicional || "No hay información adicional disponible",
+      imagesProduct: (getProduct)?getProduct?.imagenes:[]
       }}
     />
     </>
@@ -69,6 +60,7 @@ export default function ProductPage() { //Here the info about the product is loa
 }
 
 const Product = ({ product }) => {
+  const { addToCart } = useCart(product);
   return (
     <>
     <Box
@@ -84,7 +76,6 @@ const Product = ({ product }) => {
       fontFamily="products.title"
     >
       <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
-        {/* Product Image */}
 
           <ImageCarousel imagesProduct={product.imagesProduct}/>
 
@@ -128,7 +119,8 @@ const Product = ({ product }) => {
               <Divider />
 
               <HStack>
-                <Button>Agregar al Carro</Button>
+                <Button
+                  onClick={addToCart}>Agregar al Carro</Button>
               </HStack>
             </Box>
           </Grid>
@@ -138,7 +130,6 @@ const Product = ({ product }) => {
 
     <Box>
     <ProductSpecsContainer 
-      specifications={product.specifications}
       moreInfo={product.moreInfo}
     />
     </Box>
@@ -272,7 +263,7 @@ const DeliveryOptions = () => {
   );
 };
 
-const ProductSpecsContainer = ({ specifications, moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
+const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
   return (
     <Box 
       p={5}
@@ -289,13 +280,16 @@ const ProductSpecsContainer = ({ specifications, moreInfo }) => { //NO TOCAR EST
         Especificaciones
       </Text>
       
-      {moreInfo && (
+      {/* {moreInfo && (
         <Badge colorScheme="blue" mb={4}>
           {moreInfo.title}
         </Badge>
-      )}
+      )} */}
+      <Text>
+        {moreInfo}
+      </Text>
 
-      <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={6}>
+      {/* <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={6}>
         {specifications?.map((spec, index) => (
           <Box key={index}>
             <Text fontSize="sm" color="gray.600" mb={1}>
@@ -333,7 +327,7 @@ const ProductSpecsContainer = ({ specifications, moreInfo }) => { //NO TOCAR EST
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
-      )}
-    </Box>
+      )}*/}
+    </Box> 
   );
 };

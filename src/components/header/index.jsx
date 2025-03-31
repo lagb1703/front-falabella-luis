@@ -1051,6 +1051,7 @@ function AccountBarMenu({ isMobile }) {
             <Flex>
                 <Box
                     py="1"
+                    minW="fit-content"
                     onMouseEnter={onOpen}
                     onMouseLeave={onClose}
                     cursor="pointer">
@@ -1065,7 +1066,7 @@ function AccountBarMenu({ isMobile }) {
                         height="100%">
                         <Text
                             as="span"
-                            fontSize="1px"
+                            fontSize="14px"
                             fontWeight="600"
                             letterSpacing="0">
                             Hola,<br />
@@ -1079,15 +1080,18 @@ function AccountBarMenu({ isMobile }) {
                                 width="100%"
                                 textAlign="center"
                                 height="100%"
-                                color="text.400"
-                                variant="link"
-                                fontWeight="600"
-                                fontSize="13px"
                                 _hover={{ textStyle: "none" }}>
                                 <Flex
                                     width="100%"
                                     direction="row">
-                                    {getUserName}
+                                    <Text
+                                        textAlign="left"
+                                        color="text.400"
+                                        variant="link"
+                                        fontWeight="600"
+                                        fontSize="14px">
+                                        {getUserName}
+                                    </Text>
                                     <ChevronDown
                                         width="10px"
                                         height="10px"
