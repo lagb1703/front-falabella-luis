@@ -10,7 +10,7 @@ export default function useUser() {
 }
 
 function useUserAccount(){
-    const [getUser, setUser] = useState({nombres:"Luis Alejandro"});
+    const [getUser, setUser] = useState(null);
     return {
         getUser,
         setUser

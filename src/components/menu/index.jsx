@@ -242,7 +242,7 @@ function SubMenu({isModalOpen, getIndex}){
                         width= "186px"
                         minWidth= "186px"
                         margin= "32px 32px 0 0"
-                        key={item["subMenu_id"]}>
+                        key={item["_id"]}>
                         <Box
                           as="li">
                           <LinkRouter to={getIndex.href}>

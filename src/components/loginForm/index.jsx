@@ -29,7 +29,7 @@ export default function LoginForm({ isOpen, onClose }) {
   const [correo, setEmail] = useState("");
   const [contrasena, setPassword] = useState("");
 
-  const { login, isLoading, error } = useLogin();
+  const { login, isLoading, error } = useLogin(onClose);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

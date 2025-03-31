@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { backendURL } from "@/pages";
 import userContext from "@/gobal/user/user.context";
 import { useLocation } from 'react-router';
-export function useLogin() {
+export function useLogin(onClose) {
   const { setUser } = useContext(userContext);
   const [isLoading, setIsLoading] = useState(false); // Estado para manejar la carga
   const [error, setError] = useState(null); // Estado para manejar errores
@@ -31,7 +31,7 @@ export function useLogin() {
 
       // Guarda los datos del usuario (puede incluir un token JWT)
       setUser(data.usuario);
-
+      onClose();
       // Retorna los datos para que el componente los use
       return data;
     } catch (error) {

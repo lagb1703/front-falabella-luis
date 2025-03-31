@@ -1,6 +1,6 @@
 [
     {
-    "subMenu_id": "computacion",
+    "_id": "computacion",
     "menu_id":"1",
     "name": "Computación",
     "options": [
@@ -16,7 +16,7 @@
     ]
     },
     {
-    "subMenu_id": "audio",
+    "_id": "audio",
     "menu_id":"1",
     "name": "Audio",
     "options": [
@@ -31,7 +31,7 @@
     ]
     },
     {
-    "subMenu_id": "tv-video",
+    "_id": "tv-video",
     "menu_id":"1",
     "name": "TV y video",
     "options": [
@@ -49,7 +49,7 @@
     ]
     },
     {
-    "subMenu_id": "zona-gamer",
+    "_id": "zona-gamer",
     "menu_id":"1",
     "name": "Zona gamer",
     "options": [
@@ -63,7 +63,7 @@
     ]
     },
     {
-    "subMenu_id": "consolas",
+    "_id": "consolas",
     "menu_id":"1",
     "name": "Consolas",
     "options": [
@@ -77,7 +77,7 @@
     ]
     },
     {
-    "subMenu_id": "smartwatch",
+    "_id": "smartwatch",
     "menu_id":"1",
     "name": "Smartwatch y accesorios",
     "options": [
@@ -88,7 +88,7 @@
     ]
     },
     {
-    "subMenu_id": "camaras",
+    "_id": "camaras",
     "menu_id":"1",
     "name": "Cámaras y drones",
     "options": [
@@ -102,7 +102,7 @@
     ]
     },
     {
-    "subMenu_id": "patinetas",
+    "_id": "patinetas",
     "menu_id":"1",
     "name": "Patinetas eléctricas",
     "options": [
@@ -110,7 +110,7 @@
     ]
     },
     {
-    "subMenu_id": "smart-home",
+    "_id": "smart-home",
     "menu_id":"1",
     "name": "Smart Home",
     "options": [
@@ -123,7 +123,7 @@
     ]
     },
     {
-    "subMenu_id": "marcas",
+    "_id": "marcas",
     "menu_id":"1",
     "name": "Marcas destacadas",
     "options": [
@@ -141,7 +141,7 @@
     ]
     },
     {
-        "subMenu_id":"novedades",
+        "_id":"novedades",
         "menu_id":"2",
         "name":"Novedades",
         "options":[
@@ -184,7 +184,7 @@
         ]
     },
     {
-        "subMenu_id":"celulares",
+        "_id":"celulares",
         "menu_id":"2",
         "name":"Celulares",
         "options":[
@@ -203,7 +203,7 @@
         ]
     },
     {
-        "subMenu_id":"rango-precios",
+        "_id":"rango-precios",
         "menu_id":"2",
         "name":"Rango de precios",
         "options":[
@@ -234,7 +234,7 @@
         ]
     },
     {
-        "subMenu_id":"smartwatch-accesorios",
+        "_id":"smartwatch-accesorios",
         "menu_id":"2",
         "name":"Smartwatch y accesorios",
         "options":[
@@ -257,7 +257,7 @@
         ]
     },
     {
-        "subMenu_id":"audifonos",
+        "_id":"audifonos",
         "menu_id":"2",
         "name":"Audífonos",
         "options":[
@@ -280,7 +280,7 @@
         ]
     },
     {
-        "subMenu_id":"accesorios-celulares",
+        "_id":"accesorios-celulares",
         "menu_id":"2",
         "name":"Accesorios celulares",
         "options":[
@@ -311,7 +311,7 @@
         ]
     },
     {
-        "subMenu_id":"marcas-destacadas",
+        "_id":"marcas-destacadas",
         "menu_id":"2",
         "name":"Marcas destacadas",
         "options":[
