@@ -7,7 +7,7 @@ export const cartItems = [{
   discount: 1133000,
   freeShipping: true,
   arrives: 'Llega mañana',
-  imageUrl: 'https://via.placeholder.com/150?text=Xiaomi' // Reemplaza con tu imagen real
+  imageUrl: ''
 }];
 
 export const calculateTotal = (items) => {
