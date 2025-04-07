@@ -9,132 +9,186 @@ import {
   Divider,
   Badge,
   UnorderedList,
-  ListItem
+  ListItem,
+  Flex,
+  Input
 } from "@chakra-ui/react";
-import { 
+import {
   useGetProduct,
   useCart
 } from "./productPage.service.jsx";
 import "./productPageStyles.css";
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Circle} from "@chakra-ui/react";
+import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Circle } from "@chakra-ui/react";
 import ImageCarousel from "./productPageCarrousel.jsx";
 import { RiHeartAddLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
-import { PiBoxArrowDownBold  } from "react-icons/pi";
+import { PiBoxArrowDownBold } from "react-icons/pi";
 import { LuPackageSearch } from "react-icons/lu";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
   return (
     <>
-    <Product
-      product={{
-        name: getProduct?.nombre || "Celular Motorola Edge 50 Fusion 256GB",
-        brand: getProduct?.getProduct || "MOTOROLA",
-        code: getProduct?._id || "MOT50FUSION256",
-        shopCode: getProduct?._id || "MOT50FUSION256",
-        rating: getProduct?.calificacion || 4.5,
-        price: (getProduct?.precio*(1-getProduct?.descuento)) || "899.900",
-        originalPrice: getProduct?.precio || "2.299.900",
-        discount: getProduct?.descuento*100,
-        basicSpecifications: 
-        (getProduct)?getProduct.especificaciones.slice(0, 4).map((item)=>{
-          return {
-            name: item.expecificacion,
-            value: item.valor
-          }
-        }):[],
-        specifications: 
-        (getProduct)?getProduct.especificaciones.slice(4, getProduct.especificaciones.length).map((item)=>{
-          return {
-            name: item.expecificacion,
-            value: item.valor
-          }
-        }):[],
-        moreInfo: getProduct?.informacionAdicional || "No hay información adicional disponible",
-      imagesProduct: (getProduct)?getProduct?.imagenes:[]
-      }}
-    />
+      <Product
+        product={{
+          name: getProduct?.nombre || "Celular Motorola Edge 50 Fusion 256GB",
+          brand: getProduct?.getProduct || "MOTOROLA",
+          code: getProduct?._id || "MOT50FUSION256",
+          shopCode: getProduct?._id || "MOT50FUSION256",
+          rating: getProduct?.calificacion || 4.5,
+          price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
+          originalPrice: getProduct?.precio || "2.299.900",
+          discount: getProduct?.descuento * 100,
+          basicSpecifications:
+            (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
+              return {
+                name: item.expecificacion,
+                value: item.valor
+              }
+            }) : [],
+          specifications:
+            (getProduct) ? getProduct.especificaciones.slice(4, getProduct.especificaciones.length).map((item) => {
+              return {
+                name: item.expecificacion,
+                value: item.valor
+              }
+            }) : [],
+          moreInfo: getProduct?.informacionAdicional || "No hay información adicional disponible",
+          imagesProduct: (getProduct) ? getProduct?.imagenes : []
+        }}
+      />
     </>
   );
 }
 
 const Product = ({ product }) => {
-  const { addToCart } = useCart(product);
+  const { 
+    addToCart,
+    getAmount,
+    addAmount,
+    removeAmount,
+    setInputAmount
+  } = useCart(product);
   return (
     <>
-    <Box
-      p={5}
-      bg="white"
-      maxW="92vw"
-      mx="auto"
-      borderWidth="1px"
-      borderRadius="lg"
-      boxShadow="md"
-      marginTop={4}
-      marginBottom={4}
-      fontFamily="products.title"
-    >
-      <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
+      <Box
+        p={5}
+        bg="white"
+        maxW="92vw"
+        mx="auto"
+        borderWidth="1px"
+        borderRadius="lg"
+        boxShadow="md"
+        marginTop={4}
+        marginBottom={4}
+        fontFamily="products.title"
+      >
+        <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
 
-          <ImageCarousel imagesProduct={product.imagesProduct}/>
+          <ImageCarousel imagesProduct={product.imagesProduct} />
 
 
-        <VStack align="right" p={4} borderRadius="md">
+          <VStack align="right" p={4} borderRadius="md">
 
-          <ProductHeader product={product} />
+            <ProductHeader product={product} />
 
-          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
 
-            <VStack p={4} borderRadius="md"> {/*Columna de la izquierda*/}
+              <VStack p={4} borderRadius="md"> {/*Columna de la izquierda*/}
                 <ProductSpecifications basicSpecifications={product.basicSpecifications} />
                 <DeliveryOptions />
-            </VStack>
+              </VStack>
 
-            <Box p={4} borderRadius="md"> {/*Columna de la derecha*/}
+              <Box p={4} borderRadius="md"> {/*Columna de la derecha*/}
 
-            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
-              <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
-              <Box display="flex" justifyContent="right" alignContent="right">
-                <RiHeartAddLine size="30px" color="black" />
+                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+                  <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
+                  <Box display="flex" justifyContent="right" alignContent="right">
+                    <RiHeartAddLine size="30px" color="black" />
+                  </Box>
+                </Grid>
+
+                <HStack>
+                  <Text fontSize="1.7rem" color="red.500">
+                    ${product.price}
+                  </Text>
+                  <Badge bg="red" color="white" >{product.discount}%</Badge>
+                </HStack>
+
+
+                <Text
+                  fontSize="1.2rem"
+                  textDecoration="line-through"
+                  color="gray.500"
+                >
+                  ${product.originalPrice}
+                </Text>
+
+                <Divider />
+                <Flex 
+                  as="div"
+                  w="112px"
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  m="10px 0">
+                  <Button 
+                    fontSize="0.9rem"
+                    fontWeight="500"
+                    bottom="10px"
+                    color="#333"
+                    backgroundColor="#eee"
+                    borderRadius="2px"
+                    left="0"
+                    top="0"
+                    width="35px"
+                    height="35px"
+                    onClick={removeAmount}
+                    disabled={getAmount == 1}>-</Button>
+                  <Input 
+                    p="0"
+                    textAlign="center"
+                    fontSize="0.9rem"
+                    fontWeight="400"
+                    lineHeight="19.2px"
+                    backgroundColor="transparent"
+                    border="none"
+                    value={getAmount} 
+                    onChange={setInputAmount}
+                    type="number" 
+                    min="1"/>
+                  <Button 
+                    fontSize="0.9rem"
+                    fontWeight="500"
+                    bottom="10px"
+                    color="#333"
+                    backgroundColor="#eee"
+                    borderRadius="2px"
+                    left="0"
+                    top="0"
+                    width="35px"
+                    height="35px"
+                    onClick={addAmount}>+</Button>
+                </Flex>
+                <HStack>
+                  <Button
+                    w="100%"
+                    borderRadius="30px"
+                    onClick={addToCart}>Agregar al Carro</Button>
+                </HStack>
               </Box>
-            </Grid> 
+            </Grid>
+          </VStack>
+        </Grid>
+      </Box>
 
-            <HStack>
-              <Text fontSize="1.7rem" color="red.500">
-                  ${product.price}
-              </Text>
-              <Badge bg="red" color="white" >{product.discount}%</Badge>
-            </HStack>
+      <Box>
+        <ProductSpecsContainer
+          moreInfo={product.moreInfo}
+        />
+      </Box>
 
-
-              <Text
-                fontSize="1.2rem"
-                textDecoration="line-through"
-                color="gray.500"
-              >
-                ${product.originalPrice}
-              </Text>
-
-              <Divider />
-
-              <HStack>
-                <Button
-                  onClick={addToCart}>Agregar al Carro</Button>
-              </HStack>
-            </Box>
-          </Grid>
-        </VStack>
-      </Grid>
-    </Box>
-
-    <Box>
-    <ProductSpecsContainer 
-      moreInfo={product.moreInfo}
-    />
-    </Box>
-
-  </>
+    </>
   );
 };
 
@@ -149,12 +203,12 @@ function ProductHeader({ product }) {
   //     </RatingGroup.RootProvider>
   //     )
   //   }
-    
+
 
   return (
     <Grid templateColumns={{ base: "3fr", md: "2fr 1fr" }} gap={6}>
 
-      <Text  fontSize="13px" fontWeight="bold">
+      <Text fontSize="13px" fontWeight="bold">
         {product.brand}
       </Text>
 
@@ -176,11 +230,11 @@ function ProductHeader({ product }) {
 
 const ProductSpecifications = ({ basicSpecifications }) => {
   return (
-    <Box 
+    <Box
       bg="#FAFAFA"
-      mt={6} 
-      borderWidth="1px" 
-      borderRadius="lg" 
+      mt={6}
+      borderWidth="1px"
+      borderRadius="lg"
       borderColor={"white"}
       p={4}
       boxShadow="sm"
@@ -189,7 +243,7 @@ const ProductSpecifications = ({ basicSpecifications }) => {
       <Text fontSize="16px" fontWeight="bold" mb={4}>
         Especificaciones principales
       </Text>
-      
+
       <VStack align="stretch" spacing={3} divider={<Divider />}>
         <UnorderedList styleType="none" m={0} p={0}>
           {basicSpecifications.map((spec, index) => (
@@ -220,40 +274,40 @@ const ProductSpecifications = ({ basicSpecifications }) => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      
+
     </Box>
   );
 };
 
 const DeliveryOptions = () => {
   return (
-    <Box 
-      borderWidth="1px" 
-      borderRadius="md" 
+    <Box
+      borderWidth="1px"
+      borderRadius="md"
       borderColor="#41E770"
       fontSize="12px"
       p={2}
       mt={3}
     >
-      <Grid templateColumns="repeat(3, 1fr)" gap={4} > 
+      <Grid templateColumns="repeat(3, 1fr)" gap={4} >
 
         <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
           <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <TbTruckDelivery size="25px" color="#276749"/>
+            <TbTruckDelivery size="25px" color="#276749" />
           </Circle>
           <Text fontWeight="medium">Despacho a domicilio</Text>
         </Box>
-        
+
         <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
           <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <PiBoxArrowDownBold  size="25px" color="#276749"/>
+            <PiBoxArrowDownBold size="25px" color="#276749" />
           </Circle>
           <Text fontWeight="medium">Retira tu compra</Text>
         </Box>
-        
+
         <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
           <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <LuPackageSearch size="25px" color="#276749"/>
+            <LuPackageSearch size="25px" color="#276749" />
           </Circle>
           <Text fontWeight="medium">Stock en tienda</Text>
         </Box>
@@ -265,7 +319,7 @@ const DeliveryOptions = () => {
 
 const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
   return (
-    <Box 
+    <Box
       p={5}
       bg="white"
       maxW="92vw"
@@ -279,7 +333,7 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
       <Text fontSize="xl" fontWeight="bold" mb={4}>
         Especificaciones
       </Text>
-      
+
       {/* {moreInfo && (
         <Badge colorScheme="blue" mb={4}>
           {moreInfo.title}
@@ -328,6 +382,6 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
           </AccordionItem>
         </Accordion>
       )}*/}
-    </Box> 
+    </Box>
   );
 };

@@ -18,12 +18,39 @@ export function getImage(imageName) {
 
 export function useCart(product) {
     const { setCartItems } = useContext(shoppingCartContext);
+    const [getAmount, setAmount] = useState(1);
+    const addAmount = useCallback((e) => {
+        e.preventDefault();
+        if (getAmount < 20) {
+            setAmount((prevAmount) => prevAmount + 1);
+        }
+    }, [getAmount]);
+    const removeAmount = useCallback((e) => {
+        e.preventDefault();
+        if (getAmount > 1) {
+            setAmount((prevAmount) => prevAmount - 1);
+        }
+    }, [getAmount]);
+    const setInputAmount = useCallback((e) => {
+        e.preventDefault();
+        const value = parseInt(e.target.value);
+        if (value > 0 && value <= 20) {
+            setAmount(value);
+            return;
+        }
+        e.target.value = getAmount;
+    }, [getAmount]);
     const addToCart = useCallback((e) => {
         e.preventDefault();
-        setCartItems((prevItems) => [...prevItems, product]);
+        const {code} = product;
+        setCartItems((prevItems) => [...prevItems, {product_id:code, carrito_id:0, cantidad: getAmount}]);
     }, [product]);
     return {
-        addToCart
+        addToCart,
+        getAmount,
+        addAmount,
+        removeAmount,
+        setInputAmount
     }
 }
 
