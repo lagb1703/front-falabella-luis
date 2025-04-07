@@ -1202,6 +1202,8 @@ function AccountBarMenu({ isMobile }) {
                     <Box
                         position="relative">
                         <IconButton
+                            as={LinkRouter}
+                            to="/shoppingCart"
                             aria-label="Shopping cart"
                             fontSize="2xl"
                             icon={<BsCart3 />}
