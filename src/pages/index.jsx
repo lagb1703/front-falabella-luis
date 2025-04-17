@@ -7,6 +7,7 @@ import AccountPage from "./accoutPage";
 import ConfirmPasswordPage from "./confirmPasswordPage";
 import ProductPage from "./productPage";
 import ShoppingCartPage from "./shoppingCartPage";
+import PqrPage from "./pqrPage";
 import { Route } from "react-router";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -20,6 +21,7 @@ export const projectRoutes = [
     <Route path="/recover/ConfirmPasswordForm" element={<ConfirmPasswordPage/>} key={uuidv4()}/>,
     <Route path="/product/:id" element={<ProductPage/>} key={uuidv4()}/>,
     <Route path="/shoppingCart" element={<ShoppingCartPage/>} key={uuidv4()}/>,
+    <Route path="/pqr" element={<PqrPage/>} key={uuidv4()}/>,
 ];
 
 projectRoutes.push(
