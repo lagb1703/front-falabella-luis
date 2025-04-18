@@ -1,179 +1,132 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PiGreaterThanLight } from "react-icons/pi";
-import { FaWhatsapp,FaInstagram, FaFacebookF } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaFacebookF } from "react-icons/fa";
+import { 
+  TOPICOS, 
+  OPCIONES, 
+  CONTACTOS, 
+  REDES_SOCIALES, 
+  useCentroAyuda 
+} from './pqr.service';
 import './pqr.css';
 
+// Componentes presentacionales
+const TarjetaTopico = ({ topico, activo, onClick }) => (
+  <div 
+    className={`tarjeta-topico ${activo ? 'activa' : ''}`}
+    onClick={onClick}
+  >
+    <h3>{topico.titulo}</h3>
+    <p>{topico.descripcion}</p>
+  </div>
+);
+
+const TarjetaOpcion = ({ opcion, activa, index, toggleOpcion }) => (
+  <div className={`tarjeta-opcion ${activa ? 'activa' : ''}`}>
+    <div className="encabezado-opcion" onClick={() => toggleOpcion(index)}>
+      <h2>{opcion.titulo}</h2>
+      <PiGreaterThanLight className={`flecha ${activa ? 'abierta' : ''}`} />
+    </div>
+    
+    {activa && (
+      <div className="contenido-opcion">
+        <ul>
+          {opcion.subtemas.map((subtema, i) => (
+            <React.Fragment key={i}>
+              <li>
+                <a href="#">{subtema}</a>
+              </li>
+              {i < opcion.subtemas.length - 1 && <hr className="separador-subtema" />}
+            </React.Fragment>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+);
+
+const ContactoItem = ({ contacto }) => {
+  const Icono = contacto.icono === "whatsapp" ? FaWhatsapp : null;
+  
+  return (
+    <div className="contacto-item">
+      {Icono && <Icono className="icono-contacto" />}
+      <h3>{contacto.titulo}</h3>
+      {contacto.descripcion && <p>{contacto.descripcion}</p>}
+      <p className="telefono">{contacto.telefono}</p>
+      {contacto.horarios.map((horario, i) => (
+        <p key={i}>{horario}</p>
+      ))}
+      <button className="boton-llamar">{contacto.textoBoton}</button>
+    </div>
+  );
+};
+
+const RedSocialButton = ({ red }) => {
+  const Icono = red.nombre === "instagram" ? FaInstagram : FaFacebookF;
+  const claseColor = red.nombre === "instagram" ? "instagram" : "facebook";
+  
+  return (
+    <a href={red.url} className={`boton-redes ${claseColor}`}>
+      <Icono className="icono-red" />
+    </a>
+  );
+};
+
+// Componente principal
 const CentroAyuda = () => {
-  const [topicoActivo, setTopicoActivo] = useState(null);
-  const [opcionActiva, setOpcionActiva] = useState(null);
-
-  const topicos = [
-    {
-      titulo: "Tus pedidos",
-      descripcion: "Cómo administrar y hacer seguimiento de tus pedidos con envío a domicilio o retiro en un punto."
-    },
-    {
-      titulo: "Devoluciones",
-      descripcion: "Cambiar de opinión está bien. Revisa los pasos para tener una devolución exitosa."
-    },
-    {
-      titulo: "Plazos de reembolsos",
-      descripcion: "Conoce en cuánto tiempo recibirás el dinero en tu cuenta según el medio de pago utilizado en la compra."
-    }
-  ];
-
-  const opciones = [
-    {
-      titulo: "Devoluciones, cancelaciones y reembolsos",
-      subtemas: [
-        "Devoluciones",
-        "Cancelaciones",
-        "Plazos de reembolsos y medios de pago"
-      ]
-    },
-    {
-      titulo: "Derecho de retracto y garantías",
-      subtemas: [
-        "Derecho de retracto",
-        "Satisfacción garantizada",
-        "Garantía legal y servicios técnicos",
-        "Garantía extendida"
-      ]
-    },
-    {
-      titulo: "Pedidos, facturas y Mi cuenta",
-      subtemas: [
-        "Pedidos y tipos de entrega",
-        "Facturas y otros documentos",
-        "Mi cuenta"
-      ]
-    },
-    {
-      titulo: "Tiendas y puntos de retiro",
-      subtemas: [
-        "Horarios de tiendas",
-        "Puntos de retiro"
-      ]
-    },
-    {
-      titulo: "Otros",
-      subtemas: [
-        "Evaluar productos",
-        "Programa CMR Puntos y tarjeta CMR",
-        "Cupones productos Falabella"
-      ]
-    }
-  ];
-
-  const toggleOpcion = (index) => {
-    setOpcionActiva(opcionActiva === index ? null : index);
-  };
+  const { 
+    topicoActivo, 
+    setTopicoActivo, 
+    opcionActiva, 
+    toggleOpcion 
+  } = useCentroAyuda();
 
   return (
     <div className="contenedor-centro-ayuda">
       <h1 className="titulo-principal">¿En qué te ayudamos? Revisa los temas más preguntados</h1>
       
       <div className="contenedor-topicos">
-        {topicos.map((topico, index) => (
-          <div 
+        {TOPICOS.map((topico, index) => (
+          <TarjetaTopico
             key={index}
-            className={`tarjeta-topico ${topicoActivo === index ? 'activa' : ''}`}
+            topico={topico}
+            activo={topicoActivo === index}
             onClick={() => setTopicoActivo(index)}
-          >
-            <h3>{topico.titulo}</h3>
-            <p>{topico.descripcion}</p>
-          </div>
+          />
         ))}
       </div>
       
       <div className="contenedor-opciones">
-        {opciones.map((opcion, index) => (
-          <div 
-            key={index} 
-            className={`tarjeta-opcion ${opcionActiva === index ? 'activa' : ''}`}
-          >
-            <div 
-              className="encabezado-opcion"
-              onClick={() => toggleOpcion(index)}
-            >
-              <h2>{opcion.titulo}</h2>
-              <PiGreaterThanLight className={`flecha ${opcionActiva === index ? 'abierta' : ''}`} />
-            </div>
-            
-            {opcionActiva === index && (
-              <div className="contenido-opcion">
-                <ul>
-                  {opcion.subtemas.map((subtema, i) => (
-                    <React.Fragment key={i}>
-                      <li>
-                        <a href="#">{subtema}</a>
-                      </li>
-                      {i < opcion.subtemas.length - 1 && <hr className="separador-subtema" />}
-                    </React.Fragment>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+        {OPCIONES.map((opcion, index) => (
+          <TarjetaOpcion
+            key={index}
+            opcion={opcion}
+            activa={opcionActiva === index}
+            index={index}
+            toggleOpcion={toggleOpcion}
+          />
         ))}
       </div>
+      
       {/* Sección de Contáctanos */}
       <div className="seccion-contactanos">
         <h2 className="titulo-contactanos">Contáctanos</h2>
         
         <div className="contenedor-principal-contactos">
           <div className="contenedor-contactos">
-            <div className="contacto-item">
-              <FaWhatsapp className="icono-contacto" />
-              <h3>Servicio al cliente</h3>
-              <p>Peticiones, quejas y reclamos</p>
-              <p className="telefono">+57 601 587 8002</p>
-              <p>Lunes a sábado:</p>
-              <p>09:00a.m. a 07:00p.m.</p>
-              <button className="boton-llamar">Llamar</button>
-            </div>
-            
-            <div className="contacto-item">
-              <FaWhatsapp className="icono-contacto" />
-              <h3>Whatsapp</h3>
-              <p>Peticiones, quejas y reclamos</p>
-              <p className="telefono">+57 1 897 7776</p>
-              <p>Lunes a sábado:</p>
-              <p>09:00a.m. a 07:00p.m.</p>
-              <button className="boton-llamar">Contactar</button>
-            </div>
-            
-            <div className="contacto-item">
-              <FaWhatsapp className="icono-contacto" />
-              <h3>Comprar por WhatsApp</h3>
-              <p className="telefono">+57 301 638 4422</p>
-              <p>Lunes a sábado:</p>
-              <p>08:00a.m. a 08:30p.m.</p>
-              <p>Domingos y festivos</p>
-              <p>08:00a.m. a 07:30p.m.</p>
-              <button className="boton-llamar">Comprar</button>
-            </div>
-            
-            <div className="contacto-item">
-              <FaWhatsapp className="icono-contacto" />
-              <h3>Club de Novios, Bebé o Deco</h3>
-              <p className="telefono">+57 301 633 4422</p>
-              <p>Lunes a domingos</p>
-              <p>10:00a.m. a 05:00p.m.</p>
-              <button className="boton-llamar">Llamar</button>
-            </div>
+            {CONTACTOS.map((contacto, index) => (
+              <ContactoItem key={index} contacto={contacto} />
+            ))}
           </div>
         </div>
         
         <div className="footer-redes">
           <h3 className="titulo-redes">Síguenos en nuestras redes</h3>
           <div className="contenedor-iconos-redes">
-            <a href="#" className="boton-redes instagram">
-              <FaInstagram className="icono-red" />
-            </a>
-            <a href="#" className="boton-redes facebook">
-              <FaFacebookF className="icono-red" />
-            </a>
+            {REDES_SOCIALES.map((red, index) => (
+              <RedSocialButton key={index} red={red} />
+            ))}
           </div>
         </div>
       </div>
