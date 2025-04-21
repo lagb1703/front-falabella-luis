@@ -1,0 +1,56 @@
+.mini-product-style * {
+    margin-bottom: 0px !important; /* Adds vertical space between this and the next container */
+    margin-top: 0px !important;
+  }
+
+  .mini-product-style .product-card {
+    padding: 0% !important;
+}
+
+.mini-product-style .product-name {
+    font-size: 0.8rem !important; /* Example font size, adjust as needed */
+  }
+  
+  .mini-product-style .product-brand {
+    font-size: 0.5rem !important;
+    margin-top: 10px !important;
+  }
+
+  .mini-product-style.product-image{
+    width: 100% !important;
+    height: auto !important;
+    max-width: 200px !important; /* Limits size if needed */
+  }
+
+  .mini-product-style .product-seller, .product-header{
+    display: none;
+  }
+
+  .mini-product-style .product-seller {
+    font-size: 0.8rem !important;
+  }
+  
+  .mini-product-style .price-mini-container {
+    display: flex !important;
+    flex-direction: row !important; /* Align the current-price and discount horizontally */
+    align-items: center !important; /* Optional: vertically align them to the center */
+  }
+
+  .mini-product-style .view-product-btn {
+    font-size: 0.7rem !important;
+  }
+
+  .mini-product-style .current-price {
+    font-size: 0.9rem !important;
+    padding-right: 10px !important;
+  }
+  
+  .mini-product-style .discount {
+    font-size: 0.7rem !important;
+  }
+  
+  .mini-product-style .original-price {
+    font-size: 0.7rem !important;
+    text-decoration: line-through;
+  }
+  

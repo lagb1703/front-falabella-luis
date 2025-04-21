@@ -4,7 +4,7 @@ import {
     useContext 
 } from 'react';
 import userContext from '@/gobal/user/user.context';
-import PersonalInformation from './mocks/userInformation.mock.json';
+import AddressInformation from './mocks/addressInformation.mock.json';
 import { useDisclosure } from '@chakra-ui/react';
 const defaultInputPersonalInformation = [
     {
@@ -74,9 +74,9 @@ export function useGetPersonalInformation() {
     const [getPersonalInformation, setPersonalInformation] = useState(null);
     const { correo } = useContext(userContext);
     useEffect(() => {
-        const lastNames = PersonalInformation.apellidos.split(" ");
-        PersonalInformation.primerApellido = lastNames.shift();
-        PersonalInformation.segundoApellido = lastNames.join(" ");
+        const lastNames = AddressInformation.apellidos.split(" ");
+        AddressInformation.primerApellido = lastNames.shift();
+        AddressInformation.segundoApellido = lastNames.join(" ");
         setPersonalInformation(PersonalInformation);
     }, []);
     return getPersonalInformation;

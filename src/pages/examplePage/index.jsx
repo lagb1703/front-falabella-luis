@@ -12,7 +12,9 @@ import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick"; // npm install react-slick slick-carousel
 import "./examplePage.css";
-import { useGetNavigationSubFooter } from "./examplePage.service.jsx"; //ERROR
+import ProductCarousel from "@/components/productCarousel";
+import mockProducts from './mockProducts'; 
+import { useGetNavigationSubFooter, useGetProductsByCategoryId } from "./examplePage.service.jsx"; //ERROR
 import {
   Accordion,
   AccordionContent,
@@ -23,15 +25,29 @@ import { Link } from "react-router"
 import { v4 as uuid } from "uuid";
 
 export default function ExamplePage() {
+
+  {/*
+  const [loading, setLoading] = useState(false); // State for loading
+  const products = useGetProductsByCategoryId(category, setLoading);
+  */}
+
   return (  
-    <>
+    <Box bg="white">
       {/* <Image 
         width="100%"
         src="/home_images/anuncio1.png" 
         alt="Imagen de primer anuncio" /> */}
       <Carousel />
+
+      <div
+      justify="center"
+      align="center"
+      >
+        <ProductCarousel products={mockProducts} />
+      </div>
+
       <SubFooter />
-    </>
+    </Box>
   );
 }
 
