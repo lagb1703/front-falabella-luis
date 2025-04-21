@@ -10,7 +10,15 @@ export const cartItems = [{
   imageUrl: ''
 }];
 
+// Verifica si el carrito está realmente vacío
+export const isCartEmpty = (items) => {
+  if (items.length === 0) return true;
+  if (items.length === 1 && Object.keys(items[0]).length === 0) return true;
+  return false;
+};
+
 export const calculateTotal = (items) => {
+  if (isCartEmpty(items)) return 0;
   return items.reduce((total, item) => total + (item.price - (item.discount || 0)), 0);
 };
 

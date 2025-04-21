@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { SlArrowUp } from "react-icons/sl";
 import './shoppingCart.css';
-import { cartItems, calculateTotal, formatPrice } from './shoppingCart.service';
+import { cartItems, calculateTotal, formatPrice, isCartEmpty } from './shoppingCart.service';
 
 const ShoppingCart = () => {
   const [showDiscountDetails, setShowDiscountDetails] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [quantities, setQuantities] = useState(cartItems.map(() => 1));
-  const total = calculateTotal(cartItems);
-  const falabellaTotal = 1019900;
+  const [quantities, setQuantities] = useState(
+    isCartEmpty(cartItems) ? [] : cartItems.map(() => 1)
+  );
 
+  // Añade estas funciones que faltaban
   const toggleDiscountDetails = () => {
     setShowDiscountDetails(!showDiscountDetails);
   };
@@ -44,6 +45,25 @@ const ShoppingCart = () => {
     handleQuantityChange(index, quantities[index] - 1);
   };
 
+  // Calcula el total solo cuando hay items
+  const total = calculateTotal(cartItems);
+  const falabellaTotal = 1019900; // Esta variable estaba faltando
+
+  // cuando el carrito está vacío
+  if (isCartEmpty(cartItems)) {
+    return (
+      <div className="shopping-cart-layout">
+        <div className="empty-cart-container">
+          <h1 className="cart-header">Tu Carro está vacío</h1>
+          <div className="empty-cart-message">
+            <p className="login-message">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
+            <button className="login-btn">Iniciar sesión</button>
+            <p className="register-text">¿No tienes cuenta? <span className="register-link">Regístrate</span></p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="shopping-cart-layout">
       {/* Columna izquierda con título */}
