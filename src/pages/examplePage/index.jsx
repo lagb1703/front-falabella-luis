@@ -26,7 +26,7 @@ import { v4 as uuid } from "uuid";
 
 export default function ExamplePage() {
   return (  
-    <>
+    <Box bg="white">
       {/* <Image 
         width="100%"
         src="/home_images/anuncio1.png" 
@@ -41,7 +41,7 @@ export default function ExamplePage() {
       </div>
 
       <SubFooter />
-    </>
+    </Box>
   );
 }
 

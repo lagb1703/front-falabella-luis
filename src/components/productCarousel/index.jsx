@@ -16,17 +16,15 @@ import {
   
     const settings = {
       infinite: true,
-      speed: 500,
       slidesToShow: 6,
-      slidesToScroll: 1,
+      slidesToScroll: 3,
       variableWidth: false,
       adaptiveHeight: true,
-      arrows: false,
       beforeChange: (_, newIndex) => setCurrentSlide(newIndex),
     };
   
     return (
-      <Box position="relative" width="70%" overflow="hidden" alignItems="center">
+      <Box position="relative" width="70%" overflow="hidden" alignItems="center" textAlign="left">
         {/* Left Arrow */}
         <IconButton
           aria-label="left-arrow"
@@ -74,7 +72,7 @@ import {
           ))}
         </Slider>
   
-        {/* Optional: Thumbnail dots */}
+       {/* Optional: Thumbnail dots 
         <HStack mt={4} justify="center" spacing={2}>
           {products?.map((_, index) => (
             <Box
@@ -87,7 +85,7 @@ import {
               onClick={() => slider?.slickGoTo(index)}
             />
           ))}
-        </HStack>
+        </HStack>*/}
       </Box>
     );
   }

@@ -1,11 +1,27 @@
+* {
+    margin-bottom: 0px !important; /* Adds vertical space between this and the next container */
+    margin-top: 0px !important;
+  }
+
+.product-card {
+    padding: 0% !important;
+}
+
 .product-name {
-    font-size: 1rem !important; /* Example font size, adjust as needed */
+    font-size: 0.8rem !important; /* Example font size, adjust as needed */
   }
   
   .product-brand {
-    font-size: 0.5rem !important; 
+    font-size: 0.5rem !important;
+    margin-top: 10px !important;
   }
-  
+
+  .product-image{
+    width: 100% !important;
+    height: auto !important;
+    max-width: 200px !important; /* Limits size if needed */
+  }
+
   .product-seller, .product-header{
     display: none;
   }
@@ -26,14 +42,15 @@
 
   .current-price {
     font-size: 0.9rem !important;
+    padding-right: 10px !important;
   }
   
   .discount {
-    font-size: 0.8rem !important;
+    font-size: 0.7rem !important;
   }
   
   .original-price {
-    font-size: 0.5rem !important;
+    font-size: 0.7rem !important;
     text-decoration: line-through;
   }
   
