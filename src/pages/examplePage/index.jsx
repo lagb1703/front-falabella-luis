@@ -26,26 +26,9 @@ import { v4 as uuid } from "uuid";
 
 export default function ExamplePage() {
 
-  {/*
-  const [loading, setLoading] = useState(false); // State for loading
-  const products = useGetProductsByCategoryId(category, setLoading);
-  */}
-
   return (  
     <Box bg="white">
-      {/* <Image 
-        width="100%"
-        src="/home_images/anuncio1.png" 
-        alt="Imagen de primer anuncio" /> */}
       <Carousel />
-
-      <div
-      justify="center"
-      align="center"
-      >
-        <ProductCarousel products={mockProducts} />
-      </div>
-
       <SubFooter />
     </Box>
   );
