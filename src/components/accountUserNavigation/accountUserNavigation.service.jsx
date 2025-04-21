@@ -4,7 +4,10 @@ import {
     CircleUserRound,
     House,
     Banknote,
-    Heart
+    Heart,
+    Power,
+    FileLock,
+    HandCoins  
 } from 'lucide-react';
 const defaulNavigatetionUser = [
     {
@@ -30,7 +33,7 @@ const defaulNavigatetionUser = [
     },
     {
         name: "Datos para reembolso",
-        icon: Banknote,
+        icon: HandCoins ,
         href: "/myAccount/myLists",
         callBack: null,
         isActive: false,
@@ -39,6 +42,27 @@ const defaulNavigatetionUser = [
         name: "Mis listas",
         icon: Heart,
         href: "/myAccount/reimbursements",
+        callBack: null,
+        isActive: false,
+    },
+    {
+        name: "Configurar mi cuenta",
+        icon: FileLock,
+        href: "/myAccount/reimbursements",
+        callBack: null,
+        isActive: false,
+    },
+    {
+        name: "Pagar mi CMR",
+        icon: Heart,
+        href: "/myAccount/reimbursements",
+        callBack: null,
+        isActive: false,
+    },
+    {
+        name: "Cerrar sesión",
+        icon: Power,
+        href: "/myAccount",
         callBack: null,
         isActive: false,
     }

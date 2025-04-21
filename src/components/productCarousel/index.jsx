@@ -63,11 +63,12 @@ import {
           <IoIosArrowForward size="25px" />
         </IconButton>
   
-        {/* ProductCard Slider */}
         <Slider {...settings} ref={setSlider}>
           {products?.map((product, index) => (
             <Box key={index} px={2}>
-              <ProductCard product={product} />
+              <div className="mini-product-style">
+                <ProductCard product={product} />
+              </div>
             </Box>
           ))}
         </Slider>
