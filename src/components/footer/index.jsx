@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Link } from "react-router"
+import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
 import { TiSocialFacebook } from "react-icons/ti";
 import { useGetNavigationFooter } from "./footer.service";
@@ -74,7 +74,7 @@ export default function Footer() {
             spacing={{ base: "0", md: "4" }}
             flex={1}
             justify="center" align="center">
-            <Link href="#">
+            <Link to="#">
               <Text
                 as="span"
                 fontSize="xs"
@@ -82,7 +82,7 @@ export default function Footer() {
                 Términos y condiciones
               </Text>
             </Link>
-            <Link href="#">
+            <Link to="#">
               <Text
                 as="span"
                 fontSize="xs"
@@ -90,7 +90,7 @@ export default function Footer() {
                 Política de cookies
               </Text>
             </Link>
-            <Link href="#">
+            <Link to="#">
               <Text
                 as="span"
                 fontSize="xs"
@@ -134,7 +134,7 @@ function Navigation() {
                   {
                     item.links.map(l => {
                       return (
-                        <Link href={l.href} key={uuid()}>
+                        <Link to={l.href} key={uuid()}>
                           <Text
                             as="span"
                             fontSize={{ base: "xs", md: "sm" }}
@@ -165,7 +165,7 @@ function Navigation() {
             {
               item.links.map(l => {
                 return (
-                  <Link href={l.href} key={uuid()}>
+                  <Link to={l.href} key={uuid()}>
                     <Text
                       as="span"
                       fontSize={{ base: "xs", md: "sm" }}
