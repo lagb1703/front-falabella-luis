@@ -31,8 +31,6 @@ export function useProductCart(productId) {
     }
 }
 
-export MemorizeImage
-
 export const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CO').format(price);
 };
