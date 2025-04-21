@@ -8,8 +8,8 @@ import Menu from './components/menu'
 import products from './components/productCategories'
 import ShoppingCartContext from './gobal/shoppingCart/shoppingCart.global';
 import UserContext from "./gobal/user/user.global";
-import ScrollToTop from "./components/scrollToTop"
-import './App.css'
+import ScrollToTop from "./components/scrollToTop";
+import './App.css';
 
 function App() {
 

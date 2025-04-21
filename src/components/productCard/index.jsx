@@ -24,14 +24,16 @@ export default function ProductCard({ product }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {product.patrocinado && (
-        <span className="sponsored-badge">Patrocinado</span>
-      )}
-      {product.envioGratis && (
-        <span className="free-shipping-badge">
-          <FiTruck className="truck-icon" /> Envío gratis
-        </span>
-      )}
+      <div className="product-header">
+        {product.patrocinado && (
+          <span className="sponsored-badge">Patrocinado</span>
+        )}
+        {product.envioGratis && (
+          <span className="free-shipping-badge">
+            <FiTruck className="truck-icon" /> Envío gratis
+          </span>
+        )}
+      </div>
 
       <div className="product-image">
         <img
@@ -47,12 +49,14 @@ export default function ProductCard({ product }) {
         <p className="product-seller">Por {product.marca}</p>
 
         <div className="price-container">
-          <span className="current-price">$ {formatPrice(product.precio * product.descuento)}</span>
+          <div className="price-mini-container">
+            <span className="current-price">$ {formatPrice(product.precio * product.descuento)}</span>
+            {product.descuento > 0 && (
+                <span className="discount">{product.descuento*100}% OFF</span>
+              )}
+            </div>
           {product.descuento > 0 && (
-            <>
-              <span className="discount">{product.descuento*100}% OFF</span>
               <span className="original-price">$ {formatPrice(product.precio)}</span>
-            </>
           )}
         </div>
 

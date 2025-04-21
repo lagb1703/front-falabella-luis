@@ -12,6 +12,8 @@ import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick"; // npm install react-slick slick-carousel
 import "./examplePage.css";
+import ProductCarousel from "@/components/productCarousel";
+import mockProducts from './mockProducts'; 
 import { useGetNavigationSubFooter } from "./examplePage.service.jsx"; //ERROR
 import {
   Accordion,
@@ -30,6 +32,14 @@ export default function ExamplePage() {
         src="/home_images/anuncio1.png" 
         alt="Imagen de primer anuncio" /> */}
       <Carousel />
+
+      <div
+      justify="center"
+      align="center"
+      >
+        <ProductCarousel products={mockProducts} />
+      </div>
+
       <SubFooter />
     </>
   );

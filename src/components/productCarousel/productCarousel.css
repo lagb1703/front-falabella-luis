@@ -1,0 +1,39 @@
+.product-name {
+    font-size: 1rem !important; /* Example font size, adjust as needed */
+  }
+  
+  .product-brand {
+    font-size: 0.5rem !important; 
+  }
+  
+  .product-seller, .product-header{
+    display: none;
+  }
+
+  .product-seller {
+    font-size: 0.8rem !important;
+  }
+  
+  .price-mini-container {
+    display: flex !important;
+    flex-direction: row !important; /* Align the current-price and discount horizontally */
+    align-items: center !important; /* Optional: vertically align them to the center */
+  }
+
+  .view-product-btn {
+    font-size: 0.7rem !important;
+  }
+
+  .current-price {
+    font-size: 0.9rem !important;
+  }
+  
+  .discount {
+    font-size: 0.8rem !important;
+  }
+  
+  .original-price {
+    font-size: 0.5rem !important;
+    text-decoration: line-through;
+  }
+  
