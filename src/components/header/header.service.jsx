@@ -12,14 +12,13 @@ import { v4 as uuid } from "uuid";
 import colombiaStates from "./mocks/states.mock"
 import colombiaCity from "./mocks/city.mock"
 import colombiaNeighborhood from "./mocks/neighborhood.mock"
-import { useLocation } from "react-router";
 
 export const defaultUserName = "Inicia sesión";
 
 export const defaultUserLocation = "Ingresa tu locación";
 
 export function useShoppingCartNumberItems(){
-    const {getCartItems, ...rest} = useContext(shoppingCartContext);
+    const {getCartItems } = useContext(shoppingCartContext);
     return getCartItems.length
 }
 

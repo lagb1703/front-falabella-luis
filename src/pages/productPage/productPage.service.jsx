@@ -17,7 +17,7 @@ export function getImage(imageName) {
 }
 
 export function useCart(product) {
-    const { setCartItems } = useContext(shoppingCartContext);
+    const { saveCartItem } = useContext(shoppingCartContext);
     const [getAmount, setAmount] = useState(1);
     const addAmount = useCallback((e) => {
         e.preventDefault();
@@ -40,10 +40,10 @@ export function useCart(product) {
         }
         e.target.value = getAmount;
     }, [getAmount]);
-    const addToCart = useCallback((e) => {
+    const addToCart = useCallback(async (e) => {
         e.preventDefault();
         const {code} = product;
-        setCartItems((prevItems) => [...prevItems, {product_id:code, carrito_id:0, cantidad: getAmount}]);
+        await saveCartItem({producto_id:code, carrito_id:0}, getAmount)
     }, [product]);
     return {
         addToCart,

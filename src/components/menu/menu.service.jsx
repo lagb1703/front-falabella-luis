@@ -102,7 +102,6 @@ export function useGetSubMenu() {
         }
     }, [getMenuId]);
     useEffect(() => {
-        console.log(getMenuId)
         if (!getMenuId) return;
         if (isDevelopment) {
             let subMenu = subMenuCache.current.get(getMenuId);

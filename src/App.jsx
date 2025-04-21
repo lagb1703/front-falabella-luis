@@ -15,14 +15,14 @@ function App() {
   return (
     <BrowserRouter>
       <ChakraProvider theme={theme}>
-        <ShoppingCartContext>
-          <UserContext>
+        <UserContext>
+          <ShoppingCartContext>
             <Header />
             <Routes>
               {projectRoutes}
             </Routes>
-          </UserContext>
-        </ShoppingCartContext>
+          </ShoppingCartContext>
+        </UserContext>
         <FooterComponent />
       </ChakraProvider>
     </BrowserRouter>

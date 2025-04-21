@@ -41,12 +41,6 @@ export default function LoginForm({ isOpen, onClose }) {
     try {
       // Llama a la función login del servicio
       const response = await login(correo, contrasena);
-      console.log("Inicio de sesión exitoso:", response);
-
-      // Aquí puedes redirigir al usuario o guardar el token en localStorage
-      // Por ejemplo:
-      // localStorage.setItem("token", response.token);
-      // window.location.href = "/dashboard";
     } catch (error) {
       console.error("Error durante el inicio de sesión:", error);
     }

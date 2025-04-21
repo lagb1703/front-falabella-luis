@@ -260,7 +260,6 @@ const Products = () => {
           </div>
 
           <div className="products-grid">
-            {console.log(getProducts)}
             {getProducts?.map(product => (
               <ProductCard key={product._id} product={product} />
             ))}

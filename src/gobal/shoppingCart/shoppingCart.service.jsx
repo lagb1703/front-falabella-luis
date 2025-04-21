@@ -1,28 +1,56 @@
-import { useState, useEffect, useContext } from "react";
-import { isDevelopment } from "@/pages";
-import userContext from "../user/user.context";
+import {
+    useState,
+    useEffect,
+    useContext,
+    useCallback,
+    useMemo
+} from "react";
+import { isDevelopment, backendURL } from "@/pages";
+import userContext from "@/gobal/user/user.context"
 import cart from "./mock/cart.mock"
 
-export default function useCart() {
+function useCartItems() {
     const [getCartItems, setCartItems] = useState([]);
-    const {getUser} = useContext(userContext);
-    useEffect(() => {
-        window.addEventListener("beforeunload", () => {
-            if(getUser && getUser.id) {
-                const cartItems = localStorage.getItem("cartItems");
-                saveCartItemsByUserId(getUser.id, cartItems);
+    const { getUser } = useContext(userContext);
+    const saveCartItem = useCallback(async (product, amount = 1) => {
+        if (!product)
+            return;
+        const cartItems = [...getCartItems];
+        const productIndex = cartItems.findIndex((item) => item.producto_id === product.producto_id);
+        if (!getUser) {
+            if (productIndex === -1) {
+                cartItems.push({
+                    ...product,
+                    cantidad: amount
+                });
+            } else {
+                cartItems[productIndex].cantidad += amount;
             }
-        });
+            setCartItems(cartItems);
+            return;
+        }
+        const result = await saveCartItemsByUserIdAndProductId(getUser["usuario_id"], product.producto_id, amount);
+        if (productIndex === -1) {
+            cartItems.push(result);
+        } else {
+            cartItems[productIndex].cantidad += amount;
+        }
+        setCartItems(cartItems);
+    }, [getCartItems])
+    useEffect(() => {
         const cartItems = localStorage.getItem("cartItems");
-        if(cartItems) {
+        if (cartItems) {
             setCartItems(JSON.parse(cartItems));
         }
     }, []);
     useEffect(() => {
-        if(!getUser)
+        if (!getUser) {
+            localStorage.setItem("cartItems", null);
+            setCartItems([]);
             return;
+        }
         (async () => {
-            const cartItems = await getCartItemsByUserId(getUser.id);
+            const cartItems = await getCartItemsByUserId(getUser["usuario_id"]);
             setCartItems(cartItems);
         })()
     }, [getUser]);
@@ -34,15 +62,45 @@ export default function useCart() {
     }, [getCartItems]);
     return {
         getCartItems,
-        setCartItems
+        saveCartItem
     }
 }
 
-async function getCartItemsByUserId(userId){
-    if(isDevelopment)
+function useCartDetails(products) {
+    const [getCartProductsDetails, setCartProductosdetails] = useState([]);
+    const getProductsDetails = useCallback(async () => {
+        const cartItems = await getAllProductsDetails(
+            products
+        );
+        console.log(products)
+        console.log(cartItems)
+        setCartProductosdetails(cartItems.map((item) => {
+            return {
+                ...item,
+                cantidad: products.find(i => i.producto_id == item["_id"]).cantidad
+            }
+        }));
+    }, [products.length]);
+    return {
+        getCartProductsDetails,
+        getProductsDetails
+    }
+}
+
+export default function useCart() {
+    const cartItems = useCartItems();
+    return {
+        ...cartItems,
+        ...useCartDetails(cartItems.getCartItems),
+        getAllProductsDetails
+    }
+}
+
+async function getCartItemsByUserId(userId) {
+    if (isDevelopment)
         return cart;
     try {
-        const response = await fetch(`productos/cart/${userId}`);
+        const response = await fetch(`${backendURL}products/cart/${userId}`);
         if (!response.ok)
             throw new Error("Error al obtener el carrito");
         const data = await response.json();
@@ -54,19 +112,42 @@ async function getCartItemsByUserId(userId){
     }
 }
 
-async function saveCartItemsByUserId(userId, cartItems){
-    if(isDevelopment)
-        return cart;
+async function saveCartItemsByUserIdAndProductId(userId, productId, amount) {
+    if (isDevelopment)
+        return null;
     try {
-        const response = await fetch(`productos/cart?id=${userId}`, {
+        const response = await fetch(`${backendURL}products/cart/${userId}?product=${productId}&amount=${amount}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: cartItems
         });
         if (!response.ok)
             throw new Error("Error al guardar el carrito");
+        const data = await response.json();
+        return data;
+    }
+    catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+async function getAllProductsDetails(products) {
+    if (products?.length === 0)
+        return [];
+    if (isDevelopment)
+        return [];
+    try {
+        const response = await fetch(`${backendURL}products/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(products.map(i => i.producto_id))
+        });
+        if (!response.ok)
+            throw new Error("Error al obtener el carrito");
         const data = await response.json();
         return data;
     }

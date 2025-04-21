@@ -13,7 +13,6 @@ import "./productPageStyles.css";
 import {
   getImage
 } from "./productPage.service"
-import { BsBorderBottom } from "react-icons/bs";
 
 export default function ImageCarousel({imagesProduct}) {
   const [slider, setSlider] = useState(null);

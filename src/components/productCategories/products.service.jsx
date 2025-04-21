@@ -165,7 +165,6 @@ export function useGetProductsByCategoryId(
   const fetchProducts = useCallback(async () => {
     try {
       if (!category) return;
-      console.log("TradeMark:", getTradeMark);
       const data = await getProductsByCategoryId({
         categoryId: category.id,
         page: getPage,

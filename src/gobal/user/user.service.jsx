@@ -9,7 +9,7 @@ export default function useUser() {
     }
 }
 
-function useUserAccount(){
+function useUserAccount() {
     const [getUser, setUser] = useState(null);
     return {
         getUser,
@@ -17,11 +17,11 @@ function useUserAccount(){
     }
 }
 
-function useUserLocation(){
+function useUserLocation() {
     const [getUserState, setUserState] = useState(null);
     const [getUserCity, setUserCity] = useState(null);
     const [getUserNeighborhood, setUserNeighborhood] = useState(null);
-    return{
+    return {
         getUserState,
         setUserState,
         getUserCity,
