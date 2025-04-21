@@ -12,10 +12,12 @@ import {
     ChevronRightIcon
 } from "lucide-react";
 import PersonalInformation from "@/components/userInformation/personalInformation";
+import AddressInformation from "@/components/userInformation/addressInformation";
 import { Link as RouterLink } from "react-router";
 import { useLocalUserName } from "./accountPage.service";
 import AccountUserNavigation from "@/components/accountUserNavigation";
 import AccountUserNavigationContent from "@/components/accountUserNavigationContent";
+
 export default function AccountPage() {
     const userName = useLocalUserName();
     return (
@@ -64,7 +66,7 @@ export default function AccountPage() {
                             alignItems="center"
                             _hover={{textDecoration:"none"}}>
                             <Image
-                                src="https://www.falabella.com.co/a/fa/myAccount/static/styles/svg/cmrPuntos.svg"
+                                src="https://www.falabella.com.co/a/fa/myaccount/static/styles/svg/cmrPuntos.svg"
                                 alt="logo"
                                 height="44px"
                                 width="44px"
@@ -88,7 +90,7 @@ export default function AccountPage() {
                                         fontStyle="normal"
                                         lineHeight="24px">Aún no tienes</Text>
                                     <Image 
-                                        src="https://www.falabella.com.co/a/fa/myAccount/static/icons/svgs/cmrPointsText.svg"
+                                        src="https://www.falabella.com.co/a/fa/myaccount/static/icons/svgs/cmrPointsText.svg"
                                         height="15px"
                                         marginLeft="4px"
                                         marginTop="9px"/>
@@ -135,6 +137,8 @@ export default function AccountPage() {
                 </Box>
                 <Routes>
                     <Route path="/" element={<PersonalInformation />} key={uuidv4()} />
+                    <Route path="/myAdress" element={<PersonalInformation />} key={uuidv4()} />
+
                     <Route path="/element" element={<h1>Elemento 1</h1>} key={uuidv4()} />
                     <Route path="*" element={<Navigate to="/" replace />} key={uuidv4()} />
                 </Routes>
