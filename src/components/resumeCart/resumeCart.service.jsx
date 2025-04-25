@@ -3,7 +3,6 @@ import shoppingCartContext from '@/gobal/shoppingCart/shoppingCart.context'
 
 export function useShoppingCartInfo(){
     const {getCartProductsDetails} = useContext(shoppingCartContext);
-    console.log(getCartProductsDetails)
     const total = getCartProductsDetails.reduce((result, i) => result + i.precio*i.cantidad, 0);
     const discount = getCartProductsDetails.reduce((result, i)=>{
         return result+i.precio*i.descuento*i.cantidad

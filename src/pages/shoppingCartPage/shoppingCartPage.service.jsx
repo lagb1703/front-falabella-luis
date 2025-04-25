@@ -1,9 +1,19 @@
 import {
     useContext,
     useEffect,
-    useState
+    useState,
+    useCallback
 } from "react";
 import shoppingCartContext from "@/gobal/shoppingCart/shoppingCart.context";
+import { useDisclosure } from "@chakra-ui/react";
+
+export function useLogin() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const openLogin = useCallback((e) => {
+        onOpen(e);
+    }, [])
+    return { isOpen, onOpen }
+}
 
 export function useShoppingCart() {
     const [getProducts, setProducts] = useState([]);

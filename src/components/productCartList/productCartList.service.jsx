@@ -19,10 +19,8 @@ export function useProductCart(productId) {
     }, [getAmount]);
     const removeAmount = useCallback((e) => {
         e.preventDefault();
-        if (getAmount > 1) {
-            setAmount((prevAmount) => prevAmount - 1);
-            saveCartItem({ producto_id: productId }, -1);
-        }
+        setAmount((prevAmount) => prevAmount - 1);
+        saveCartItem({ producto_id: productId }, -1);
     }, [getAmount]);
     return {
         getAmount,
