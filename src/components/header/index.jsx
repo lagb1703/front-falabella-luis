@@ -5,7 +5,7 @@ import homeCenterMiniSVG from "./../../assets/icons/logo-homecenter-mini.svg"
 import linioLetrasSVG from "./../../assets/icons/logo-linio-letras.svg"
 import linioMiniSVG from "./../../assets/icons/logo-linio-mini.svg"
 import falabellaLogo from "./../../assets/falabellacom.svg"
-import { Link as LinkRouter } from "react-router"
+import { Link as LinkRouter } from "react-router-dom"
 import { BsCart3 } from "react-icons/bs";
 import { FaRegCircle } from "react-icons/fa";
 import {
@@ -819,7 +819,7 @@ function HelpBarMenu({ isMobile }) {
     const Help = [
         {
             name: "Centro de ayuda",
-            href: "/"
+            href: "/pqr"
         },
         {
             name: "Devoluciones y cambios",
@@ -950,7 +950,7 @@ function HelpBarMenu({ isMobile }) {
                             return (
                                 <MenuItem key={uuid()}>
                                     <LinkRouter
-                                        href={item.href}>
+                                        to={item.href} key={uuid()}>
                                         <Text
                                             as="p"
                                             fontWeight="550"
