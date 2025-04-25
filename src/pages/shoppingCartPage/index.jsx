@@ -10,7 +10,7 @@ export default function ShoppingCartPage() {
         products,
         length
     } = useShoppingCart();
-    const { isOpen, onOpen } = useLogin();
+    const { isOpen, openLogin, onClose } = useLogin();
     if (length == 0) {
         return (
             <div className="shopping-cart-layout">
@@ -18,11 +18,11 @@ export default function ShoppingCartPage() {
                     <h1 className="cart-header">Tu Carro está vacío</h1>
                     <div className="empty-cart-message">
                         <p className="login-message">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
-                        <Link to="" className="login-btn">Iniciar sesión</Link>
+                        <button onClick={openLogin} className="login-btn">Iniciar sesión</button>
                         <p className="register-text">¿No tienes cuenta? <Link to="/registration" className="register-link">Regístrate</Link></p>
                     </div>
                 </div>
-                <LoginForm isOpen={isOpen} onOpen={onOpen} />
+                <LoginForm isOpen={isOpen} onClose={onClose} />
             </div>
         );
     }

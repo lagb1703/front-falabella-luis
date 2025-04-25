@@ -12,7 +12,7 @@ export function useLogin() {
     const openLogin = useCallback((e) => {
         onOpen(e);
     }, [])
-    return { isOpen, onOpen }
+    return { isOpen, openLogin, onClose }
 }
 
 export function useShoppingCart() {
