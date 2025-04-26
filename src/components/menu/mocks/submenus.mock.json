@@ -1,0 +1,372 @@
+[
+    {
+    "_id": "computacion",
+    "menu_id":"1",
+    "name": "Computación",
+    "options": [
+        { "name": "Ver todo", "link": "/computacion" },
+        { "name": "Portátiles", "link": "/computacion/portatiles" },
+        { "name": "Inteligencia Artificial", "link": "/computacion/inteligencia-artificial" },
+        { "name": "Tablets", "link": "/computacion/tablets" },
+        { "name": "Impresoras", "link": "/computacion/impresoras" },
+        { "name": "Portátiles gamer", "link": "/computacion/portatiles-gamer" },
+        { "name": "Accesorios computación", "link": "/computacion/accesorios" },
+        { "name": "Monitores", "link": "/computacion/monitores" },
+        { "name": "PC de escritorio", "link": "/computacion/pc-escritorio" }
+    ]
+    },
+    {
+    "_id": "audio",
+    "menu_id":"1",
+    "name": "Audio",
+    "options": [
+        { "name": "Ver todo", "link": "/audio" },
+        { "name": "Audífonos", "link": "/audio/audifonos" },
+        { "name": "Barras de sonido", "link": "/audio/barras-de-sonido" },
+        { "name": "Equipos de sonido y karaoke", "link": "/audio/equipos-de-sonido" },
+        { "name": "Accesorios audio", "link": "/audio/accesorios" },
+        { "name": "Parlantes", "link": "/audio/parlantes" },
+        { "name": "Audio profesional y dj", "link": "/audio/profesional" },
+        { "name": "Instrumentos musicales", "link": "/audio/instrumentos" }
+    ]
+    },
+    {
+    "_id": "tv-video",
+    "menu_id":"1",
+    "name": "TV y video",
+    "options": [
+        { "name": "Ver todo", "link": "/tv-video" },
+        { "name": "Televisores", "link": "/tv-video/televisores" },
+        { "name": "TVs de 42\" o menos", "link": "/tv-video/televisores-42" },
+        { "name": "TVs entre 43\"- 49\"", "link": "/tv-video/televisores-43-49" },
+        { "name": "TVs entre 50\"- 58\"", "link": "/tv-video/televisores-50-58" },
+        { "name": "TVs entre 60\"- 65\"", "link": "/tv-video/televisores-60-65" },
+        { "name": "TVs superiores a 70\"", "link": "/tv-video/televisores-70" },
+        { "name": "Proyectores", "link": "/tv-video/proyectores" },
+        { "name": "Accesorios TV", "link": "/tv-video/accesorios" },
+        { "name": "Soportes", "link": "/tv-video/soportes" },
+        { "name": "Streaming", "link": "/tv-video/streaming" }
+    ]
+    },
+    {
+    "_id": "zona-gamer",
+    "menu_id":"1",
+    "name": "Zona gamer",
+    "options": [
+        { "name": "Ver todo", "link": "/zona-gamer" },
+        { "name": "Portátiles gamer", "link": "/zona-gamer/portatiles-gamer" },
+        { "name": "Monitores gamer", "link": "/zona-gamer/monitores-gamer" },
+        { "name": "Accesorios gamer", "link": "/zona-gamer/accesorios-gamer" },
+        { "name": "Audífonos gamer", "link": "/zona-gamer/audifonos-gamer" },
+        { "name": "Sillas gamer", "link": "/zona-gamer/sillas-gamer" },
+        { "name": "Lentes VR", "link": "/zona-gamer/lentes-vr" }
+    ]
+    },
+    {
+    "_id": "consolas",
+    "menu_id":"1",
+    "name": "Consolas",
+    "options": [
+        { "name": "Ver todo", "link": "/consolas" },
+        { "name": "Playstation", "link": "/consolas/playstation" },
+        { "name": "Nintendo", "link": "/consolas/nintendo" },
+        { "name": "Xbox", "link": "/consolas/xbox" },
+        { "name": "Videojuegos", "link": "/consolas/videojuegos" },
+        { "name": "Accesorios", "link": "/consolas/accesorios" },
+        { "name": "Consolas retro", "link": "/consolas/retro" }
+    ]
+    },
+    {
+    "_id": "smartwatch",
+    "menu_id":"1",
+    "name": "Smartwatch y accesorios",
+    "options": [
+        { "name": "Ver Todo", "link": "/smartwatch" },
+        { "name": "Smartwatch", "link": "/smartwatch/smartwatch" },
+        { "name": "Smartband", "link": "/smartwatch/smartband" },
+        { "name": "Accesorios", "link": "/smartwatch/accesorios" }
+    ]
+    },
+    {
+    "_id": "camaras",
+    "menu_id":"1",
+    "name": "Cámaras y drones",
+    "options": [
+        { "name": "Ver todo", "link": "/camaras" },
+        { "name": "Cámaras deportivas", "link": "/camaras/deportivas" },
+        { "name": "Cámaras instantaneas", "link": "/camaras/instantaneas" },
+        { "name": "Cámaras profesionales", "link": "/camaras/profesionales" },
+        { "name": "Cámaras semi profesionales", "link": "/camaras/semi-profesionales" },
+        { "name": "Accesorios fotografía", "link": "/camaras/accesorios" },
+        { "name": "Drones", "link": "/camaras/drones" }
+    ]
+    },
+    {
+    "_id": "patinetas",
+    "menu_id":"1",
+    "name": "Patinetas eléctricas",
+    "options": [
+        { "name": "Ver todo", "link": "/patinetas" }
+    ]
+    },
+    {
+    "_id": "smart-home",
+    "menu_id":"1",
+    "name": "Smart Home",
+    "options": [
+        { "name": "Ver todo", "link": "/smart-home" },
+        { "name": "Asistentes de voz", "link": "/smart-home/asistentes-de-voz" },
+        { "name": "Aspiradoras robot", "link": "/smart-home/aspiradoras-robot" },
+        { "name": "Iluminación inteligente", "link": "/smart-home/iluminacion-inteligente" },
+        { "name": "Cámaras inteligentes", "link": "/smart-home/camaras-inteligentes" },
+        { "name": "Routers y conectividad", "link": "/smart-home/routers" }
+    ]
+    },
+    {
+    "_id": "marcas",
+    "menu_id":"1",
+    "name": "Marcas destacadas",
+    "options": [
+        { "name": "Apple", "link": "/marcas/apple" },
+        { "name": "Samsung", "link": "/marcas/samsung" },
+        { "name": "Xiaomi", "link": "/marcas/xiaomi" },
+        { "name": "LG", "link": "/marcas/lg" },
+        { "name": "Sony", "link": "/marcas/sony" },
+        { "name": "Bose", "link": "/marcas/bose" },
+        { "name": "HP", "link": "/marcas/hp" },
+        { "name": "Lenovo", "link": "/marcas/lenovo" },
+        { "name": "Asus", "link": "/marcas/asus" },
+        { "name": "JVC", "link": "/marcas/jvc" },
+        { "name": "Huawei", "link": "/marcas/huawei" }
+    ]
+    },
+    {
+        "_id":"novedades",
+        "menu_id":"2",
+        "name":"Novedades",
+        "options":[
+            {
+                "name":"Lanzamiento Samsung S25",
+                "link":"/lanzamiento-samsung-s25"
+            },
+            {
+                "name":"Lanzamiento Xiaomi note 14",
+                "link":"/lanzamiento-xiaomi-note-14"
+            },
+            {
+                "name":"Lanzamiento Oppo Reno 13",
+                "link":"/lanzamiento-oppo-reno-13"
+            },
+            {
+                "name":"Xiaomi Poco X7 y X7 Pro",
+                "link":"/xiaomi-poco-x7-y-x7-pro"
+            },
+            {
+                "name":"iPhone 16",
+                "link":"/iphone-16"
+            },
+            {
+                "name":"Apple watch",
+                "link":"/apple-watch"
+            },
+            {
+                "name":"Plan retoma Iphone",
+                "link":"/plan-retoma-iphone"
+            },
+            {
+                "name":"Devolución de intereses",
+                "link":"/devolucion-de-intereses"
+            },
+            {
+                "name":"Cambiatón: lleva tu celular y te devolvemos desde 350 mil",
+                "link":"/cambiaton-celular"
+            }
+        ]
+    },
+    {
+        "_id":"celulares",
+        "menu_id":"2",
+        "name":"Celulares",
+        "options":[
+            {
+                "name":"Ver todo",
+                "link":"/celulares/ver-todo"
+            },
+            {
+                "name":"Smartphones",
+                "link":"/celulares/smartphones"
+            },
+            {
+                "name":"Celulares básicos",
+                "link":"/celulares/basicos"
+            }
+        ]
+    },
+    {
+        "_id":"rango-precios",
+        "menu_id":"2",
+        "name":"Rango de precios",
+        "options":[
+            {
+                "name":"Ver todo",
+                "link":"/rango-precios/ver-todo"
+            },
+            {
+                "name":"Hasta $500.000",
+                "link":"/rango-precios/hasta-500000"
+            },
+            {
+                "name":"$501.000 a $1.036.000",
+                "link":"/rango-precios/501000-a-1036000"
+            },
+            {
+                "name":"$1.037.000 a $1.500.000",
+                "link":"/rango-precios/1037000-a-1500000"
+            },
+            {
+                "name":"$1.501.000 a $3.600.000",
+                "link":"/rango-precios/1501000-a-3600000"
+            },
+            {
+                "name":"Más de $3.600.000",
+                "link":"/rango-precios/mas-de-3600000"
+            }
+        ]
+    },
+    {
+        "_id":"smartwatch-accesorios",
+        "menu_id":"2",
+        "name":"Smartwatch y accesorios",
+        "options":[
+            {
+                "name":"Ver todo",
+                "link":"/smartwatch-accesorios/ver-todo"
+            },
+            {
+                "name":"Accesorios",
+                "link":"/smartwatch-accesorios/accesorios"
+            },
+            {
+                "name":"Smartband",
+                "link":"/smartwatch-accesorios/smartband"
+            },
+            {
+                "name":"Smartwatch",
+                "link":"/smartwatch-accesorios/smartwatch"
+            }
+        ]
+    },
+    {
+        "_id":"audifonos",
+        "menu_id":"2",
+        "name":"Audífonos",
+        "options":[
+            {
+                "name":"Ver todo",
+                "link":"/audifonos/ver-todo"
+            },
+            {
+                "name":"Audífonos in ear",
+                "link":"/audifonos/in-ear"
+            },
+            {
+                "name":"Audífonos on ear",
+                "link":"/audifonos/on-ear"
+            },
+            {
+                "name":"Audífonos over ear",
+                "link":"/audifonos/over-ear"
+            }
+        ]
+    },
+    {
+        "_id":"accesorios-celulares",
+        "menu_id":"2",
+        "name":"Accesorios celulares",
+        "options":[
+            {
+                "name":"Ver todo",
+                "link":"/accesorios-celulares/ver-todo"
+            },
+            {
+                "name":"Baterias externas",
+                "link":"/accesorios-celulares/baterias-externas"
+            },
+            {
+                "name":"Cargadores y cables",
+                "link":"/accesorios-celulares/cargadores-cables"
+            },
+            {
+                "name":"Forros y estuches",
+                "link":"/accesorios-celulares/forros-estuches"
+            },
+            {
+                "name":"Protectores de pantalla",
+                "link":"/accesorios-celulares/protectores-pantalla"
+            },
+            {
+                "name":"Soporte de celulares",
+                "link":"/accesorios-celulares/soporte-celulares"
+            }
+        ]
+    },
+    {
+        "_id":"marcas-destacadas",
+        "menu_id":"2",
+        "name":"Marcas destacadas",
+        "options":[
+            {
+                "name":"Ver todo",
+                "link":"/marcas-destacadas/ver-todo"
+            },
+            {
+                "name":"Apple",
+                "link":"/marcas-destacadas/apple"
+            },
+            {
+                "name":"Samsung",
+                "link":"/marcas-destacadas/samsung"
+            },
+            {
+                "name":"Xiaomi",
+                "link":"/marcas-destacadas/xiaomi"
+            },
+            {
+                "name":"Motorola",
+                "link":"/marcas-destacadas/motorola"
+            },
+            {
+                "name":"Tecno",
+                "link":"/marcas-destacadas/tecno"
+            },
+            {
+                "name":"Infinix",
+                "link":"/marcas-destacadas/infinix"
+            },
+            {
+                "name":"Honor",
+                "link":"/marcas-destacadas/honor"
+            },
+            {
+                "name":"Realme",
+                "link":"/marcas-destacadas/realme"
+            },
+            {
+                "name":"Oppo",
+                "link":"/marcas-destacadas/oppo"
+            },
+            {
+                "name":"Vivo",
+                "link":"/marcas-destacadas/vivo"
+            },
+            {
+                "name":"Nokia",
+                "link":"/marcas-destacadas/nokia"
+            },
+            {
+                "name":"TCL",
+                "link":"/marcas-destacadas/tcl"
+            }
+        ]
+    }
+]

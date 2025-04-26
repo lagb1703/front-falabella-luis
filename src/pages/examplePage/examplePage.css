@@ -1,0 +1,13 @@
+
+.carousel-container {
+max-width: 100%;  /* previene que el carousel se desborde */
+overflow: hidden; /* Oculta extra slides */
+}
+
+.slick-track {
+display: flex !important; /* asegurar el buen posicionamiento */
+}
+
+.slick-arrow.slick-prev { /*Para que no se vea el placeholder de los botones*/
+    height: 0px;
+}
