@@ -29,7 +29,7 @@ export default function ShoppingCartPage() {
     return (
         <div className="shopping-cart-layout">
             <div className="left-column">
-                <h1 className="cart-header">Carro ({length} producto)</h1>
+                <h1 className="cart-header">Carro ({length} producto{length !== 1 && 's'})</h1>
                 <div className="cart-section">
                     {[...products.values()].map((products, index) => (
                         <ProductCartList
@@ -43,4 +43,3 @@ export default function ShoppingCartPage() {
         </div>
     );
 }
-
