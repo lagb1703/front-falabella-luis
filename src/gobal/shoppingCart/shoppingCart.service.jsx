@@ -26,17 +26,20 @@ function useCartItems() {
             } else {
                 cartItems[productIndex].cantidad += amount;
             }
-            setCartItems(cartItems);
-            return;
-        }
-        const result = await saveCartItemsByUserIdAndProductId(getUser["usuario_id"], product.producto_id, amount);
-        if (productIndex === -1) {
-            cartItems.push(result);
         } else {
-            cartItems[productIndex].cantidad += amount;
+            const result = await saveCartItemsByUserIdAndProductId(getUser["usuario_id"], product.producto_id, amount);
+            if (productIndex === -1) {
+                cartItems.push(result);
+            } else {
+                cartItems[productIndex].cantidad += amount;
+            }
+        }
+        if(productIndex != -1){
+            if(cartItems[productIndex].cantidad <= 0)
+                cartItems.splice(productIndex, 1);
         }
         setCartItems(cartItems);
-    }, [getCartItems])
+    }, [getCartItems, setCartItems, getUser])
     useEffect(() => {
         const cartItems = localStorage.getItem("cartItems");
         if (cartItems) {
@@ -45,8 +48,6 @@ function useCartItems() {
     }, []);
     useEffect(() => {
         if (!getUser) {
-            localStorage.setItem("cartItems", null);
-            setCartItems([]);
             return;
         }
         (async () => {
@@ -55,10 +56,8 @@ function useCartItems() {
         })()
     }, [getUser]);
     useEffect(() => {
-        (async () => {
-            const cartItems = JSON.stringify(getCartItems);
-            localStorage.setItem("cartItems", cartItems);
-        })()
+        const cartItems = JSON.stringify(getCartItems);
+        localStorage.setItem("cartItems", cartItems);
     }, [getCartItems]);
     return {
         getCartItems,
@@ -72,8 +71,6 @@ function useCartDetails(products) {
         const cartItems = await getAllProductsDetails(
             products
         );
-        console.log(products)
-        console.log(cartItems)
         setCartProductosdetails(cartItems.map((item) => {
             return {
                 ...item,

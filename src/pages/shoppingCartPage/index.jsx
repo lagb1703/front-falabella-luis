@@ -1,6 +1,8 @@
-import { useShoppingCart } from './shoppingCartPage.service'
+import { useShoppingCart, useLogin } from './shoppingCartPage.service'
+import { Link } from "react-router"
 import ResumeComponent from '@/components/resumeCart'
 import ProductCartList from '@/components/productCartList';
+import LoginForm from "@/components/loginForm"
 import './shoppingCart.css'
 
 export default function ShoppingCartPage() {
@@ -8,24 +10,22 @@ export default function ShoppingCartPage() {
         products,
         length
     } = useShoppingCart();
-
-    const isEmpty = length === 0;
-
-    if (isEmpty) {
+    const { isOpen, openLogin, onClose } = useLogin();
+    if (length == 0) {
         return (
             <div className="shopping-cart-layout">
                 <div className="empty-cart-container">
                     <h1 className="cart-header">Tu Carro está vacío</h1>
                     <div className="empty-cart-message">
                         <p className="login-message">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
-                        <button className="login-btn">Iniciar sesión</button>
-                        <p className="register-text">¿No tienes cuenta? <span className="register-link">Regístrate</span></p>
+                        <button onClick={openLogin} className="login-btn">Iniciar sesión</button>
+                        <p className="register-text">¿No tienes cuenta? <Link to="/registration" className="register-link">Regístrate</Link></p>
                     </div>
                 </div>
+                <LoginForm isOpen={isOpen} onClose={onClose} />
             </div>
         );
     }
-
     return (
         <div className="shopping-cart-layout">
             <div className="left-column">
