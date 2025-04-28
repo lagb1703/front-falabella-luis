@@ -4,6 +4,7 @@ import {
   Image,
   Text,
   Button,
+  GridItem,
   VStack,
   HStack,
   Divider,
@@ -11,7 +12,7 @@ import {
   UnorderedList,
   ListItem,
   Flex,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import {
   useGetProduct,
@@ -22,9 +23,24 @@ import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIco
 import ImageCarousel from "./productPageCarrousel.jsx";
 import { RiHeartAddLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
-import { PiBoxArrowDownBold } from "react-icons/pi";
+import { PackageCheck } from 'lucide-react';
 import { LuPackageSearch } from "react-icons/lu";
 import StaticRating from "@/components/starRating";
+import { 
+  useShoppingCartNumberItems,
+  useUserLogin,
+  useUserLocationChance,
+  defaultUserName,
+  defaultUserLocation,
+  useGetColombiaStatesMenuOption,
+  useItemEvents,
+  useAdministrateMenu,
+  useGetColombiaCityMenuOption,
+  useDeleteInput,
+  useGetColombiaNeighborhoodMenuOption,
+  saveClick
+} from "./popUps/popUps.service";
+import { DespachoDomicilio } from "./popUps/popUps.jsx";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -98,7 +114,13 @@ console.log(product);
 
             <StaticRating rating={product.calificacion} />
 
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <Divider 
+              borderColor="gray.200" 
+              borderWidth="1px"     
+              my={6}                
+            />
+
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
 
               <VStack p={4} borderRadius="md"> {/*Columna de la izquierda*/}
                 <ProductSpecifications basicSpecifications={product.basicSpecifications} />
@@ -107,11 +129,8 @@ console.log(product);
 
               <Box p={4} borderRadius="md"> {/*Columna de la derecha*/}
 
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+                <Grid templateColumns={{ base: "1fr", md: "fr 1fr" }} gap={6}>
                   <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
-                  <Box display="flex" justifyContent="right" alignContent="right">
-                    <RiHeartAddLine size="30px" color="black" />
-                  </Box>
                 </Grid>
 
                 <HStack>
@@ -119,6 +138,9 @@ console.log(product);
                     ${product.price}
                   </Text>
                   <Badge bg="red" color="white" >{product.discount}%</Badge>
+                  <Box display="flex" width={"100%"} justifyContent="right" alignContent="right">
+                    <RiHeartAddLine size="35px" color="#90959B" strokeWidth={"0.3"}/>
+                  </Box>
                 </HStack>
 
 
@@ -194,6 +216,11 @@ console.log(product);
         />
       </Box>
 
+      <Box>
+        <ProductCommentsContainer/>
+      </Box>
+      
+
     </>
   );
 };
@@ -222,9 +249,9 @@ function ProductHeader({ product }) {
         Código: {product.code}
       </Text>
 
-      <Text fontSize="11px" textAlign="right" fontWeight="regular">
+      {/* <Text fontSize="11px" textAlign="right" fontWeight="regular">
         Cód.tienda: {product.shopCode}
-      </Text>
+      </Text> */}
 
       <Text gridColumn="span 3" color="#515151" fontSize="18px" fontWeight="light">
         {product.name}
@@ -285,7 +312,7 @@ const ProductSpecifications = ({ basicSpecifications }) => {
   );
 };
 
-const DeliveryOptions = () => {
+function DeliveryOptions() {
   return (
     <Box
       borderWidth="1px"
@@ -294,34 +321,45 @@ const DeliveryOptions = () => {
       fontSize="12px"
       p={2}
       mt={3}
+      width="100%"
+      overflow="hidden"
     >
-      <Grid templateColumns="repeat(3, 1fr)" gap={4} >
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <TbTruckDelivery size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Despacho a domicilio</Text>
-        </Box>
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <PiBoxArrowDownBold size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Retira tu compra</Text>
-        </Box>
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <LuPackageSearch size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Stock en tienda</Text>
-        </Box>
+      <Grid templateColumns="repeat(3, minmax(0, 1fr))" gap={4} alignItems="stretch">
+        {[
+          { text: "Despacho a domicilio", icon: <TbTruckDelivery size="25px" strokeWidth={"1.4"} color="#276749" /> },
+          { text: "Retira tu compra", icon: <PackageCheck  size="25px" strokeWidth={"1.4"} color="#276749" /> },
+          { text: "Stock en tienda", icon: <LuPackageSearch size="25px" strokeWidth={"1.4"} color="#276749" /> }
+        ].map((item) => (
+          <GridItem key={item.text} display="flex">
+            <Button
+              variant="unstyled"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              width="100%"
+              height="100%"
+              p={2}
+            >
+              <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
+                {item.icon}
+              </Circle>
+              <Text 
+                fontWeight="medium" 
+                fontSize="12px"
+                textAlign="center"
+                whiteSpace="wrap"
+                textDecoration="underline" 
+              >
+                {item.text}
+              </Text>
+            </Button>
+          </GridItem>
+        ))}
       </Grid>
-
     </Box>
   );
-};
+}
 
 const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
   return (
@@ -336,32 +374,30 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
       marginTop={4}
       marginBottom={4}
     >
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        Especificaciones
-      </Text>
 
-      {/* {moreInfo && (
-        <Badge colorScheme="blue" mb={4}>
-          {moreInfo.title}
-        </Badge>
-      )} */}
-      <Text>
-        {moreInfo}
-      </Text>
-
-      {/* <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={6}>
-        {specifications?.map((spec, index) => (
-          <Box key={index}>
-            <Text fontSize="sm" color="gray.600" mb={1}>
-              {spec.name}
-            </Text>
-            <Text fontWeight="medium">{spec.value}</Text>
-            {index < specifications.length - 1 && <Divider my={3} />}
-          </Box>
-        ))}
+      <Grid templateColumns={{ base: "1fr", md: "0.7fr 1fr" }} gap={4} mb={6}>
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Especificaciones
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            {moreInfo}
+          </Text>
+        </Box>
+      
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Información adicional
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            No hay información adicional sobre este producto
+          </Text>
+        </Box>
       </Grid>
 
-      {moreInfo?.additionalSpecs && (
+      {/*{moreInfo?.additionalSpecs && (
         <Accordion allowToggle>
           <AccordionItem border="none">
             <AccordionButton px={0} _hover={{ bg: "transparent" }}>
@@ -391,3 +427,31 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
     </Box>
   );
 };
+
+const ProductCommentsContainer = ( ) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
+  return (
+    <Box
+      p={5}
+      bg="white"
+      maxW="92vw"
+      mx="auto"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      marginTop={4}
+      marginBottom={4}
+    >
+
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Comentarios de este producto
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            LOL
+          </Text>
+        </Box>
+
+    </Box>
+  )
+}
