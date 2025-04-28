@@ -24,6 +24,7 @@ import { RiHeartAddLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
 import { PiBoxArrowDownBold } from "react-icons/pi";
 import { LuPackageSearch } from "react-icons/lu";
+import StaticRating from "@/components/starRating";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -35,9 +36,10 @@ export default function ProductPage() {
           brand: getProduct?.getProduct || "MOTOROLA",
           code: getProduct?._id || "MOT50FUSION256",
           shopCode: getProduct?._id || "MOT50FUSION256",
-          rating: getProduct?.calificacion || 4.5,
+          rating: getProduct?.calificacion|| 4.5,
           price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
           originalPrice: getProduct?.precio || "2.299.900",
+          comment: getProduct?.comentarios,
           discount: getProduct?.descuento * 100,
           basicSpecifications:
             (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
@@ -69,6 +71,7 @@ const Product = ({ product }) => {
     removeAmount,
     setInputAmount
   } = useCart(product);
+console.log(product);
   return (
     <>
       <Box
@@ -83,6 +86,7 @@ const Product = ({ product }) => {
         marginBottom={4}
         fontFamily="products.title"
       >
+
         <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
 
           <ImageCarousel imagesProduct={product.imagesProduct} />
@@ -91,6 +95,8 @@ const Product = ({ product }) => {
           <VStack align="right" p={4} borderRadius="md">
 
             <ProductHeader product={product} />
+
+            <StaticRating rating={product.calificacion} />
 
             <Grid templateColumns="repeat(2, 1fr)" gap={4}>
 
