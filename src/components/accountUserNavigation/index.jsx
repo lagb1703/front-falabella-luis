@@ -45,6 +45,7 @@ export default function AccountUserNavigation(){
                             borderBottom="1px solid #E2E8F0"
                             _hover={{textDecoration:"none"}}
                             _active={{textDecoration:"none"}}
+                            onClick={item.callBack?item.callBack:()=>{}}
                         >
                             <Icon 
                                 as={item.icon} />
