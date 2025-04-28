@@ -4,14 +4,19 @@ import {
   Image,
   Text,
   Button,
+  GridItem,
   VStack,
   HStack,
   Divider,
   Badge,
   UnorderedList,
+  Heading,
+  Progress,
   ListItem,
+  Icon,
   Flex,
-  Input
+  Avatar,
+  Input,
 } from "@chakra-ui/react";
 import {
   useGetProduct,
@@ -22,8 +27,26 @@ import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIco
 import ImageCarousel from "./productPageCarrousel.jsx";
 import { RiHeartAddLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
-import { PiBoxArrowDownBold } from "react-icons/pi";
+import { BoxSelectIcon, PackageCheck } from 'lucide-react';
 import { LuPackageSearch } from "react-icons/lu";
+import StaticRating from "@/components/starRating";
+import { RiStarFill} from "react-icons/ri";
+import { 
+  useShoppingCartNumberItems,
+  useUserLogin,
+  useUserLocationChance,
+  defaultUserName,
+  defaultUserLocation,
+  useGetColombiaStatesMenuOption,
+  useItemEvents,
+  useAdministrateMenu,
+  useGetColombiaCityMenuOption,
+  useDeleteInput,
+  useGetColombiaNeighborhoodMenuOption,
+  saveClick
+} from "./popUps/popUps.service";
+import { DespachoDomicilio } from "./popUps/popUps.jsx";
+import { Star, ThumbsUp, ThumbsDown } from "lucide-react"
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -35,9 +58,10 @@ export default function ProductPage() {
           brand: getProduct?.getProduct || "MOTOROLA",
           code: getProduct?._id || "MOT50FUSION256",
           shopCode: getProduct?._id || "MOT50FUSION256",
-          rating: getProduct?.calificacion || 4.5,
+          rating: getProduct?.calificacion|| 4.5,
           price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
           originalPrice: getProduct?.precio || "2.299.900",
+          comment: getProduct?.comentarios,
           discount: getProduct?.descuento * 100,
           basicSpecifications:
             (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
@@ -69,6 +93,7 @@ const Product = ({ product }) => {
     removeAmount,
     setInputAmount
   } = useCart(product);
+console.log(product);
   return (
     <>
       <Box
@@ -83,6 +108,7 @@ const Product = ({ product }) => {
         marginBottom={4}
         fontFamily="products.title"
       >
+
         <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
 
           <ImageCarousel imagesProduct={product.imagesProduct} />
@@ -92,7 +118,15 @@ const Product = ({ product }) => {
 
             <ProductHeader product={product} />
 
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <StaticRating rating={product.calificacion} />
+
+            <Divider 
+              borderColor="gray.200" 
+              borderWidth="1px"     
+              my={6}                
+            />
+
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
 
               <VStack p={4} borderRadius="md"> {/*Columna de la izquierda*/}
                 <ProductSpecifications basicSpecifications={product.basicSpecifications} />
@@ -101,11 +135,8 @@ const Product = ({ product }) => {
 
               <Box p={4} borderRadius="md"> {/*Columna de la derecha*/}
 
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+                <Grid templateColumns={{ base: "1fr", md: "fr 1fr" }} gap={6}>
                   <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
-                  <Box display="flex" justifyContent="right" alignContent="right">
-                    <RiHeartAddLine size="30px" color="black" />
-                  </Box>
                 </Grid>
 
                 <HStack>
@@ -113,6 +144,9 @@ const Product = ({ product }) => {
                     ${product.price}
                   </Text>
                   <Badge bg="red" color="white" >{product.discount}%</Badge>
+                  <Box display="flex" width={"100%"} justifyContent="right" alignContent="right">
+                    <RiHeartAddLine size="35px" color="#90959B" strokeWidth={"0.3"}/>
+                  </Box>
                 </HStack>
 
 
@@ -188,6 +222,11 @@ const Product = ({ product }) => {
         />
       </Box>
 
+      <Box>
+        <ProductCommentsContainer 
+        product = {product}/>
+      </Box>
+
     </>
   );
 };
@@ -216,9 +255,9 @@ function ProductHeader({ product }) {
         Código: {product.code}
       </Text>
 
-      <Text fontSize="11px" textAlign="right" fontWeight="regular">
+      {/* <Text fontSize="11px" textAlign="right" fontWeight="regular">
         Cód.tienda: {product.shopCode}
-      </Text>
+      </Text> */}
 
       <Text gridColumn="span 3" color="#515151" fontSize="18px" fontWeight="light">
         {product.name}
@@ -279,7 +318,7 @@ const ProductSpecifications = ({ basicSpecifications }) => {
   );
 };
 
-const DeliveryOptions = () => {
+function DeliveryOptions() {
   return (
     <Box
       borderWidth="1px"
@@ -288,34 +327,45 @@ const DeliveryOptions = () => {
       fontSize="12px"
       p={2}
       mt={3}
+      width="100%"
+      overflow="hidden"
     >
-      <Grid templateColumns="repeat(3, 1fr)" gap={4} >
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <TbTruckDelivery size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Despacho a domicilio</Text>
-        </Box>
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <PiBoxArrowDownBold size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Retira tu compra</Text>
-        </Box>
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <LuPackageSearch size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Stock en tienda</Text>
-        </Box>
+      <Grid templateColumns="repeat(3, minmax(0, 1fr))" gap={4} alignItems="stretch">
+        {[
+          { text: "Despacho a domicilio", icon: <TbTruckDelivery size="25px" strokeWidth={"1.4"} color="#276749" /> },
+          { text: "Retira tu compra", icon: <PackageCheck  size="25px" strokeWidth={"1.4"} color="#276749" /> },
+          { text: "Stock en tienda", icon: <LuPackageSearch size="25px" strokeWidth={"1.4"} color="#276749" /> }
+        ].map((item) => (
+          <GridItem key={item.text} display="flex">
+            <Button
+              variant="unstyled"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              width="100%"
+              height="100%"
+              p={2}
+            >
+              <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
+                {item.icon}
+              </Circle>
+              <Text 
+                fontWeight="medium" 
+                fontSize="12px"
+                textAlign="center"
+                whiteSpace="wrap"
+                textDecoration="underline" 
+              >
+                {item.text}
+              </Text>
+            </Button>
+          </GridItem>
+        ))}
       </Grid>
-
     </Box>
   );
-};
+}
 
 const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
   return (
@@ -330,32 +380,30 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
       marginTop={4}
       marginBottom={4}
     >
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        Especificaciones
-      </Text>
 
-      {/* {moreInfo && (
-        <Badge colorScheme="blue" mb={4}>
-          {moreInfo.title}
-        </Badge>
-      )} */}
-      <Text>
-        {moreInfo}
-      </Text>
-
-      {/* <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={6}>
-        {specifications?.map((spec, index) => (
-          <Box key={index}>
-            <Text fontSize="sm" color="gray.600" mb={1}>
-              {spec.name}
-            </Text>
-            <Text fontWeight="medium">{spec.value}</Text>
-            {index < specifications.length - 1 && <Divider my={3} />}
-          </Box>
-        ))}
+      <Grid templateColumns={{ base: "1fr", md: "0.7fr 1fr" }} gap={4} mb={6}>
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Especificaciones
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            {moreInfo}
+          </Text>
+        </Box>
+      
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Información adicional
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            No hay información adicional sobre este producto
+          </Text>
+        </Box>
       </Grid>
 
-      {moreInfo?.additionalSpecs && (
+      {/*{moreInfo?.additionalSpecs && (
         <Accordion allowToggle>
           <AccordionItem border="none">
             <AccordionButton px={0} _hover={{ bg: "transparent" }}>
@@ -385,3 +433,152 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
     </Box>
   );
 };
+
+const ProductCommentsContainer = (product ) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
+
+  const reviews = [
+    {
+      id: 1,
+      name: "João",
+      rating: 5,
+      date: "12/03/2023",
+      title: "Excelente producto",
+      comment:
+        "Estoy muy satisfecho con la compra. El portátil es rápido y cumple perfectamente con mis necesidades. La pantalla es nítida y el teclado es cómodo para escribir.",
+      likes: 12,
+      dislikes: 2,
+    },
+    {
+      id: 2,
+      name: "Maria",
+      rating: 4,
+      date: "05/04/2023",
+      title: "Buena relación calidad-precio",
+      comment:
+        "El procesador es muy bueno, ejecuta programas pesados sin problemas. La batería podría durar un poco más, pero en general estoy satisfecha con la compra.",
+      likes: 8,
+      dislikes: 1,
+    },
+    {
+      id: 3,
+      name: "Pedro",
+      rating: 5,
+      date: "18/02/2023",
+      title: "Superó mis expectativas",
+      comment:
+        "Lo compré para trabajo y estudio y ha cumplido perfectamente. El SSD marca una gran diferencia en la velocidad y el diseño es muy bonito.",
+      likes: 15,
+      dislikes: 0,
+    },
+  ]
+
+  const ratingDistribution = [
+    { stars: 5, percentage: 65 },
+    { stars: 4, percentage: 20 },
+    { stars: 3, percentage: 10 },
+    { stars: 2, percentage: 3 },
+    { stars: 1, percentage: 2 },
+  ]
+
+  return (
+    <Box
+      p={5}
+      bg="white"
+      maxW="92vw"
+      mx="auto"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      marginTop={4}
+      marginBottom={4}
+    >
+
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Comentarios de este producto
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+
+          <Box bg="white" borderRadius="md" p={6} mb={4}>
+
+            <Grid templateColumns={{ base: "1fr", md: "250px 1fr" }} gap={8}>
+              <GridItem>
+                <VStack align="start" spacing={4}>
+                  
+                  <Box textAlign="center" alignItems="center" w="100%">
+                    <Heading size="xl">4.4</Heading>
+                      <Box justify="center" alignContent="center">
+                        <StaticRating rating={4.4} />
+                      </Box>
+                    <Text fontSize="sm" color="gray.500">
+                      Basado en muchas valoraciones
+                    </Text>
+                  </Box>
+
+                  <Box w="100%">
+                    {ratingDistribution.map((item) => (
+                      <HStack key={item.stars} mb={2}>
+                        <Icon as={RiStarFill}
+                            w={5}
+                            h={5}
+                            color="yellow.400"/>
+                        <Progress value={item.percentage} size="sm" colorScheme="yellow" w="full" borderRadius="full" />
+                        <Text fontSize="sm" w="40px">
+                          {item.percentage}%
+                        </Text>
+                      </HStack>
+                    ))}
+                  </Box>
+                </VStack>
+              </GridItem>
+
+              <GridItem>
+                <VStack align="stretch" spacing={6}>
+                  {reviews.map((review, index) => (
+                    <Box key={review.id}>
+                      {index > 0 && <Divider my={4} />}
+                      <Flex>
+                        <Avatar name={review.name} size="sm" mr={3} bg="gray.300" />
+                        <Box>
+                          <HStack mb={1}>
+                            <Text fontWeight="bold">{review.name}</Text>
+                            <Text fontSize="sm" color="gray.500">
+                              {review.date}
+                            </Text>
+                          </HStack>
+                          <HStack color="yellow.400" mb={2}>
+                            {[1, 2, 3, 4, 5].map((i) => (
+                              <Icon key={i} as={Star} boxSize={3} color={i <= review.rating ? "yellow.400" : "gray.200"} />
+                            ))}
+                          </HStack>
+                          <Text fontWeight="medium" mb={1}>
+                            {review.title}
+                          </Text>
+                          <Text fontSize="sm" mb={3}>
+                            {review.comment}
+                          </Text>
+                          <HStack>
+                            <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsUp} boxSize={3} />}>
+                              {review.likes}
+                            </Button>
+                            <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsDown} boxSize={3} />}>
+                              {review.dislikes}
+                            </Button>
+                          </HStack>
+                        </Box>
+                      </Flex>
+                    </Box>
+                  ))}
+                </VStack>
+                <Button variant="outline" size="sm" mt={6} mx="auto" display="block">
+                  Ver más comentarios
+                </Button>
+              </GridItem>
+            </Grid>
+          </Box>
+
+        </Box>
+    </Box>
+  )
+}
+
