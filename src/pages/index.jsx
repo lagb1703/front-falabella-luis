@@ -29,4 +29,4 @@ projectRoutes.push(
 );
 export const backendURL = import.meta.env.VITE_BACK || "https://fuzzy-happiness-v4q64469j4jcp5x7-3000.app.github.dev/";
 
-export const isDevelopment = false;
+export const isDevelopment = true;
