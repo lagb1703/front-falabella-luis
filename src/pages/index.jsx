@@ -29,4 +29,4 @@ projectRoutes.push(
 );
 export const backendURL = import.meta.env.VITE_BACK || "https://supreme-lamp-7v9rxv55wxg929q9-3000.app.github.dev/";
 
-export const isDevelopment = true;
+export const isDevelopment = false;
