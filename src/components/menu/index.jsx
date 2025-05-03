@@ -200,7 +200,8 @@ function SubMenu({isModalOpen, getIndex}){
                         borderRadius= "50%"
                         mr="20px"
                         bg="#AAD500"></Box>
-                      <LinkRouter>
+                      <LinkRouter
+                        to={getIndex.href}>
                         <Text>
                           {getIndex.name}
                         </Text>
@@ -245,7 +246,7 @@ function SubMenu({isModalOpen, getIndex}){
                         key={item["_id"]}>
                         <Box
                           as="li">
-                          <LinkRouter to={getIndex.href}>
+                          <LinkRouter to={item.options[0].link}>
                             <Text
                               m="0"
                               p="0"
