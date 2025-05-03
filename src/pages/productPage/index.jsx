@@ -121,7 +121,7 @@ console.log(product);
 
             <ProductHeader product={product} />
 
-            <StaticRating rating={product.calificacion} />
+            <StaticRating rating={product.rating} />
 
             <Divider 
               borderColor="gray.200" 
@@ -524,9 +524,9 @@ const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOC
                 <HStack align="start" spacing={4}>
 
                   <Box textAlign="center" alignItems="center" w="50%">
-                    <Heading size="xl">4.4 / 5</Heading>
+                    <Heading size="xl">{product.rating} / 5</Heading>
                     <Box alignItems="center" w="100%">
-                      <StaticRating rating={4.4} />
+                      <StaticRating rating={product.rating} />
                     </Box>
                     <Text fontSize="sm" color="gray.500">
                       Basado en muchas valoraciones
