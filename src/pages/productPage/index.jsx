@@ -93,7 +93,6 @@ const Product = ({ product }) => {
     removeAmount,
     setInputAmount
   } = useCart(product);
-console.log(product);
   return (
     <>
       <Box

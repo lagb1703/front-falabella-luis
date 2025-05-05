@@ -12,10 +12,6 @@ import {
 } from "react";
 import shoppingCartContext from "@/gobal/shoppingCart/shoppingCart.context"
 
-export function getImage(imageName) {
-    return `${backendURL}files/images/${imageName}`;
-}
-
 export function useCart(product) {
     const { saveCartItem } = useContext(shoppingCartContext);
     const [getAmount, setAmount] = useState(1);
