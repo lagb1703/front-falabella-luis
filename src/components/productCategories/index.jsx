@@ -74,7 +74,7 @@ const Products = () => {
       <div className="productos-content">
         <div className="filters-sidebar">
           <h1 className="category-title">{getCategory?.name}</h1>
-          <p className="results-count">Resultados {maxProducts.current}</p>
+          <p className="results-count">Resultados {getProducts?.length}</p>
 
           {/* 1. Filtro de Envío Gratis */}
           <div className="filter-box">

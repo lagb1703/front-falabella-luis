@@ -3,7 +3,6 @@ import {
     useEffect,
     useContext,
     useCallback,
-    useMemo
 } from "react";
 import { isDevelopment, backendURL } from "@/pages";
 import userContext from "@/gobal/user/user.context"
@@ -29,13 +28,16 @@ function useCartItems() {
         } else {
             const result = await saveCartItemsByUserIdAndProductId(getUser["usuario_id"], product.producto_id, amount);
             if (productIndex === -1) {
-                cartItems.push(result);
+                cartItems.push({
+                    ...result,
+                    producto_id: product.producto_id,
+                });
             } else {
                 cartItems[productIndex].cantidad += amount;
             }
         }
-        if(productIndex != -1){
-            if(cartItems[productIndex].cantidad <= 0)
+        if (productIndex != -1) {
+            if (cartItems[productIndex].cantidad <= 0)
                 cartItems.splice(productIndex, 1);
         }
         setCartItems(cartItems);
@@ -47,11 +49,9 @@ function useCartItems() {
         }
     }, []);
     useEffect(() => {
-        if (!getUser) {
-            return;
-        }
         (async () => {
-            const cartItems = await getCartItemsByUserId(getUser["usuario_id"]);
+
+            const cartItems = await getCartItemsByUserId(getUser?.usuario_id);
             setCartItems(cartItems);
         })()
     }, [getUser]);
@@ -97,6 +97,8 @@ async function getCartItemsByUserId(userId) {
     if (isDevelopment)
         return cart;
     try {
+        if (!userId)
+            return [];
         const response = await fetch(`${backendURL}products/cart/${userId}`);
         if (!response.ok)
             throw new Error("Error al obtener el carrito");

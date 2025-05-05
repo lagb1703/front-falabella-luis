@@ -6,20 +6,28 @@ import {
   IconButton,
   border,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick";
-import "./productPageStyles.css";
+import imageContext from "@/gobal/image/image.context";
 import {
-  getImage
-} from "./productPage.service"
+  useImage
+} from "@/components/productCard/productCard.service.jsx";
+import "./productPageStyles.css";
 
-export default function ImageCarousel({imagesProduct}) {
+export default function ImageCarousel({ imagesProduct }) {
   const [slider, setSlider] = useState(null);
   const [hoverPos, setHoverPos] = useState({ x: 50, y: 50 }); // Initial position
   const [currentSlide, setCurrentSlide] = useState(0);
   const sizeBox = "486px";
   const thumbnailBox = "60px";
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100; // % position inside image
+    const y = ((e.clientY - top) / height) * 100;
+    setHoverPos({ x, y });
+  };
 
   const settings = {
     infinite: true,
@@ -30,13 +38,6 @@ export default function ImageCarousel({imagesProduct}) {
     adaptiveHeight: true,
     arrows: false,
     beforeChange: (_, newIndex) => setCurrentSlide(newIndex), // Update current slide index
-  };
-
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
-    const x = ((e.clientX - left) / width) * 100; // % position inside image
-    const y = ((e.clientY - top) / height) * 100;
-    setHoverPos({ x, y });
   };
 
   return (
@@ -59,7 +60,7 @@ export default function ImageCarousel({imagesProduct}) {
         zIndex={2}
         opacity={0.5}
         borderRadius="none"
-        _hover={{ }}
+        _hover={{}}
         color={"#343E49"}
         height="70px"
         backgroundColor={"white"}
@@ -80,7 +81,7 @@ export default function ImageCarousel({imagesProduct}) {
         zIndex={2}
         opacity={0.5}
         borderRadius="none"
-        _hover={{ }}
+        _hover={{}}
         color={"#343E49"}
         height="70px"
         backgroundColor={"white"}
@@ -93,52 +94,71 @@ export default function ImageCarousel({imagesProduct}) {
       {/* Slider */}
 
       <Slider {...settings} ref={setSlider}>
-        {imagesProduct?.map((url, index) => (
-          <Box
-            key={index}
-            height={sizeBox}
-            minHeight={sizeBox}
-            overflow="hidden"
-          >
-            <Image
-              src={getImage(url)}
-              alt={`Slide ${index}`}
-              objectFit="contain"
-              width="100%"
-              height="100%"
-              display="block"
-              transition="transform 0.1s ease-out"
-              onMouseMove={handleMouseMove}
-              _hover={{
-                transform: `scale(1.8)`,
-
-                transformOrigin: `${hoverPos.x}% ${hoverPos.y}%`, // THANK GOD THE FUCKING ZOOM WORKS
-              }}
-            />
-          </Box>
-        ))}
+        {imagesProduct?.map((url, index) => <BoxImage key={index} url={url} index={index} sizeBox={sizeBox} hoverPos={hoverPos} handleMouseMove={handleMouseMove} />)}
       </Slider>
 
       {/* Thumbnails Below Carousel */}
 
       <HStack mt={4} justify="center" spacing={2}>
         {imagesProduct?.map((url, index) => (
-          <Image
+          <BigImage
             key={index}
-            src={getImage(url)}
-            alt={`Thumbnail ${index}`}
-            width={thumbnailBox}
-            height={thumbnailBox}
-            objectFit="cover"
-            cursor="pointer"
-            borderRadius="none"
-            borderBottom={index === currentSlide ? "3px solid gray" : "2px solid transparent"}
-            onClick={() => slider?.slickGoTo(index)}
-            transition="0.3s"
-            _hover={{ transform: "scale(1.1)"}}
+            url={url}
+            index={index}
+            slider={slider}
+            currentSlide={currentSlide}
+            thumbnailBox={thumbnailBox}
           />
         ))}
       </HStack>
     </Box>
   );
+}
+
+function BigImage({ url, index, slider, currentSlide, thumbnailBox }) {
+  const image = useImage(url);
+  return (
+    <Image
+      src={image}
+      alt={`Thumbnail ${index}`}
+      width={thumbnailBox}
+      height={thumbnailBox}
+      objectFit="cover"
+      cursor="pointer"
+      borderRadius="none"
+      borderBottom={index === currentSlide ? "3px solid gray" : "2px solid transparent"}
+      onClick={() => slider?.slickGoTo(index)}
+      transition="0.3s"
+      _hover={{ transform: "scale(1.1)" }}
+    />
+  )
+}
+
+function BoxImage({ url, index, sizeBox, hoverPos, handleMouseMove }) {
+  
+  const image = useImage(url);
+  return (
+    <Box
+      height={sizeBox}
+      minHeight={sizeBox}
+      overflow="hidden"
+    >
+      <Image
+        src={image}
+        alt={`Slide ${index}`}
+        objectFit="contain"
+        width="100%"
+        height="100%"
+        display="block"
+        transition="transform 0.1s ease-out"
+        onMouseMove={handleMouseMove}
+        _hover={{
+          transform: `scale(1.8)`,
+
+          transformOrigin: `${hoverPos.x}% ${hoverPos.y}%`, // THANK GOD THE FUCKING ZOOM WORKS
+        }}
+      />
+    </Box>
+  )
+
 }

@@ -1,4 +1,4 @@
-import { getImage } from "../productCard/productCard.service";
+import { useImage } from "../productCard/productCard.service";
 import { formatPrice, useProductCart } from "./productCartList.service";
 import { v4 as uuid } from 'uuid';
 import { Image } from "@chakra-ui/react";
@@ -9,6 +9,7 @@ function Product({ product }) {
         removeAmount,
         addAmount
     } = useProductCart(product["_id"]);
+    const image = useImage(product.imagenes[0]);
     return (
         <div className="cart-item">
             <div className="item-select">
@@ -17,7 +18,7 @@ function Product({ product }) {
                 />
             </div>
             <div className="product-image">
-                <Image src={getImage(product.imagenes[0])} alt={product.nombre} />
+                <Image src={image} alt={product.nombre} />
             </div>
 
             <div className="item-details">

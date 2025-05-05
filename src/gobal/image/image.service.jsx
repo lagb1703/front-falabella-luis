@@ -3,9 +3,9 @@ import { backendURL, isDevelopment } from "@/pages/index";
 
 export default function useImages() {
     const images = useRef(new Map());
-    const getImage = useCallback((key) => {
+    const getImage = useCallback(async (key) => {
         if (!images.current.has(key)) {
-            const image = getUrlImage(key);
+            const image = await getUrlImage(key);
             images.current.set(key, image);
         }
         return images.current.get(key);
@@ -20,7 +20,7 @@ async function getUrlImage(url) {
         const blob = await response.blob();
         return URL.createObjectURL(blob);
     }
-    const response = await fetch(`${backendURL}images/${url}`);
+    const response = await fetch(`${backendURL}files/images/${url}`);
     if (!response.ok) {
         throw new Error("Error al cargar la imagen");
     }
