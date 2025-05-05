@@ -66,14 +66,20 @@ export default function ProductPage() {
           price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
           originalPrice: getProduct?.precio || "2.299.900",
           comment: 
-          (getProduct) ? getProduct.comentarios.slice(0, 4).map((item) => {
-            return {
-              name: item.nombre,
-              frase: item.frase,
-              rating: item.calificacion,
-              commentInfo: item.comentario,
-            }
-          }) : [],
+            (getProduct?.comentarios?.length > 0) 
+              ? getProduct.comentarios.slice(0, 4).map((item) => {
+                  // Debug each item before processing
+                  console.log("Processing comment:", item);
+                  
+                  return {
+                    name: item?.nombre || "Anonymous",
+                    frase: item?.frase || "",
+                    rating: item?.calificacion || item?.calificación || 0, // Handle both spellings
+                    commentInfo: item?.comentario || "No review provided",
+                    recommendable: item?.recomendable || false
+                  }
+                })
+              : [],
           discount: getProduct?.descuento * 100,
           basicSpecifications:
             (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
@@ -447,56 +453,6 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
 
 const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOCAR QUE SE EXPLOTA TODO
 
-  const reviews = [
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      title: "Excelente producto",
-      comment:
-        "La pantalla es nítida y el teclado es cómodo para escribir.",
-    },
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      title: "Excelente producto",
-      comment:
-        "La pantalla es nítida y el teclado es cómodo para escribir.",
-    },
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      title: "Excelente producto",
-      comment:
-        "La pantalla es nítida y el teclado es cómodo para escribir.",
-    },
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      title: "Excelente producto",
-      comment:
-        "La pantalla es nítida y el teclado es cómodo para escribir.",
-    },
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      title: "Excelente producto",
-      comment:
-        "La pantalla es nítida y el teclado es cómodo para escribir.",
-    },
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      title: "Excelente producto",
-      comment:
-        "La pantalla es nítida y el teclado es cómodo para escribir.",
-    },
-  ]
 
   const ratingDistribution = [
     { stars: 5, number: 65 },
@@ -570,6 +526,7 @@ const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOC
                             borderRadius="md"
                             boxShadow="sm"
                             bg="white"
+                            minW={"100%"}
                           >
                           <Avatar name={comment.name} size="sm" bg="gray.300" />
                             <HStack mb={1}>
