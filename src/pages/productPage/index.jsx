@@ -17,6 +17,9 @@ import {
   Flex,
   Avatar,
   Input,
+  Wrap,
+  WrapItem,
+  Center,
 } from "@chakra-ui/react";
 import {
   useGetProduct,
@@ -47,6 +50,7 @@ import {
 } from "./popUps/popUps.service";
 import { DespachoDomicilio } from "./popUps/popUps.jsx";
 import { Star, ThumbsUp, ThumbsDown } from "lucide-react"
+import { comment } from "postcss";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -61,7 +65,21 @@ export default function ProductPage() {
           rating: getProduct?.calificacion|| 4.5,
           price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
           originalPrice: getProduct?.precio || "2.299.900",
-          comment: getProduct?.comentarios,
+          comment: 
+            (getProduct?.comentarios?.length > 0) 
+              ? getProduct.comentarios.slice(0, 4).map((item) => {
+                  // Debug each item before processing
+                  console.log("Processing comment:", item);
+                  
+                  return {
+                    name: item?.nombre || "Anonymous",
+                    frase: item?.frase || "",
+                    rating: item?.calificacion || item?.calificación || 0, // Handle both spellings
+                    commentInfo: item?.comentario || "No review provided",
+                    recommendable: item?.recomendable || false
+                  }
+                })
+              : [],
           discount: getProduct?.descuento * 100,
           basicSpecifications:
             (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
@@ -117,7 +135,7 @@ const Product = ({ product }) => {
 
             <ProductHeader product={product} />
 
-            <StaticRating rating={product.calificacion} />
+            <StaticRating rating={product.rating} />
 
             <Divider 
               borderColor="gray.200" 
@@ -222,8 +240,7 @@ const Product = ({ product }) => {
       </Box>
 
       <Box>
-        <ProductCommentsContainer 
-        product = {product}/>
+        <ProductCommentsContainer product={product} /> 
       </Box>
 
     </>
@@ -433,50 +450,15 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
   );
 };
 
-const ProductCommentsContainer = (product ) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
+const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOCAR QUE SE EXPLOTA TODO
 
-  const reviews = [
-    {
-      id: 1,
-      name: "João",
-      rating: 5,
-      date: "12/03/2023",
-      title: "Excelente producto",
-      comment:
-        "Estoy muy satisfecho con la compra. El portátil es rápido y cumple perfectamente con mis necesidades. La pantalla es nítida y el teclado es cómodo para escribir.",
-      likes: 12,
-      dislikes: 2,
-    },
-    {
-      id: 2,
-      name: "Maria",
-      rating: 4,
-      date: "05/04/2023",
-      title: "Buena relación calidad-precio",
-      comment:
-        "El procesador es muy bueno, ejecuta programas pesados sin problemas. La batería podría durar un poco más, pero en general estoy satisfecha con la compra.",
-      likes: 8,
-      dislikes: 1,
-    },
-    {
-      id: 3,
-      name: "Pedro",
-      rating: 5,
-      date: "18/02/2023",
-      title: "Superó mis expectativas",
-      comment:
-        "Lo compré para trabajo y estudio y ha cumplido perfectamente. El SSD marca una gran diferencia en la velocidad y el diseño es muy bonito.",
-      likes: 15,
-      dislikes: 0,
-    },
-  ]
 
   const ratingDistribution = [
-    { stars: 5, percentage: 65 },
-    { stars: 4, percentage: 20 },
-    { stars: 3, percentage: 10 },
-    { stars: 2, percentage: 3 },
-    { stars: 1, percentage: 2 },
+    { stars: 5, number: 65 },
+    { stars: 4, number: 20 },
+    { stars: 3, number: 10 },
+    { stars: 2, number: 3 },
+    { stars: 1, number: 2 },
   ]
 
   return (
@@ -500,15 +482,16 @@ const ProductCommentsContainer = (product ) => { //NO TOCAR ESTO ESTA MUY MALO P
 
           <Box bg="white" borderRadius="md" p={6} mb={4}>
 
-            <Grid templateColumns={{ base: "1fr", md: "250px 1fr" }} gap={8}>
-              <GridItem>
-                <VStack align="start" spacing={4}>
-                  
-                  <Box textAlign="center" alignItems="center" w="100%">
-                    <Heading size="xl">4.4</Heading>
-                      <Box justify="center" alignContent="center">
-                        <StaticRating rating={4.4} />
-                      </Box>
+            <Grid templateColumns={{ base: "1fr", md: "450px 1fr" }} gap={8}>
+
+              <GridItem mb={4}>
+                <HStack align="start" spacing={4}>
+
+                  <Box textAlign="center" alignItems="center" w="50%">
+                    <Heading size="xl">{product.rating} / 5</Heading>
+                    <Box alignItems="center" w="100%">
+                      <StaticRating rating={product.rating} />
+                    </Box>
                     <Text fontSize="sm" color="gray.500">
                       Basado en muchas valoraciones
                     </Text>
@@ -519,65 +502,60 @@ const ProductCommentsContainer = (product ) => { //NO TOCAR ESTO ESTA MUY MALO P
                       <HStack key={item.stars} mb={2}>
                         <Icon as={RiStarFill}
                             w={5}
-                            h={5}
-                            color="yellow.400"/>
-                        <Progress value={item.percentage} size="sm" colorScheme="yellow" w="full" borderRadius="full" />
+                            h={3}
+                            color="gray"/>
+                        <Progress value={item.number} size="sm" colorScheme="gray" h="3px" w="full" borderRadius="full" />
                         <Text fontSize="sm" w="40px">
-                          {item.percentage}%
+                          {item.number}
                         </Text>
                       </HStack>
                     ))}
                   </Box>
-                </VStack>
+                </HStack>
               </GridItem>
 
-              <GridItem>
-                <VStack align="stretch" spacing={6}>
-                  {reviews.map((review, index) => (
-                    <Box key={review.id}>
-                      {index > 0 && <Divider my={4} />}
-                      <Flex>
-                        <Avatar name={review.name} size="sm" mr={3} bg="gray.300" />
-                        <Box>
-                          <HStack mb={1}>
-                            <Text fontWeight="bold">{review.name}</Text>
-                            <Text fontSize="sm" color="gray.500">
-                              {review.date}
-                            </Text>
-                          </HStack>
-                          <HStack color="yellow.400" mb={2}>
-                            {[1, 2, 3, 4, 5].map((i) => (
-                              <Icon key={i} as={Star} boxSize={3} color={i <= review.rating ? "yellow.400" : "gray.200"} />
-                            ))}
-                          </HStack>
-                          <Text fontWeight="medium" mb={1}>
-                            {review.title}
-                          </Text>
-                          <Text fontSize="sm" mb={3}>
-                            {review.comment}
-                          </Text>
-                          <HStack>
-                            <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsUp} boxSize={3} />}>
-                              {review.likes}
-                            </Button>
-                            <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsDown} boxSize={3} />}>
-                              {review.dislikes}
-                            </Button>
-                          </HStack>
-                        </Box>
-                      </Flex>
-                    </Box>
-                  ))}
-                </VStack>
-                <Button variant="outline" size="sm" mt={6} mx="auto" display="block">
-                  Ver más comentarios
-                </Button>
-              </GridItem>
             </Grid>
-          </Box>
 
+            <Wrap  align={"top"} justify="left" w={"100%"} spacing="10px">
+                {product.comment.map((comment) => (
+                    <WrapItem key={comment.id} w="30%">
+                        <Box
+                            p={4}
+                            borderWidth="1px"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            bg="white"
+                            minW={"100%"}
+                          >
+                          <Avatar name={comment.name} size="sm" bg="gray.300" />
+                            <HStack mb={1}>
+                              <Text fontWeight="bold">{comment.name}</Text>
+                            </HStack>
+                            <StaticRating rating={comment.rating} />
+                            <Text fontWeight="medium" mb={1}>
+                              {comment.frase}
+                            </Text>
+                            <Text fontSize="sm" mb={3}>
+                              {comment.commentInfo}
+                            </Text>
+                            {/* <HStack>
+                              <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsUp} boxSize={3} />}>
+                                {comment.likes}
+                              </Button>
+                              <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsDown} boxSize={3} />}>
+                                {comment.dislikes}
+                              </Button>
+                            </HStack> */}
+                        </Box>
+                    </WrapItem>
+                  ))}
+              </Wrap> 
+
+              <Button variant="outline" size="sm" mt={6} mx="auto" display="block">
+                  Ver más comentarios
+              </Button>
+          </Box>
         </Box>
     </Box>
   )
 }
-

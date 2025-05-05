@@ -1,4 +1,4 @@
-import { Link as LinkRouter } from "react-router-dom"
+import { Link as LinkRouter } from "react-router"
 import { BsCart3 } from "react-icons/bs";
 import { FaRegCircle } from "react-icons/fa";
 import {
