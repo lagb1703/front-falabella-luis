@@ -40,7 +40,7 @@ export function useCart(product) {
         e.preventDefault();
         const {code} = product;
         await saveCartItem({producto_id:code, carrito_id:0}, getAmount)
-    }, [product]);
+    }, [product, getAmount]);
     return {
         addToCart,
         getAmount,
