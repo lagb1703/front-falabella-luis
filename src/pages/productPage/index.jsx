@@ -50,6 +50,7 @@ import {
 } from "./popUps/popUps.service";
 import { DespachoDomicilio } from "./popUps/popUps.jsx";
 import { Star, ThumbsUp, ThumbsDown } from "lucide-react"
+import { comment } from "postcss";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -64,7 +65,15 @@ export default function ProductPage() {
           rating: getProduct?.calificacion|| 4.5,
           price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
           originalPrice: getProduct?.precio || "2.299.900",
-          comment: getProduct?.comentarios,
+          comment: 
+          (getProduct) ? getProduct.comentarios.slice(0, 4).map((item) => {
+            return {
+              name: item.nombre,
+              frase: item.frase,
+              rating: item.calificacion,
+              commentInfo: item.comentario,
+            }
+          }) : [],
           discount: getProduct?.descuento * 100,
           basicSpecifications:
             (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
@@ -96,7 +105,7 @@ const Product = ({ product }) => {
     removeAmount,
     setInputAmount
   } = useCart(product);
-console.log(product);
+console.log(product.comment);
   return (
     <>
       <Box
@@ -553,8 +562,8 @@ const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOC
             </Grid>
 
             <Wrap  align={"top"} justify="left" w={"100%"} spacing="10px">
-                {reviews.map((review) => (
-                    <WrapItem key={review.id} w="30%">
+                {product.comment.map((comment) => (
+                    <WrapItem key={comment.id} w="30%">
                         <Box
                             p={4}
                             borderWidth="1px"
@@ -562,25 +571,25 @@ const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOC
                             boxShadow="sm"
                             bg="white"
                           >
-                          <Avatar name={review.name} size="sm" bg="gray.300" />
+                          <Avatar name={comment.name} size="sm" bg="gray.300" />
                             <HStack mb={1}>
-                              <Text fontWeight="bold">{review.name}</Text>
+                              <Text fontWeight="bold">{comment.name}</Text>
                             </HStack>
-                            <StaticRating rating={review.rating} />
+                            <StaticRating rating={comment.rating} />
                             <Text fontWeight="medium" mb={1}>
-                              {review.title}
+                              {comment.frase}
                             </Text>
                             <Text fontSize="sm" mb={3}>
-                              {review.comment}
+                              {comment.commentInfo}
                             </Text>
-                            <HStack>
+                            {/* <HStack>
                               <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsUp} boxSize={3} />}>
-                                {review.likes}
+                                {comment.likes}
                               </Button>
                               <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsDown} boxSize={3} />}>
-                                {review.dislikes}
+                                {comment.dislikes}
                               </Button>
-                            </HStack>
+                            </HStack> */}
                         </Box>
                     </WrapItem>
                   ))}
