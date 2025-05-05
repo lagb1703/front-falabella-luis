@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
 
         <div className="price-container">
           <div className="price-mini-container">
-            <span className="current-price">$ {formatPrice(product.precio * product.descuento)}</span>
+            <span className="current-price">$ {formatPrice(product.precio * (1-product.descuento))}</span>
             {product.descuento > 0 && (
                 <span className="discount">{product.descuento*100}% OFF</span>
               )}
