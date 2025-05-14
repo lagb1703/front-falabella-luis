@@ -51,6 +51,7 @@ import {
 import { DespachoDomicilio } from "./popUps/popUps.jsx";
 import { Star, ThumbsUp, ThumbsDown } from "lucide-react"
 import { comment } from "postcss";
+import ProductCarousel from "@/components/productCarousel";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -237,6 +238,32 @@ const Product = ({ product }) => {
         <ProductSpecsContainer
           moreInfo={product.moreInfo}
         />
+      </Box>
+
+      <Box 
+        marginTop={4}
+        marginBottom={4}
+        p={5}
+        bg="white"
+        maxW="92vw"
+        mx="auto"
+        borderWidth="1px"
+        borderRadius="lg"
+        boxShadow="md">
+        <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Más opciones similares" carouselWidth="100%"/>
+      </Box>
+
+      <Box 
+        marginTop={4}
+        marginBottom={4}
+        p={5}
+        bg="white"
+        maxW="92vw"
+        mx="auto"
+        borderWidth="1px"
+        borderRadius="lg"
+        boxShadow="md">
+        <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="También podría interesarte" carouselWidth="92vw"/>
       </Box>
 
       <Box>

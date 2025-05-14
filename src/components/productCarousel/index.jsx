@@ -12,7 +12,7 @@ import {
 } from "./productCarousel.service.jsx";
 import "./productCarousel.css";
 
-export default function ProductCarousel({ categoryId, nameBanner, userId }) {
+export default function ProductCarousel({ categoryId, nameBanner, carouselWidth, userId }) {
   const {
     slider,
     setSlider,
@@ -20,7 +20,7 @@ export default function ProductCarousel({ categoryId, nameBanner, userId }) {
   } = useCarrusel();
   const { products } = useProducts(categoryId, userId);
   return (
-    <Box position="relative" width="85%" overflow="hidden" alignItems="center" textAlign="left"  mx="auto">
+    <Box position="relative" width={carouselWidth} overflow="hidden" alignItems="center" textAlign="left"  mx="auto">
 
       <Text
         as="span"
