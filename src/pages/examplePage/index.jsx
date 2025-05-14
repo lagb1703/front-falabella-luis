@@ -29,12 +29,7 @@ export default function ExamplePage() {
   return (
     <Box bg="white">
       <Carousel />
-      <Flex
-        width="100%"
-        justifyContent="center"
-        alignItems="center">
-        <ProductCarousel categoryId="67e96adfd089caba2d9cbb78" />
-      </Flex>
+      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" />
       <SubFooter />
     </Box>
   );

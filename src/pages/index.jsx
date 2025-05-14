@@ -27,6 +27,6 @@ export const projectRoutes = [
 projectRoutes.push(
     <Route path="*" element={(<h1>Esta pagina no esta disponible</h1>)} key={uuidv4()}/>
 );
-export const backendURL = import.meta.env.VITE_BACK || "https://fuzzy-happiness-v4q64469j4jcp5x7-3000.app.github.dev/";
+export const backendURL = import.meta.env.VITE_BACK || "https://supreme-lamp-7v9rxv55wxg929q9-3000.app.github.dev/";
 
 export const isDevelopment = false;
