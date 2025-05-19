@@ -27,8 +27,8 @@
 }
 
 .product-img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   transition: transform 0.3s;
 }
@@ -56,7 +56,6 @@
   margin-bottom: 5px;
   color: #333;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 40px;
@@ -184,7 +183,7 @@
 
 /* Estilos generales */
 .productos-container {
-  max-width: 1200px;
+  max-width: "100%";
   margin: 0 auto;
   padding: 20px;
   font-family: 'Lato', Arial, sans-serif;
@@ -511,7 +510,7 @@
 /* Grid de productos */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -529,19 +528,10 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.product-image {
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
-  position: relative;
-}
-
 .product-image img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
+  object-fit: contain !important;
 }
 
 .product-brand {

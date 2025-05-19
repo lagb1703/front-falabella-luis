@@ -4,14 +4,22 @@ import {
   Image,
   Text,
   Button,
+  GridItem,
   VStack,
   HStack,
   Divider,
   Badge,
   UnorderedList,
+  Heading,
+  Progress,
   ListItem,
+  Icon,
   Flex,
-  Input
+  Avatar,
+  Input,
+  Wrap,
+  WrapItem,
+  Center,
 } from "@chakra-ui/react";
 import {
   useGetProduct,
@@ -22,8 +30,27 @@ import { Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIco
 import ImageCarousel from "./productPageCarrousel.jsx";
 import { RiHeartAddLine } from "react-icons/ri";
 import { TbTruckDelivery } from "react-icons/tb";
-import { PiBoxArrowDownBold } from "react-icons/pi";
+import { BoxSelectIcon, PackageCheck } from 'lucide-react';
 import { LuPackageSearch } from "react-icons/lu";
+import StaticRating from "@/components/starRating";
+import { RiStarFill} from "react-icons/ri";
+import { 
+  useShoppingCartNumberItems,
+  useUserLogin,
+  useUserLocationChance,
+  defaultUserName,
+  defaultUserLocation,
+  useGetColombiaStatesMenuOption,
+  useItemEvents,
+  useAdministrateMenu,
+  useGetColombiaCityMenuOption,
+  useDeleteInput,
+  useGetColombiaNeighborhoodMenuOption,
+  saveClick
+} from "./popUps/popUps.service";
+import { DespachoDomicilio } from "./popUps/popUps.jsx";
+import { Star, ThumbsUp, ThumbsDown } from "lucide-react"
+import { comment } from "postcss";
 
 export default function ProductPage() {
   const getProduct = useGetProduct();
@@ -35,9 +62,24 @@ export default function ProductPage() {
           brand: getProduct?.getProduct || "MOTOROLA",
           code: getProduct?._id || "MOT50FUSION256",
           shopCode: getProduct?._id || "MOT50FUSION256",
-          rating: getProduct?.calificacion || 4.5,
+          rating: getProduct?.calificacion|| 4.5,
           price: (getProduct?.precio * (1 - getProduct?.descuento)) || "899.900",
           originalPrice: getProduct?.precio || "2.299.900",
+          comment: 
+            (getProduct?.comentarios?.length > 0) 
+              ? getProduct.comentarios.slice(0, 4).map((item) => {
+                  // Debug each item before processing
+                  console.log("Processing comment:", item);
+                  
+                  return {
+                    name: item?.nombre || "Anonymous",
+                    frase: item?.frase || "",
+                    rating: item?.calificacion || item?.calificación || 0, // Handle both spellings
+                    commentInfo: item?.comentario || "No review provided",
+                    recommendable: item?.recomendable || false
+                  }
+                })
+              : [],
           discount: getProduct?.descuento * 100,
           basicSpecifications:
             (getProduct) ? getProduct.especificaciones.slice(0, 4).map((item) => {
@@ -83,6 +125,7 @@ const Product = ({ product }) => {
         marginBottom={4}
         fontFamily="products.title"
       >
+
         <Grid templateColumns={{ base: "1fr", md: "1fr 1.3fr" }} gap={6}>
 
           <ImageCarousel imagesProduct={product.imagesProduct} />
@@ -92,7 +135,15 @@ const Product = ({ product }) => {
 
             <ProductHeader product={product} />
 
-            <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            <StaticRating rating={product.rating} />
+
+            <Divider 
+              borderColor="gray.200" 
+              borderWidth="1px"     
+              my={6}                
+            />
+
+            <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
 
               <VStack p={4} borderRadius="md"> {/*Columna de la izquierda*/}
                 <ProductSpecifications basicSpecifications={product.basicSpecifications} />
@@ -101,11 +152,8 @@ const Product = ({ product }) => {
 
               <Box p={4} borderRadius="md"> {/*Columna de la derecha*/}
 
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+                <Grid templateColumns={{ base: "1fr", md: "fr 1fr" }} gap={6}>
                   <Image src="https://www.falabella.com.co/a/fa/product/static/styles/svg/cmrIcon-alt.svg" alt="Sigue lloviendo el corazón" />
-                  <Box display="flex" justifyContent="right" alignContent="right">
-                    <RiHeartAddLine size="30px" color="black" />
-                  </Box>
                 </Grid>
 
                 <HStack>
@@ -113,6 +161,9 @@ const Product = ({ product }) => {
                     ${product.price}
                   </Text>
                   <Badge bg="red" color="white" >{product.discount}%</Badge>
+                  <Box display="flex" width={"100%"} justifyContent="right" alignContent="right">
+                    <RiHeartAddLine size="35px" color="#90959B" strokeWidth={"0.3"}/>
+                  </Box>
                 </HStack>
 
 
@@ -188,6 +239,10 @@ const Product = ({ product }) => {
         />
       </Box>
 
+      <Box>
+        <ProductCommentsContainer product={product} /> 
+      </Box>
+
     </>
   );
 };
@@ -216,9 +271,9 @@ function ProductHeader({ product }) {
         Código: {product.code}
       </Text>
 
-      <Text fontSize="11px" textAlign="right" fontWeight="regular">
+      {/* <Text fontSize="11px" textAlign="right" fontWeight="regular">
         Cód.tienda: {product.shopCode}
-      </Text>
+      </Text> */}
 
       <Text gridColumn="span 3" color="#515151" fontSize="18px" fontWeight="light">
         {product.name}
@@ -279,7 +334,7 @@ const ProductSpecifications = ({ basicSpecifications }) => {
   );
 };
 
-const DeliveryOptions = () => {
+function DeliveryOptions() {
   return (
     <Box
       borderWidth="1px"
@@ -288,34 +343,45 @@ const DeliveryOptions = () => {
       fontSize="12px"
       p={2}
       mt={3}
+      width="100%"
+      overflow="hidden"
     >
-      <Grid templateColumns="repeat(3, 1fr)" gap={4} >
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <TbTruckDelivery size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Despacho a domicilio</Text>
-        </Box>
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <PiBoxArrowDownBold size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Retira tu compra</Text>
-        </Box>
-
-        <Box textAlign="center" display="flex" flexDirection="column" alignItems="center">
-          <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
-            <LuPackageSearch size="25px" color="#276749" />
-          </Circle>
-          <Text fontWeight="medium">Stock en tienda</Text>
-        </Box>
+      <Grid templateColumns="repeat(3, minmax(0, 1fr))" gap={4} alignItems="stretch">
+        {[
+          { text: "Despacho a domicilio", icon: <TbTruckDelivery size="25px" strokeWidth={"1.4"} color="#276749" /> },
+          { text: "Retira tu compra", icon: <PackageCheck  size="25px" strokeWidth={"1.4"} color="#276749" /> },
+          { text: "Stock en tienda", icon: <LuPackageSearch size="25px" strokeWidth={"1.4"} color="#276749" /> }
+        ].map((item) => (
+          <GridItem key={item.text} display="flex">
+            <Button
+              variant="unstyled"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              width="100%"
+              height="100%"
+              p={2}
+            >
+              <Circle size="50px" bg="#DAFEE3" mb={2} borderWidth="1px" borderColor="#41E770">
+                {item.icon}
+              </Circle>
+              <Text 
+                fontWeight="medium" 
+                fontSize="12px"
+                textAlign="center"
+                whiteSpace="wrap"
+                textDecoration="underline" 
+              >
+                {item.text}
+              </Text>
+            </Button>
+          </GridItem>
+        ))}
       </Grid>
-
     </Box>
   );
-};
+}
 
 const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO PERO SIRVE COMO PLACEHOLDER
   return (
@@ -330,32 +396,30 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
       marginTop={4}
       marginBottom={4}
     >
-      <Text fontSize="xl" fontWeight="bold" mb={4}>
-        Especificaciones
-      </Text>
 
-      {/* {moreInfo && (
-        <Badge colorScheme="blue" mb={4}>
-          {moreInfo.title}
-        </Badge>
-      )} */}
-      <Text>
-        {moreInfo}
-      </Text>
-
-      {/* <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={6}>
-        {specifications?.map((spec, index) => (
-          <Box key={index}>
-            <Text fontSize="sm" color="gray.600" mb={1}>
-              {spec.name}
-            </Text>
-            <Text fontWeight="medium">{spec.value}</Text>
-            {index < specifications.length - 1 && <Divider my={3} />}
-          </Box>
-        ))}
+      <Grid templateColumns={{ base: "1fr", md: "0.7fr 1fr" }} gap={4} mb={6}>
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Especificaciones
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            {moreInfo}
+          </Text>
+        </Box>
+      
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Información adicional
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+          <Text fontSize="0.8rem" color="gray.600">
+            No hay información adicional sobre este producto
+          </Text>
+        </Box>
       </Grid>
 
-      {moreInfo?.additionalSpecs && (
+      {/*{moreInfo?.additionalSpecs && (
         <Accordion allowToggle>
           <AccordionItem border="none">
             <AccordionButton px={0} _hover={{ bg: "transparent" }}>
@@ -385,3 +449,113 @@ const ProductSpecsContainer = ({ moreInfo }) => { //NO TOCAR ESTO ESTA MUY MALO 
     </Box>
   );
 };
+
+const ProductCommentsContainer = ( {product} ) => { // BAJO CONSTRUCCIÓN NO TOCAR QUE SE EXPLOTA TODO
+
+
+  const ratingDistribution = [
+    { stars: 5, number: 65 },
+    { stars: 4, number: 20 },
+    { stars: 3, number: 10 },
+    { stars: 2, number: 3 },
+    { stars: 1, number: 2 },
+  ]
+
+  return (
+    <Box
+      p={5}
+      bg="white"
+      maxW="92vw"
+      mx="auto"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      marginTop={4}
+      marginBottom={4}
+    >
+
+        <Box ml={"20px"} mr={"20px"}>
+          <Text fontSize="1rem" fontWeight="bold" color="gray.600" mb={4}>
+            Comentarios de este producto
+          </Text>
+          <Divider borderWidth={"1.7px"} borderColor={"#495867"} marginBottom={"15px"}/>
+
+          <Box bg="white" borderRadius="md" p={6} mb={4}>
+
+            <Grid templateColumns={{ base: "1fr", md: "450px 1fr" }} gap={8}>
+
+              <GridItem mb={4}>
+                <HStack align="start" spacing={4}>
+
+                  <Box textAlign="center" alignItems="center" w="50%">
+                    <Heading size="xl">{product.rating} / 5</Heading>
+                    <Box alignItems="center" w="100%">
+                      <StaticRating rating={product.rating} />
+                    </Box>
+                    <Text fontSize="sm" color="gray.500">
+                      Basado en muchas valoraciones
+                    </Text>
+                  </Box>
+
+                  <Box w="100%">
+                    {ratingDistribution.map((item) => (
+                      <HStack key={item.stars} mb={2}>
+                        <Icon as={RiStarFill}
+                            w={5}
+                            h={3}
+                            color="gray"/>
+                        <Progress value={item.number} size="sm" colorScheme="gray" h="3px" w="full" borderRadius="full" />
+                        <Text fontSize="sm" w="40px">
+                          {item.number}
+                        </Text>
+                      </HStack>
+                    ))}
+                  </Box>
+                </HStack>
+              </GridItem>
+
+            </Grid>
+
+            <Wrap  align={"top"} justify="left" w={"100%"} spacing="10px">
+                {product.comment.map((comment) => (
+                    <WrapItem key={comment.id} w="30%">
+                        <Box
+                            p={4}
+                            borderWidth="1px"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            bg="white"
+                            minW={"100%"}
+                          >
+                          <Avatar name={comment.name} size="sm" bg="gray.300" />
+                            <HStack mb={1}>
+                              <Text fontWeight="bold">{comment.name}</Text>
+                            </HStack>
+                            <StaticRating rating={comment.rating} />
+                            <Text fontWeight="medium" mb={1}>
+                              {comment.frase}
+                            </Text>
+                            <Text fontSize="sm" mb={3}>
+                              {comment.commentInfo}
+                            </Text>
+                            {/* <HStack>
+                              <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsUp} boxSize={3} />}>
+                                {comment.likes}
+                              </Button>
+                              <Button size="xs" variant="ghost" leftIcon={<Icon as={ThumbsDown} boxSize={3} />}>
+                                {comment.dislikes}
+                              </Button>
+                            </HStack> */}
+                        </Box>
+                    </WrapItem>
+                  ))}
+              </Wrap> 
+
+              <Button variant="outline" size="sm" mt={6} mx="auto" display="block">
+                  Ver más comentarios
+              </Button>
+          </Box>
+        </Box>
+    </Box>
+  )
+}

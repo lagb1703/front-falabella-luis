@@ -2,7 +2,7 @@ import {
   FiTruck,
   FiStar
 } from "react-icons/fi";
-import { getImage } from "./productCard.service"
+import { useImage } from "./productCard.service"
 import {
   useState,
 } from "react";
@@ -12,11 +12,11 @@ import {
 
 export default function ProductCard({ product }) {
   const [isHovered, setIsHovered] = useState(false);
+  const image = useImage(product.imagenes[0]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('es-CO').format(price);
   };
-
   return (
     <RouterLink
       to={`/product/${product._id}`}
@@ -37,7 +37,7 @@ export default function ProductCard({ product }) {
 
       <div className="product-image">
         <img
-          src={getImage(product.imagenes[0])}
+          src={image}
           alt={product.nombre}
           className="product-img"
         />
@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
 
         <div className="price-container">
           <div className="price-mini-container">
-            <span className="current-price">$ {formatPrice(product.precio * product.descuento)}</span>
+            <span className="current-price">$ {formatPrice(product.precio * (1-product.descuento))}</span>
             {product.descuento > 0 && (
                 <span className="discount">{product.descuento*100}% OFF</span>
               )}

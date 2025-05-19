@@ -1,19 +1,19 @@
-import { 
-  Box, 
-  IconButton, 
+import {
+  Box,
+  IconButton,
   useBreakpointValue,
-  Container, 
-  Stack, 
-  SimpleGrid, 
+  Container,
+  Stack,
+  SimpleGrid,
   Text,
-  Image
+  Image,
+  Flex
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick"; // npm install react-slick slick-carousel
 import "./examplePage.css";
 import ProductCarousel from "@/components/productCarousel";
-import mockProducts from './mockProducts'; 
 import { useGetNavigationSubFooter, useGetProductsByCategoryId } from "./examplePage.service.jsx"; //ERROR
 import {
   Accordion,
@@ -26,9 +26,15 @@ import { v4 as uuid } from "uuid";
 
 export default function ExamplePage() {
 
-  return (  
+  return (
     <Box bg="white">
       <Carousel />
+      <Flex
+        width="100%"
+        justifyContent="center"
+        alignItems="center">
+        <ProductCarousel categoryId="67e96adfd089caba2d9cbb78" />
+      </Flex>
       <SubFooter />
     </Box>
   );
@@ -39,7 +45,7 @@ function Carousel() {
 
   const top = useBreakpointValue({ base: "50%", md: "50%" }); // Centrar
   const side = useBreakpointValue({ base: "5%", md: "20px" }); // Separar del borde
-  const sizeBox= "345px"
+  const sizeBox = "345px"
 
   const cards = [
     "/home_images/anuncioHome1.webp",
@@ -95,7 +101,7 @@ function Carousel() {
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((url, index) => (
           <Box key={index} height={sizeBox} minHeight={sizeBox} position="relative" >
-            <Image 
+            <Image
               src={url}
               alt={`Slide ${index}`}
               objectFit="cover"

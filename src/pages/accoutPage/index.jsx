@@ -12,6 +12,7 @@ import {
     ChevronRightIcon
 } from "lucide-react";
 import PersonalInformation from "@/components/userInformation/personalInformation";
+import UserList from "@/components/userInformation/userList"
 import AddressInformation from "@/components/userInformation/addressInformation";
 import { Link as RouterLink } from "react-router";
 import { useLocalUserName } from "./accountPage.service";
@@ -137,9 +138,7 @@ export default function AccountPage() {
                 </Box>
                 <Routes>
                     <Route path="/" element={<PersonalInformation />} key={uuidv4()} />
-                    <Route path="/myAdress" element={<PersonalInformation />} key={uuidv4()} />
-
-                    <Route path="/element" element={<h1>Elemento 1</h1>} key={uuidv4()} />
+                    <Route path="/myLists" element={<UserList />} key={uuidv4()} />
                     <Route path="*" element={<Navigate to="/" replace />} key={uuidv4()} />
                 </Routes>
             </Flex>

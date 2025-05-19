@@ -9,15 +9,15 @@ const ShoppingCart = () => {
   const [quantities, setQuantities] = useState(
     isCartEmpty(cartItems) ? [] : cartItems.map(() => 1)
   );
+  const [currentCartItems, setCurrentCartItems] = useState(cartItems);
 
-  // Añade estas funciones que faltaban
   const toggleDiscountDetails = () => {
     setShowDiscountDetails(!showDiscountDetails);
   };
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedItems(cartItems.map(item => item.id));
+      setSelectedItems(currentCartItems.map(item => item.id));
     } else {
       setSelectedItems([]);
     }
@@ -38,19 +38,49 @@ const ShoppingCart = () => {
   };
 
   const incrementQuantity = (index) => {
-    handleQuantityChange(index, quantities[index] + 1);
+    const newQuantities = [...quantities];
+    newQuantities[index] += 1;
+    setQuantities(newQuantities);
   };
 
   const decrementQuantity = (index) => {
-    handleQuantityChange(index, quantities[index] - 1);
+    const newQuantities = [...quantities];
+    if (newQuantities[index] > 1) {
+      newQuantities[index] -= 1;
+      setQuantities(newQuantities);
+    } else {
+      // Eliminar el producto si la cantidad es 1
+      const newCartItems = [...currentCartItems];
+      newCartItems.splice(index, 1);
+      setCurrentCartItems(newCartItems);
+      
+      // Actualizar las cantidades y los items seleccionados
+      newQuantities.splice(index, 1);
+      setQuantities(newQuantities);
+      
+      setSelectedItems(selectedItems.filter(id => id !== currentCartItems[index].id));
+    }
   };
 
-  // Calcula el total solo cuando hay items
-  const total = calculateTotal(cartItems);
-  const falabellaTotal = 1019900; // Esta variable estaba faltando
+  // Función para calcular el subtotal de un producto (precio * cantidad)
+  const calculateProductSubtotal = (item, quantityIndex) => {
+    return (item.price - (item.discount || 0)) * quantities[quantityIndex];
+  };
+
+  // Función para calcular el subtotal sin descuentos (para mostrar el precio original total)
+  const calculateOriginalSubtotal = (item, quantityIndex) => {
+    return item.price * quantities[quantityIndex];
+  };
+
+  // Calcula el total basado en los items actuales y sus cantidades
+  const total = currentCartItems.reduce((sum, item, index) => {
+    return sum + calculateProductSubtotal(item, index);
+  }, 0);
+
+  const falabellaTotal = total * 0.9;
 
   // cuando el carrito está vacío
-  if (isCartEmpty(cartItems)) {
+  if (isCartEmpty(currentCartItems)) {
     return (
       <div className="shopping-cart-layout">
         <div className="empty-cart-container">
@@ -64,18 +94,19 @@ const ShoppingCart = () => {
       </div>
     );
   }
+
   return (
     <div className="shopping-cart-layout">
       {/* Columna izquierda con título */}
       <div className="left-column">
-        <h1 className="cart-header">Carro ({cartItems.length} producto)</h1>
+        <h1 className="cart-header">Carro ({currentCartItems.length} producto)</h1>
         <div className="cart-section">
           <div className="seller-section">
             <p>Vendido por Marketplace</p>
             <label className="select-all">
               <input 
                 type="checkbox" 
-                checked={selectedItems.length === cartItems.length}
+                checked={selectedItems.length === currentCartItems.length && currentCartItems.length > 0}
                 onChange={handleSelectAll}
               />
               Seleccionar todos
@@ -83,7 +114,7 @@ const ShoppingCart = () => {
           </div>
           
           <div className="cart-items">
-            {cartItems.map((item, index) => (
+            {currentCartItems.map((item, index) => (
               <div key={item.id} className="cart-item">
                 <div className="item-select">
                   <input 
@@ -110,8 +141,8 @@ const ShoppingCart = () => {
                   
                   <div className="price-quantity-container">
                     <div className="price-section">
-                      <span className="discounted-price">${formatPrice(item.price - item.discount)}</span>
-                      <span className="original-price">${formatPrice(item.price)}</span>
+                      <span className="discounted-price">${formatPrice(calculateProductSubtotal(item, index))}</span>
+                      <span className="original-price">${formatPrice(calculateOriginalSubtotal(item, index))}</span>
                       <span className="discount-percent">
                         {Math.round((item.discount/item.price)*100)}%
                       </span>
@@ -138,25 +169,25 @@ const ShoppingCart = () => {
         <h2 className="summary-header">Resumen de la orden</h2>
         <div className="order-summary">
           <div className="summary-row">
-            <span>Productos ({cartItems.length})</span>
-            <span>${formatPrice(cartItems[0].price)}</span>
+            <span>Productos ({currentCartItems.length})</span>
+            <span>${formatPrice(currentCartItems.reduce((sum, item, idx) => sum + (item.price * quantities[idx]), 0))}</span>
           </div>
           
           <div className="discounts-section">
             <div className="discounts-header" onClick={toggleDiscountDetails}>
               <div className="discounts-title">
                 <SlArrowUp className={`arrow-icon ${showDiscountDetails ? 'open' : ''}`} />
-                <span>Descuentos ({cartItems.filter(item => item.discount).length})</span>
+                <span>Descuentos ({currentCartItems.filter(item => item.discount).length})</span>
               </div>
-              <span>- ${formatPrice(cartItems[0].discount)}</span>
+              <span>- ${formatPrice(currentCartItems.reduce((sum, item, idx) => sum + ((item.discount || 0) * quantities[idx]), 0))}</span>
             </div>
             
             {showDiscountDetails && (
               <div className="discount-details">
-                {cartItems.map(item => item.discount ? (
+                {currentCartItems.map((item, idx) => item.discount ? (
                   <div key={item.id} className="discount-item">
-                    <span>{item.name}</span>
-                    <span>- ${formatPrice(item.discount)}</span>
+                    <span>{item.name} (x{quantities[idx]})</span>
+                    <span>- ${formatPrice(item.discount * quantities[idx])}</span>
                   </div>
                 ) : null)}
               </div>

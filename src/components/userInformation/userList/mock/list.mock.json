@@ -1,0 +1,17 @@
+[
+    {
+        "lista_id": 1,
+        "nombre": "Lista Prueba",
+        "imagenes": []
+    },
+    {
+        "lista_id": 2,
+        "nombre": "Lista Prueba 2",
+        "imagenes": ["https://r-charts.com/es/miscelanea/procesamiento-imagenes-magick_files/figure-html/importar-imagen-r.png"]
+    },
+    {
+        "lista_id": 3,
+        "nombre": "Otra lista",
+        "imagenes":["https://osterco.vtexassets.com/arquivos/ids/164699-1600-auto?v=638318743542330000&width=1600&height=auto&aspect=true"]
+    }
+]

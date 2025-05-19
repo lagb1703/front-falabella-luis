@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useEffect, useState, useContext, useCallback } from "react";
+import userContext from "@/gobal/user/user.context";
+import { useLocation, useNavigate } from "react-router";
 import {
     CircleUserRound,
     House,
@@ -7,7 +8,7 @@ import {
     Heart,
     Power,
     FileLock,
-    HandCoins  
+    HandCoins
 } from 'lucide-react';
 const defaulNavigatetionUser = [
     {
@@ -33,15 +34,15 @@ const defaulNavigatetionUser = [
     },
     {
         name: "Datos para reembolso",
-        icon: HandCoins ,
-        href: "/myAccount/myLists",
+        icon: HandCoins,
+        href: "/myAccount/reimbursements",
         callBack: null,
         isActive: false,
     },
     {
         name: "Mis listas",
         icon: Heart,
-        href: "/myAccount/reimbursements",
+        href: "/myAccount/myLists",
         callBack: null,
         isActive: false,
     },
@@ -58,24 +59,33 @@ const defaulNavigatetionUser = [
         href: "/myAccount/reimbursements",
         callBack: null,
         isActive: false,
-    },
-    {
-        name: "Cerrar sesión",
-        icon: Power,
-        href: "/myAccount",
-        callBack: null,
-        isActive: false,
     }
 ];
 
 export function useGetNavigationUser() {
     const location = useLocation();
+    const setNavigate = useNavigate();
+    const { setUser } = useContext(userContext);
     const [getNavigationUser, setNavigationUser] = useState(defaulNavigatetionUser);
-    useEffect(()=>{
+    const closeSession = useCallback((e)=>{
+        e.preventDefault();
+        setUser(null);
+        setNavigate("/");
+    }, [setUser, setNavigate]);
+    useEffect(() => {
         const newNavigationUser = defaulNavigatetionUser.map((item) => {
-            item.isActive = location.pathname.includes(item.href);
+            const regex = new RegExp(`^${item.href.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}$`);
+            item.isActive = regex.test(location.pathname);
             return item
         });
+        newNavigationUser.push(
+            {
+                name: "Cerrar sesión",
+                icon: Power,
+                href: "/",
+                callBack: closeSession,
+                isActive: false,
+            })
         setNavigationUser(newNavigationUser);
     }, [location.pathname]);
     return getNavigationUser

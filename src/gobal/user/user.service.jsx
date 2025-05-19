@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function useUser() {
     const userAccountState = useUserAccount();
@@ -11,6 +11,19 @@ export default function useUser() {
 
 function useUserAccount() {
     const [getUser, setUser] = useState(null);
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (user) {
+            setUser(JSON.parse(user));
+        }
+    }, []);
+    useEffect(() => {
+        if (getUser) {
+            localStorage.setItem("user", JSON.stringify(getUser));
+            return
+        }
+        localStorage.removeItem("user");
+    }, [getUser]);
     return {
         getUser,
         setUser

@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
-import { backendURL } from "@/pages";
+import { backendURL, isDevelopment } from "@/pages";
 import userContext from "@/gobal/user/user.context";
 import { useLocation } from 'react-router';
+import userMock from "./mock/user.mock.json"
 export function useLogin(onClose) {
   const { setUser } = useContext(userContext);
   const [isLoading, setIsLoading] = useState(false); // Estado para manejar la carga
@@ -10,27 +11,10 @@ export function useLogin(onClose) {
   const login = async (correo, contrasena) => {
     setIsLoading(true); // Activa el estado de carga
     setError(null); // Limpia cualquier error previo
-
     try {
-      // Realiza la solicitud al backend
-      const response = await fetch(`${backendURL}auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ correo, contrasena }), // Envía las credenciales
-      });
-
-      // Verifica si la respuesta es exitosa
-      if (!response.ok) {
-        throw new Error("Credenciales incorrectas o error en el servidor");
-      }
-
-      // Parsea la respuesta JSON
-      const data = await response.json();
-
+      const data = await getLogin(correo, contrasena);
       // Guarda los datos del usuario (puede incluir un token JWT)
-      setUser(data.usuario);
+      setUser(data);
       onClose();
       // Retorna los datos para que el componente los use
       return data;
@@ -44,6 +28,23 @@ export function useLogin(onClose) {
   };
 
   return { login, isLoading, error };
+}
+
+async function getLogin(correo, contrasena) {
+  if(isDevelopment)
+    return userMock;
+  const response = await fetch(`${backendURL}auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ correo, contrasena }),
+  });
+  if (!response.ok) {
+    throw new Error("Credenciales incorrectas o error en el servidor");
+  }
+  const data = await response.json();
+  return data.usuario;
 }
 
 export function useLoginClose(isOpen, onClose) {
