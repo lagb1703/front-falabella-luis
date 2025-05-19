@@ -30,12 +30,14 @@ import {
     useGetInputPersonalInformation,
     useGetPersonalInformation,
     useValidateValue,
-    useOpenChangeNumberModal
+    useOpenChangeNumberModal,
+    useChangeUserInformation
 } from "./personalInformation.service"
 
 export default function PersonalInformation() {
     const inputPersonalInformation = useGetInputPersonalInformation();
     const personalInformation = useGetPersonalInformation();
+    const handleChange = useChangeUserInformation();
     const {
         isOpen,
         onOpen,
@@ -103,7 +105,7 @@ export default function PersonalInformation() {
                                         </Text>
                                         <InputGroup>
                                             <Input
-                                                id="userName"
+                                                id={item.id}
                                                 value={getValue}
                                                 onChange={handleChange}
                                                 width="100%"
@@ -167,7 +169,7 @@ export default function PersonalInformation() {
                                 fontWeight="400"
                                 color="#888"
                                 fontSize="0.8rem">
-                                {personalInformation ? personalInformation["nombreDocumento"] : ""}
+                                CC
                                 &nbsp;
                                 {personalInformation ? personalInformation["identificador"] : ""}
                             </Text>
@@ -251,6 +253,7 @@ export default function PersonalInformation() {
                     bg="#fff"
                 >
                     <Button
+                        onClick={handleChange}
                         borderRadius="55px"
                         fontWeight="700"
                         height="40px"
