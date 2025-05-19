@@ -31,7 +31,7 @@ export default function ExamplePage() {
       <Carousel />
       <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" carouselWidth="85%"/>
       <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Inspirado en lo que viste" carouselWidth="85%"/>
-      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido" carouselWidth="85%"/>
+      <ProductCarousel categoryId="67f4135dfa50f2b6c86a5876" nameBanner="Lo más vendido" carouselWidth="85%"/>
       <SubFooter />
     </Box>
   );
