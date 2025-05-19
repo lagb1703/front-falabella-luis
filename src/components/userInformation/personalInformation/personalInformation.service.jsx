@@ -1,10 +1,11 @@
-import { 
-    useEffect, 
-    useState, 
-    useContext 
+import {
+    useEffect,
+    useState,
+    useContext
 } from 'react';
 import userContext from '@/gobal/user/user.context';
 import PersonalInformation from './mocks/userInformation.mock.json';
+import { backendURL } from '@/pages';
 import { useDisclosure } from '@chakra-ui/react';
 const defaultInputPersonalInformation = [
     {
@@ -41,8 +42,8 @@ export function useValidateValue(regex, getPersonalInformation, defaultValue) {
         e.preventDefault();
         setValue("");
     }
-    useEffect(()=>{
-        if(getPersonalInformation){
+    useEffect(() => {
+        if (getPersonalInformation) {
             setValue(getPersonalInformation[defaultValue])
         }
     }, [getPersonalInformation]);
@@ -72,21 +73,72 @@ export function useGetInputPersonalInformation() {
 
 export function useGetPersonalInformation() {
     const [getPersonalInformation, setPersonalInformation] = useState(null);
-    const { correo } = useContext(userContext);
+    const { getUser } = useContext(userContext);
     useEffect(() => {
-        const lastNames = PersonalInformation.apellidos.split(" ");
-        PersonalInformation.primerApellido = lastNames.shift();
-        PersonalInformation.segundoApellido = lastNames.join(" ");
-        setPersonalInformation(PersonalInformation);
+        const person = {
+            usuario_id: getUser.id,
+            nombres: getUser.nombres,
+            primerApellido: getUser.apellidos.split(" ")[0],
+            segundoApellido: getUser.apellidos.split(" ").slice(1).join(" "),
+            correo: getUser.correo,
+            identificador: getUser.identificador,
+            celular: getUser.celular,
+        }
+        console.log("getUser", person);
+        setPersonalInformation(person);
     }, []);
     return getPersonalInformation;
 }
 
-export function useOpenChangeNumberModal(){
-    const {isOpen, onOpen, onClose} = useDisclosure();
-    return{
-        isOpen, 
-        onOpen, 
+export function useOpenChangeNumberModal() {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    return {
+        isOpen,
+        onOpen,
         onClose
+    }
+}
+
+export function useChangeUserInformation() {
+    const { getUser } = useContext(userContext);
+    const { usuario_id } = getUser;
+    const handleChangeUserInformation = async () => {
+        try {
+            const name = document.getElementById("userName").value;
+            const firstLastName = document.getElementById("userFirstLastName").value;
+            const secondLastName = document.getElementById("userSecondLastName").value;
+            if (!name || !firstLastName) {
+                throw new Error("Por favor completa todos los campos");
+            }
+            console.log("name", name);
+            console.log("firstLastName", firstLastName);
+            console.log("secondLastName", secondLastName);
+            await chengeUserInformation(usuario_id, name, firstLastName, secondLastName);
+        } catch (error) {
+            throw error;
+        }
+    }
+    return handleChangeUserInformation
+
+}
+
+async function chengeUserInformation(id, name, firstLastName, secondLastName) {
+    try {
+        const result = await fetch(`${backendURL}user/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                firstLastName,
+                secondLastName
+            })
+        })
+        if (!result.ok) {
+            throw new Error("Error al actualizar la información del usuario");
+        }
+    } catch (e) {
+        console.error(e);
     }
 }

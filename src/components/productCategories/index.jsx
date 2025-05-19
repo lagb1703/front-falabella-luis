@@ -9,6 +9,7 @@ import {
   useGetProductsByCategoryId
 } from "./products.service.jsx";
 import ProductCard from "../productCard/index.jsx";
+import ProductCarousel from "@/components/productCarousel";
 import "./products.css";
 
 
@@ -259,13 +260,25 @@ const Products = () => {
             </div>
           </div>
 
+          <div className="products-mama">
+
           <div className="products-grid">
+
             {getProducts?.map(product => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
+
+            <div className="products-carousel" >
+            <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Productos recomendados" carouselWidth="100%"/>
+            </div>
+
+          </div>
+
+
         </div>
       </div>
+
     </div>
 
   );

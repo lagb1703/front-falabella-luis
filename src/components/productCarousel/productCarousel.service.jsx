@@ -13,7 +13,9 @@ export function useCarrusel() {
         slidesToShow: 6,
         slidesToScroll: 3,
         variableWidth: false,
-        adaptiveHeight: true,
+        adaptiveHeight: false,
+        arrows: false,
+        dots: false,
         beforeChange: (_, newIndex) => setCurrentSlide(newIndex),
     };
     return {

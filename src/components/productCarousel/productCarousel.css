@@ -1,6 +1,5 @@
 .mini-product-style * {
     margin-bottom: 0px !important; /* Adds vertical space between this and the next container */
-    margin-top: 0px !important;
   }
 
   .mini-product-style .product-card {
@@ -12,14 +11,13 @@
   }
   
   .mini-product-style .product-brand {
-    font-size: 0.5rem !important;
+    font-size: 0.7rem !important;
     margin-top: 10px !important;
   }
 
-  .mini-product-style.product-image{
+  .product-card .product-image{
     width: 100% !important;
-    height: auto !important;
-    max-width: 200px !important; /* Limits size if needed */
+    height: 150px !important;
   }
 
   .mini-product-style .product-seller, .product-header{
@@ -38,6 +36,8 @@
 
   .mini-product-style .view-product-btn {
     font-size: 0.7rem !important;
+    outline: 1px solid red !important;
+    margin-bottom: 15px !important;
   }
 
   .mini-product-style .current-price {
@@ -53,4 +53,24 @@
     font-size: 0.7rem !important;
     text-decoration: line-through;
   }
-  
+
+.product-card {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.product-info {
+  padding: 10px !important;
+  padding-bottom: 30% !important;
+}
+
+.price-container .current-price{
+  font-size: clamp(0.5rem, 1.2vw, 0.9rem) !important;
+  padding-right:"0px" !important;
+  white-space: nowrap;
+}
+
+.price-container .discount {
+  font-size: clamp(0.5rem, 1vw, 0.7rem) !important;
+}
+

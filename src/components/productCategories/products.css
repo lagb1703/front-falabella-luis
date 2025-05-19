@@ -509,9 +509,9 @@
 
 /* Grid de productos */
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 20px !important;
 }
 
 .product-card {
@@ -674,4 +674,19 @@
   .products-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.products-mama {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 75vw; /* Ajusta según tu layout */
+  margin: 0 auto; /* Centra el contenedor si quieres */
+  overflow: hidden; /* Evita que se desborde */
+}
+
+
+
+.product-carousel {
+  outline: 1px solid red;
 }

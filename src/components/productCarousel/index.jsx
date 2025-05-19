@@ -1,6 +1,7 @@
 import {
   Box,
   IconButton,
+  Text,
 } from "@chakra-ui/react";
 import { useCarrusel } from "./productCarousel.service.jsx";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -11,7 +12,7 @@ import {
 } from "./productCarousel.service.jsx";
 import "./productCarousel.css";
 
-export default function ProductCarousel({ categoryId, userId }) {
+export default function ProductCarousel({ categoryId, nameBanner, carouselWidth, userId }) {
   const {
     slider,
     setSlider,
@@ -19,7 +20,18 @@ export default function ProductCarousel({ categoryId, userId }) {
   } = useCarrusel();
   const { products } = useProducts(categoryId, userId);
   return (
-    <Box position="relative" width="70%" overflow="hidden" alignItems="center" textAlign="left">
+    <Box position="relative" width={carouselWidth} overflow="hidden" alignItems="center" textAlign="left"  mx="auto">
+
+      <Text
+        as="span"
+        fontSize="1.25rem"
+        fontWeight="600"
+        verticalAlign="bottom"
+        marginTop="10px"
+        letterSpacing="0">
+        {nameBanner}
+      </Text>
+
       <IconButton
         aria-label="left-arrow"
         position="absolute"
@@ -59,7 +71,7 @@ export default function ProductCarousel({ categoryId, userId }) {
         {products?.map((product, index) => (
           <Box key={index} px={2}>
             <div className="mini-product-style">
-              <ProductCard product={product} />
+              <ProductCard product={product}/>
             </div>
           </Box>
         ))}
