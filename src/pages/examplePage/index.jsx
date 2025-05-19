@@ -29,12 +29,9 @@ export default function ExamplePage() {
   return (
     <Box bg="white">
       <Carousel />
-      <Flex
-        width="100%"
-        justifyContent="center"
-        alignItems="center">
-        <ProductCarousel categoryId="67e96adfd089caba2d9cbb78" />
-      </Flex>
+      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" carouselWidth="85%"/>
+      <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Inspirado en lo que viste" carouselWidth="85%"/>
+      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido" carouselWidth="85%"/>
       <SubFooter />
     </Box>
   );
