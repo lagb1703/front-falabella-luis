@@ -1,6 +1,7 @@
 import {
   useShoppingCartInfo
 } from './resumeCart.service';
+import EpaycoButton from "@/components/paymentButton"
 export default function ResumeComponent() {
   const {
     length, 
@@ -48,7 +49,7 @@ export default function ResumeComponent() {
           <span>${formatPrice(falabellaTotal)}</span>
         </div> */}
 
-        <button className="checkout-btn">Continuar compra</button>
+        <EpaycoButton />
       </div>
     </div>
   );
