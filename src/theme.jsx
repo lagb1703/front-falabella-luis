@@ -49,7 +49,7 @@ const theme = extendTheme({
         backgroundColor: "background",   // Fondo limpio
         color: "text.500",       // Texto oscuro para buen contraste
         fontFamily: "Lato,sans-serif",
-        fontSize: "1rem",
+        fontSize: "1.1rem",
         fontWeight: "400",
         lineHeight: "1.5",
         textAlign: "left",

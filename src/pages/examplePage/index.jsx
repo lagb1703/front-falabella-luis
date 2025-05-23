@@ -24,6 +24,7 @@ import {
 import { Link } from "react-router"
 import { v4 as uuid } from "uuid";
 
+
 export default function ExamplePage() {
 
   return (
@@ -45,11 +46,11 @@ function Carousel() {
   const sizeBox = "345px"
 
   const cards = [
-    "/home_images/anuncioHome1.webp",
-    "/home_images/anuncioHome2.webp",
-    "/home_images/anuncioHome3.webp",
-    "/home_images/anuncioHome4.webp",
-    "/home_images/cute.jpg",
+    ["/home_images/anuncioHome1.webp","67f3d66fcf122c47fcb4422f"],
+    ["/home_images/anuncioHome2.webp",""],
+    ["/home_images/anuncioHome3.webp",""],
+    ["/home_images/anuncioHome4.webp",""],
+    ["/home_images/cute.jpg",""],
   ];
 
   const settings = {
@@ -96,9 +97,10 @@ function Carousel() {
 
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
-        {cards.map((url, index) => (
+        {cards.map(([url, adLink], index) => (
           <Box key={index} height={sizeBox} minHeight={sizeBox} position="relative" >
-            <Image
+            <Link to={`/categories/${adLink}`}>
+              <Image
               src={url}
               alt={`Slide ${index}`}
               objectFit="cover"
@@ -106,6 +108,7 @@ function Carousel() {
               height="100%"
               display="block"
             />
+            </Link>
           </Box>
         ))}
       </Slider>

@@ -67,23 +67,28 @@ import MenuComponent from "./../menu/";
 export default function Header() {
     const isMobile = useBreakpointValue({ base: true, md: false });
     const { isOpen: isOpenMenu, onOpen: onOpenMenu, onClose:onCloseMenu } = useDisclosure();
+    const firstHeight = "35px";
+    const secondHeight = "70px";
+    const thirdHeight = "55px";
     return (
         <Box
             as="header"
             width="100%"
             boxShadow="sm"
-            bg="white" >
+            bg="white"
+            fontSize= "1.1rem">
             <Flex
                 as="section"
-                width={{ base: "100%", md: "100%" }}
+                width={{ base: "100%", md: "100%"}}
                 borderBottom="1px solid"
-                borderColor="gray.200">
+                borderColor="gray.200"
+                height={firstHeight}>
                 <Link
                     href="#"
                     flexBasis={{ base: "33.33%", md: "150px" }}
                     backgroundColor="neutral.200"
                     borderColor="neutral.200"
-                    maxHeight="27px"
+                    maxHeight={firstHeight}
                     borderRight="1px"
                     borderRightColor="#eee"
                     borderBottom="2px"
@@ -99,7 +104,7 @@ export default function Header() {
                 <Link
                     href="https://homecenter.falabella.com.co/homecenter-co"
                     flexBasis={{ base: "33.33%", md: "150px" }}
-                    maxHeight="27px"
+                    maxHeight={firstHeight}
                     borderRight="1px"
                     borderRightColor="#eee"
                     py={{ base: "4px", md: 0 }}
@@ -113,7 +118,7 @@ export default function Header() {
                 <Link
                     href="https://linio.falabella.com.co/linio-co"
                     flexBasis={{ base: "33.33%", md: "150px" }}
-                    maxHeight="27px"
+                    maxHeight={firstHeight}
                     borderRight="1px"
                     borderRightColor="#eee"
                     py={{ base: "5px", md: "2px" }}
@@ -130,7 +135,7 @@ export default function Header() {
                 justifyContent="center"
                 alignItems="center"
                 px={{ base: "2", md: "9" }}
-                height={{ base: "fit-content", md: "52px" }}
+                height={secondHeight}
                 bgColor="background"
                 wrap="wrap"
                 width="100%"
@@ -162,7 +167,7 @@ export default function Header() {
                         colStart={9}
                         colSpan={1}>
                         <Button
-                            leftIcon={<Menu />}
+                            leftIcon={<Menu size="2rem"/>}
                             color="#343E49"
                             variant="link"
                             onClick={onOpenMenu}
@@ -209,7 +214,8 @@ export default function Header() {
                 justifyContent="space-between"
                 width="100%"
                 px="9"
-                py="1.5">
+                py="1.5"
+                height={thirdHeight}>
                 <UserCity />
                 <HelpBarMenu isMobile={isMobile} />
             </Flex>
@@ -243,7 +249,7 @@ function UserCity() {
                     }
                     variant="link"
                     color="#495867"
-                    fontSize="11px"
+                    fontSize="0.9rem"
                     _hover={{ textDecoration: "none" }}
                     lineHeight="22px">
                     <Text
@@ -840,7 +846,7 @@ function HelpBarMenu({ isMobile }) {
             direction="row"
             justifyContent="center"
             alignItems="center"
-            fontSize="10px"
+            fontSize="0.9rem"
             mr="3vw"
             gap="7">
             <Link
@@ -860,7 +866,7 @@ function HelpBarMenu({ isMobile }) {
                     variant="link"
                     fontWeight="normal"
                     color="#495867"
-                    fontSize="10px"
+                    fontSize="0.9rem"
                     onMouseEnter={onOpenCard}
                     onMouseLeave={onCloseCard}
                     _hover={{ textDecoration: "none" }}>
@@ -869,8 +875,8 @@ function HelpBarMenu({ isMobile }) {
                         direction="row">
                         Tarjetas y cuentas
                         <ChevronDown
-                            width="10px"
-                            height="10px"
+                            width="15px"
+                            height="15px"
                             className="mt-[4px]"
                         />
                     </Flex>
@@ -889,7 +895,7 @@ function HelpBarMenu({ isMobile }) {
                                             as="p"
                                             fontWeight="550"
                                             color="#495867"
-                                            fontSize="10px">
+                                            fontSize="0.9rem">
                                             {item.name}
                                         </Text>
                                         {
@@ -911,7 +917,8 @@ function HelpBarMenu({ isMobile }) {
             </MenuChakra>
             <Link
                 color="#495867"
-                _hover={{ textDecoration: "none" }}>
+                _hover={{ textDecoration: "none" }}
+                fontSize="0.9rem">
                 Novios
             </Link>
             <MenuChakra
@@ -926,7 +933,7 @@ function HelpBarMenu({ isMobile }) {
                     variant="link"
                     fontWeight="normal"
                     color="#495867"
-                    fontSize="10px"
+                    fontSize="0.9rem"
                     onMouseEnter={onOpenHelp}
                     onMouseLeave={onCloseHelp}
                     _hover={{ textDecoration: "none" }}>
@@ -935,8 +942,8 @@ function HelpBarMenu({ isMobile }) {
                         direction="row">
                         Ayuda
                         <ChevronDown
-                            width="10px"
-                            height="10px"
+                            width="15px"
+                            height="15px"
                             className="mt-[4px]"
                         />
                     </Flex>
@@ -955,7 +962,7 @@ function HelpBarMenu({ isMobile }) {
                                             as="p"
                                             fontWeight="550"
                                             color="#495867"
-                                            fontSize="10px">
+                                            fontSize="0.9rem">
                                             {item.name}
                                         </Text>
                                         {
@@ -1053,7 +1060,8 @@ function AccountBarMenu({ isMobile }) {
                     minW="fit-content"
                     onMouseEnter={onOpen}
                     onMouseLeave={onClose}
-                    cursor="pointer">
+                    cursor="pointer"
+                    pr="5">
                     <Flex
                         borderRight="1px"
                         borderColor="gray.400"
@@ -1065,10 +1073,10 @@ function AccountBarMenu({ isMobile }) {
                         height="100%">
                         <Text
                             as="span"
-                            fontSize="14px"
+                            fontSize="1.1rem"
                             fontWeight="600"
                             letterSpacing="0">
-                            Hola,<br />
+                            Hola,<br/>
                         </Text>
                         <MenuChakra
                             closeOnSelect={true}
@@ -1088,13 +1096,13 @@ function AccountBarMenu({ isMobile }) {
                                         color="text.400"
                                         variant="link"
                                         fontWeight="600"
-                                        fontSize="14px">
+                                        fontSize="1.1rem">
                                         {getUserName}
                                     </Text>
                                     <ChevronDown
-                                        width="10px"
-                                        height="10px"
-                                        className="mt-[4px]"
+                                        width="15px"
+                                        height="15px"
+                                        color="#343E49"
                                     />
                                 </Flex>
                             </MenuButton>
@@ -1161,6 +1169,7 @@ function AccountBarMenu({ isMobile }) {
                             </MenuList>
                         </MenuChakra>
                     </Flex>
+                    
                 </Box>
                 <LoginForm 
                     isOpen={isOpenLogin}
@@ -1177,8 +1186,7 @@ function AccountBarMenu({ isMobile }) {
                             className="h-full flex flex-col justify-center">
                             Mis
                             <Text
-                                as="b"
-                                fontSize="14px">
+                                as="b">
                                 compras
                             </Text>
                         </LinkRouter>
@@ -1194,7 +1202,9 @@ function AccountBarMenu({ isMobile }) {
                         borderColor="gray.400"
                         px="2">
                         <Heart
-                            color="#343E49" />
+                            color="#343E49"
+                            size="1.5rem"
+                            />
                     </Flex>
                 </Box>
                 <Box
@@ -1205,7 +1215,8 @@ function AccountBarMenu({ isMobile }) {
                             as={LinkRouter}
                             to="/shoppingCart"
                             aria-label="Shopping cart"
-                            fontSize="2xl"
+                            color="#343E49"
+                            fontSize= "1.5rem"
                             icon={<BsCart3 />}
                             variant="ghost" />
                         <Badge
