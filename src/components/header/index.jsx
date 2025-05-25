@@ -36,6 +36,7 @@ import {
     ModalHeader,
     ModalBody,
     ModalCloseButton,
+    Portal,
     Stack,
 } from "@chakra-ui/react"
 import {
@@ -63,20 +64,33 @@ import {
 import { v4 as uuid } from "uuid";
 import LoginForm from "../loginForm";
 import MenuComponent from "./../menu/";
+import { useState, useRef, useEffect } from "react";
 
 export default function Header() {
     const isMobile = useBreakpointValue({ base: true, md: false });
     const { isOpen: isOpenMenu, onOpen: onOpenMenu, onClose:onCloseMenu } = useDisclosure();
+
+    const [showOverlay, setShowOverlay] = useState(false); // Control the overlay, funciona con fé en cristo, no tocar
+    const headerRef = useRef(null);
+    const [headerHeight, setHeaderHeight] = useState(0);
+    useEffect(() => {
+    if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+    }
+    }, []);
+
     const firstHeight = "35px";
     const secondHeight = "70px";
     const thirdHeight = "55px";
     return (
+       <>
         <Box
             as="header"
             width="100%"
             boxShadow="sm"
             bg="white"
-            fontSize= "1.1rem">
+            fontSize= "1.1rem"
+            ref={headerRef}>
             <Flex
                 as="section"
                 width={{ base: "100%", md: "100%"}}
@@ -134,12 +148,12 @@ export default function Header() {
                 as="section"
                 justifyContent="center"
                 alignItems="center"
-                px={{ base: "2", md: "9" }}
+                px={{ base: "2", md: "5" }}
                 height={secondHeight}
                 bgColor="background"
                 wrap="wrap"
                 width="100%"
-                templateColumns="repeat(48, 1fr)"
+                templateColumns="repeat(17, 1fr)"
                 templateRows={{ base: "repeat(2, 1fr)", md: "repeat(1, 1fr)" }}
                 gap="1"
                 borderBottom="1px solid"
@@ -150,13 +164,15 @@ export default function Header() {
                         <IconButton aria-label="Menu" icon={<Menu />} variant="ghost" mr={2} onClick={onOpenMenu} />
                     </GridItem>
                 ) : null}
-                <GridItem colSpan={6}>
+                <GridItem colStart={1} colSpan={3}>
                     <LinkRouter
-                        className="min-w-[100px] w-[149px] max-w-[100%] h-full flex justify-center items-center px"
+                        className="min-w-[100px] w-[220px] max-w-[100%] h-full flex justify-center items-center px"
                         to="/">
                         <Image
                             src={falabellaLogo}
                             alt="Falabella"
+                            width="100%"
+                            height="100%"
                             fallbackSrc={falabellaLetrasSVG}
                         />
                     </LinkRouter>
@@ -164,7 +180,7 @@ export default function Header() {
                 {!isMobile && (
                     <GridItem
                         pt="3"
-                        colStart={9}
+                        colStart={4}
                         colSpan={1}>
                         <Button
                             leftIcon={<Menu size="2rem"/>}
@@ -177,11 +193,10 @@ export default function Header() {
                     </GridItem>
                 )}
                 <GridItem
-                    colStart={{ base: 1, md: 11 }}
+                    colStart={6}
                     rowStart={{ base: 2, md: 1 }}
-                    colSpan={{ base: 48, md: 25 }}>
-                    <InputGroup
-                        size="md">
+                    colSpan={7}>
+                    <InputGroup width="100%" maxW="600px" mx="auto" size="md">
                         <Input
                             bg="white"
                             placeholder="Buscar en falabella.com"
@@ -206,8 +221,8 @@ export default function Header() {
                             </Box>
                         </InputRightElement>
                     </InputGroup>
-                </GridItem>
-                <AccountBarMenu isMobile={isMobile}/>
+                </GridItem >
+                <AccountBarMenu isMobile={isMobile} showOverlay= {showOverlay} setShowOverlay= {setShowOverlay}/>
             </Grid>
             <Flex
                 direction="row"
@@ -217,10 +232,25 @@ export default function Header() {
                 py="1.5"
                 height={thirdHeight}>
                 <UserCity />
-                <HelpBarMenu isMobile={isMobile} />
+                <HelpBarMenu isMobile={isMobile} showOverlay= {showOverlay} setShowOverlay= {setShowOverlay}/>
             </Flex>
             <MenuComponent isOpen={isOpenMenu} onClose={onCloseMenu}/>
         </Box>
+
+        {showOverlay && (
+        <Portal>
+          <Box
+            position="fixed"
+            top={`${headerHeight}px`}
+            left="0"
+            width="100vw"
+            height="100vh"
+            bg="rgba(0, 0, 0, 0.5)"
+            zIndex="999"
+          />
+        </Portal>
+      )}
+      </> 
     )
 }
 
@@ -805,7 +835,7 @@ function PlaceModal(
       )
 }
 
-function HelpBarMenu({ isMobile }) {
+function HelpBarMenu({ isMobile, showOverlay, setShowOverlay}) {
     const { isOpen: isOpenCard, onOpen: onOpenCard, onClose: onCloseCard } = useDisclosure();
     const { isOpen: isOpenHelp, onOpen: onOpenHelp, onClose: onCloseHelp } = useDisclosure();
     const Cards = [
@@ -859,16 +889,29 @@ function HelpBarMenu({ isMobile }) {
                 isLazy
                 isOpen={isOpenCard}
                 placement="top"
-                onMouseEnter={onOpenCard}
-                onMouseLeave={onCloseCard}
+                onMouseEnter={() => {
+                        onOpenCard();
+                        setShowOverlay(true);
+                        }}
+                onMouseLeave={() => {
+                    onCloseCard();
+                    setShowOverlay(false);
+                    }}
                 cursor="pointer">
                 <MenuButton
                     variant="link"
                     fontWeight="normal"
                     color="#495867"
                     fontSize="0.9rem"
-                    onMouseEnter={onOpenCard}
-                    onMouseLeave={onCloseCard}
+                    onMouseEnter={() => {
+                        onOpenCard();
+                        setShowOverlay(true);
+                        }}
+                    onMouseLeave={() => {
+                        onCloseCard();
+                        setShowOverlay(false);
+                        }}
+
                     _hover={{ textDecoration: "none" }}>
                     <Flex
                         width="100%"
@@ -878,12 +921,19 @@ function HelpBarMenu({ isMobile }) {
                             width="15px"
                             height="15px"
                             className="mt-[4px]"
+                            
                         />
                     </Flex>
                 </MenuButton>
                 <MenuList
-                    onMouseEnter={onOpenCard}
-                    onMouseLeave={onCloseCard}
+                    onMouseEnter={() => {
+                        onOpenCard();
+                        setShowOverlay(true);
+                        }}
+                    onMouseLeave={() => {
+                        onCloseCard();
+                        setShowOverlay(false);
+                        }}
                     p="1rem">
                     {
                         Cards.map((item) => {
@@ -893,7 +943,7 @@ function HelpBarMenu({ isMobile }) {
                                         href={item.href}>
                                         <Text
                                             as="p"
-                                            fontWeight="550"
+                                            fontWeight="400"
                                             color="#495867"
                                             fontSize="0.9rem">
                                             {item.name}
@@ -931,11 +981,17 @@ function HelpBarMenu({ isMobile }) {
                 cursor="pointer">
                 <MenuButton
                     variant="link"
-                    fontWeight="normal"
+                    fontWeight="400"
                     color="#495867"
                     fontSize="0.9rem"
-                    onMouseEnter={onOpenHelp}
-                    onMouseLeave={onCloseHelp}
+                    onMouseEnter={() => {
+                        onOpenHelp();
+                        setShowOverlay(true);
+                        }}
+                    onMouseLeave={() => {
+                        onCloseHelp();
+                        setShowOverlay(false);
+                        }}
                     _hover={{ textDecoration: "none" }}>
                     <Flex
                         width="100%"
@@ -949,8 +1005,14 @@ function HelpBarMenu({ isMobile }) {
                     </Flex>
                 </MenuButton>
                 <MenuList
-                    onMouseEnter={onOpenHelp}
-                    onMouseLeave={onCloseHelp}
+                    onMouseEnter={() => {
+                        onOpenHelp();
+                        setShowOverlay(true);
+                        }}
+                    onMouseLeave={() => {
+                        onCloseHelp();
+                        setShowOverlay(false);
+                        }}
                     p="1rem">
                     {
                         Help.map((item) => {
@@ -960,7 +1022,7 @@ function HelpBarMenu({ isMobile }) {
                                         to={item.href} key={uuid()}>
                                         <Text
                                             as="p"
-                                            fontWeight="550"
+                                            fontWeight="400"
                                             color="#495867"
                                             fontSize="0.9rem">
                                             {item.name}
@@ -986,7 +1048,8 @@ function HelpBarMenu({ isMobile }) {
     )
 }
 
-function AccountBarMenu({ isMobile }) {
+
+function AccountBarMenu( {isMobile, showOverlay , setShowOverlay}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const {
         getUserName,
@@ -996,6 +1059,9 @@ function AccountBarMenu({ isMobile }) {
         onCloseLogin
     } = useUserLogin(onClose);
     const cartCount = useShoppingCartNumberItems();
+
+    const textSize = "0.9rem";
+
     if (isMobile)
         return (
             <GridItem
@@ -1052,14 +1118,21 @@ function AccountBarMenu({ isMobile }) {
         );
     return (
         <GridItem
-            colStart={37}
-            colEnd={48}>
+            colStart={13}
+            colSpan={6}
+            justifySelf="end">
             <Flex>
                 <Box
                     py="1"
                     minW="fit-content"
-                    onMouseEnter={onOpen}
-                    onMouseLeave={onClose}
+                    onMouseEnter={() => {
+                        onOpen();
+                        setShowOverlay(true);
+                        }}
+                    onMouseLeave={() => {
+                        onClose();
+                        setShowOverlay(false);
+                        }}
                     cursor="pointer"
                     pr="5">
                     <Flex
@@ -1073,7 +1146,7 @@ function AccountBarMenu({ isMobile }) {
                         height="100%">
                         <Text
                             as="span"
-                            fontSize="1.1rem"
+                            fontSize="0.9rem"
                             fontWeight="600"
                             letterSpacing="0">
                             Hola,<br/>
@@ -1095,8 +1168,7 @@ function AccountBarMenu({ isMobile }) {
                                         textAlign="left"
                                         color="text.400"
                                         variant="link"
-                                        fontWeight="600"
-                                        fontSize="1.1rem">
+                                        fontSize="0.9rem">
                                         {getUserName}
                                     </Text>
                                     <ChevronDown
@@ -1123,18 +1195,19 @@ function AccountBarMenu({ isMobile }) {
                                                     alignItems="flex-start">
                                                     <Text
                                                         as="p"
-                                                        fontWeight="550"
                                                         color="#495867"
-                                                        fontSize="10px">
+                                                        lineHeight="taller"
+                                                        fontWeight="400" 
+                                                        fontSize={textSize}>
                                                         {item.name}
                                                     </Text>
                                                     {
                                                         item.description &&
                                                         <Text
                                                             as="span"
-                                                            fontWeight="400"
                                                             color="#495867"
-                                                            fontSize="10px">
+                                                            fontWeight="400"
+                                                            fontSize="0.7rem">
                                                             {item.description}
                                                         </Text>
                                                     }
@@ -1155,7 +1228,7 @@ function AccountBarMenu({ isMobile }) {
                                                     as="p"
                                                     fontWeight="550"
                                                     color="#495867"
-                                                    fontSize="10px">
+                                                    fontSize="0.9 rem">
                                                     CMR Puntos
                                                 </Text>
                                             </LinkRouter>

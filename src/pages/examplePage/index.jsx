@@ -7,7 +7,9 @@ import {
   SimpleGrid,
   Text,
   Image,
-  Flex
+  Flex,
+  Grid,
+  GridItem
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -26,14 +28,24 @@ import { v4 as uuid } from "uuid";
 
 
 export default function ExamplePage() {
+    const setOfAds = [
+      ["/home_images/anuncioHome1.webp","67f3d66fcf122c47fcb4422f"],
+      ["/home_images/anuncioHome2.webp","67f3d66fcf122c47fcb4422f"],
+      ["/home_images/anuncioHome3.webp","67f3d66fcf122c47fcb4422f"],
+      ["/home_images/anuncioHome4.webp","67f3d66fcf122c47fcb4422f"],
+      ["/home_images/cute.jpg","67f3d66fcf122c47fcb4422f"],
+    ];
+
+    const sizeBox = "90%"
 
   return (
     <Box bg="white">
       <Carousel />
-      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" carouselWidth="85%"/>
-      <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Inspirado en lo que viste" carouselWidth="85%"/>
-      <ProductCarousel categoryId="67f4135dfa50f2b6c86a5876" nameBanner="Lo más vendido" carouselWidth="85%"/>
-      <SubFooter />
+      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" carouselWidth={sizeBox}/>
+      <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Inspirado en lo que viste" carouselWidth={sizeBox}/>
+      <ProductCarousel categoryId="67f4135dfa50f2b6c86a5876" nameBanner="Lo más vendido" carouselWidth={sizeBox}/>
+      <AdGrid setOfAds={setOfAds} sizeBox={sizeBox}/>
+      <SubFooter/>
     </Box>
   );
 }
@@ -47,10 +59,10 @@ function Carousel() {
 
   const cards = [
     ["/home_images/anuncioHome1.webp","67f3d66fcf122c47fcb4422f"],
-    ["/home_images/anuncioHome2.webp",""],
-    ["/home_images/anuncioHome3.webp",""],
-    ["/home_images/anuncioHome4.webp",""],
-    ["/home_images/cute.jpg",""],
+    ["/home_images/anuncioHome2.webp","67f3d66fcf122c47fcb4422f"],
+    ["/home_images/anuncioHome3.webp","67f3d66fcf122c47fcb4422f"],
+    ["/home_images/anuncioHome4.webp","67f3d66fcf122c47fcb4422f"],
+    ["/home_images/cute.jpg","67f3d66fcf122c47fcb4422f"],
   ];
 
   const settings = {
@@ -224,4 +236,34 @@ function Navigation() {
     }
     </SimpleGrid>
   )
+}
+
+function AdGrid( {setOfAds, sizeBox} ) {
+  const numOfAds = setOfAds.length
+
+  return (
+    <Box position="relative" height={sizeBox} width={sizeBox} overflow="hidden" alignItems="center" textAlign="left"  mx="auto">
+
+      <Grid
+          h='200px'
+          templateRows='repeat(2, 1fr)'
+          templateColumns='repeat(5, 1fr)'
+          gap={4}
+        >
+
+        {setOfAds.map(([url, adLink], index) => (
+          <GridItem key={index} height={sizeBox/numOfAds} minHeight={sizeBox/numOfAds}>
+            <Link to={`/categories/${adLink}`}>
+              <Image
+              src={url}
+              alt={`Slide ${index}`}
+            />
+            </Link>
+          </GridItem >
+        ))}
+
+        </Grid>
+
+    </Box>
+  );
 }
