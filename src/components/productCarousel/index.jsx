@@ -20,7 +20,7 @@ export default function ProductCarousel({ categoryId, nameBanner, carouselWidth,
   } = useCarrusel();
   const { products } = useProducts(categoryId, userId);
   return (
-    <Box position="relative" width={carouselWidth} overflow="hidden" alignItems="center" textAlign="left"  mx="auto">
+    <Box position="relative" width={carouselWidth} overflow="hidden" marginBottom="2%" marginTop="2%" alignItems="center" textAlign="left"  mx="auto">
 
       <Text
         as="span"

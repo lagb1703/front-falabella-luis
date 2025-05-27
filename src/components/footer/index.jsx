@@ -27,7 +27,7 @@ export default function Footer() {
           {
             base: "10",
             md: "40",
-            lg: "60"
+            lg: "90"
           }
         }>
         <Navigation />
@@ -40,7 +40,8 @@ export default function Footer() {
           {
             base: "40",
             sm: "10",
-            md: "40"
+            md: "40",
+            lg: "90"
           }
         }>
         <Stack direction={{ base: "column", md: "row" }} py={4} spacing={6} borderBottom="1px" borderColor="whiteAlpha.300">
@@ -73,6 +74,7 @@ export default function Footer() {
             direction={{ base: "column", md: "row" }}
             spacing={{ base: "0", md: "4" }}
             flex={1}
+            paddingRight={"5%"}
             justify="center" align="center">
             <Link to="#">
               <Text

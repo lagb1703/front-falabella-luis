@@ -28,12 +28,41 @@ import { v4 as uuid } from "uuid";
 
 
 export default function ExamplePage() {
-    const setOfAds = [
-      ["/home_images/anuncioHome1.webp","67f3d66fcf122c47fcb4422f"],
-      ["/home_images/anuncioHome2.webp","67f3d66fcf122c47fcb4422f"],
-      ["/home_images/anuncioHome3.webp","67f3d66fcf122c47fcb4422f"],
-      ["/home_images/anuncioHome4.webp","67f3d66fcf122c47fcb4422f"],
-      ["/home_images/cute.jpg","67f3d66fcf122c47fcb4422f"],
+    
+  const setOfAds_1 = [
+      ["/AdsFolder/Set1/Ad1.webp","67f3d66fcf122c47fcb4422f","a"],
+      ["/AdsFolder/Set1/Ad2.webp","67f3d66fcf122c47fcb4422f","b"],
+      ["/AdsFolder/Set1/Ad3.webp","67f3d66fcf122c47fcb4422f","c"],
+      ["/AdsFolder/Set1/Ad4.webp","67f3d66fcf122c47fcb4422f","d"],
+      ["/AdsFolder/Set1/Ad5.webp","67f3d66fcf122c47fcb4422f","e"],
+      ["/AdsFolder/Set1/Ad6.webp","67f3d66fcf122c47fcb4422f","f"],
+      ["/AdsFolder/Set1/Ad7.webp","67f3d66fcf122c47fcb4422f","g"],
+      ["/AdsFolder/Set1/Ad8.webp","67f3d66fcf122c47fcb4422f","h"],
+      ["/AdsFolder/Set1/Ad9.webp","67f3d66fcf122c47fcb4422f","i"],
+      ["/AdsFolder/Set1/Ad10.webp","67f3d66fcf122c47fcb4422f","j"],
+      ["/AdsFolder/Set1/Ad11.webp","67f3d66fcf122c47fcb4422f","k"],
+    ];
+
+    const setOfAds_2 = [
+      ["/AdsFolder/Set2/Ad1.webp","67f3d66fcf122c47fcb4422f","a"],
+      ["/AdsFolder/Set2/Ad2.webp","67f3d66fcf122c47fcb4422f","b"],
+      ["/AdsFolder/Set2/Ad3.webp","67f3d66fcf122c47fcb4422f","c"],
+      ["/AdsFolder/Set2/Ad4.webp","67f3d66fcf122c47fcb4422f","d"],
+      ["/AdsFolder/Set2/Ad5.webp","67f3d66fcf122c47fcb4422f","e"],
+      ["/AdsFolder/Set2/Ad6.webp","67f3d66fcf122c47fcb4422f","f"],
+      ["/AdsFolder/Set2/Ad7.webp","67f3d66fcf122c47fcb4422f","g"],
+      ["/AdsFolder/Set2/Ad8.webp","67f3d66fcf122c47fcb4422f","h"],
+      ["/AdsFolder/Set2/Ad9.webp","67f3d66fcf122c47fcb4422f","i"],
+      ["/AdsFolder/Set2/Ad10.webp","67f3d66fcf122c47fcb4422f","j"],
+      ["/AdsFolder/Set2/Ad11.webp","67f3d66fcf122c47fcb4422f","k"],
+    ];
+
+    const setOfAds_3 = [
+      ["/AdsFolder/Set3/Ad1.webp","67f3d66fcf122c47fcb4422f","a"],
+      ["/AdsFolder/Set3/Ad2.webp","67f3d66fcf122c47fcb4422f","b"],
+      ["/AdsFolder/Set3/Ad3.webp","67f3d66fcf122c47fcb4422f","c"],
+      ["/AdsFolder/Set3/Ad4.webp","67f3d66fcf122c47fcb4422f","d"],
+      ["/AdsFolder/Set3/Ad5.webp","67f3d66fcf122c47fcb4422f","e"],
     ];
 
     const sizeBox = "90%"
@@ -42,9 +71,12 @@ export default function ExamplePage() {
     <Box bg="white">
       <Carousel />
       <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" carouselWidth={sizeBox}/>
+      <AdGrid setOfAds={setOfAds_1} sizeBox={sizeBox} typeAdWindow={1} />
       <ProductCarousel categoryId="68065330709a122a6c8628b8" nameBanner="Inspirado en lo que viste" carouselWidth={sizeBox}/>
+      <AdGrid setOfAds={setOfAds_2} sizeBox={sizeBox} typeAdWindow={2} />
       <ProductCarousel categoryId="67f4135dfa50f2b6c86a5876" nameBanner="Lo más vendido" carouselWidth={sizeBox}/>
-      <AdGrid setOfAds={setOfAds} sizeBox={sizeBox}/>
+      <AdGrid setOfAds={setOfAds_3} sizeBox={sizeBox} typeAdWindow={3} />
+      <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="Lo más vendido en Tecnología" carouselWidth={sizeBox}/>
       <SubFooter/>
     </Box>
   );
@@ -130,7 +162,7 @@ function Carousel() {
 
 function SubFooter() {
   return (
-    <Box as="section" color="#525252">
+    <Box as="section" color="#525252" >
       <Container
         bg={
           {
@@ -145,7 +177,7 @@ function SubFooter() {
           {
             base: "10",
             md: "40",
-            lg: "60"
+            lg: "90"
           }
         }>
         <Navigation />
@@ -238,32 +270,81 @@ function Navigation() {
   )
 }
 
-function AdGrid( {setOfAds, sizeBox} ) {
-  const numOfAds = setOfAds.length
+function AdGrid({ setOfAds, sizeBox, typeAdWindow }) {
 
-  return (
-    <Box position="relative" height={sizeBox} width={sizeBox} overflow="hidden" alignItems="center" textAlign="left"  mx="auto">
+  const gridConfigs = {
+    1: { 
+        n : 11,
+        rows: 'auto auto auto auto', 
+        columns: 'auto auto auto auto', 
+        gap: 3, 
+        templateAreas: `"a a a a a a a a a a a a" 
+                        "b b b b c c c c d d d d"
+                        "e e e e f f f f g g g g"
+                        "h h h i i i j j j k k k"` },  
+    2: { 
+        n : 11,
+        rows: 'auto auto auto auto', 
+        columns: 'auto auto auto auto', 
+        gap: 3, 
+        templateAreas: `"a a a a" 
+                        "b c d e"
+                        "f g h i"
+                        "j j k k"` },
+    3: { 
+        n : 5,
+        rows: 'auto auto auto auto', 
+        columns: 'auto auto auto auto', 
+        gap: 3, 
+        templateAreas: `"a b" 
+                        "c d"
+                        "e e"` },
+  };
 
-      <Grid
-          h='200px'
-          templateRows='repeat(2, 1fr)'
-          templateColumns='repeat(5, 1fr)'
-          gap={4}
+  const config = gridConfigs[typeAdWindow] || gridConfigs[1]; // Default to type 1
+
+    return (
+      <Box 
+        position="relative" 
+        marginY="2%" 
+        width={sizeBox} 
+        maxWidth="100%"
+        mx="auto"
+        height="auto"
+      >
+        <Grid
+          templateAreas={`${config.templateAreas}`}
+          templateRows={`repeat(${config.rows}, 1fr)`}
+          templateColumns={`repeat(${config.columns}, 1fr)`}
+          gap={config.gap}
         >
-
-        {setOfAds.map(([url, adLink], index) => (
-          <GridItem key={index} height={sizeBox/numOfAds} minHeight={sizeBox/numOfAds}>
-            <Link to={`/categories/${adLink}`}>
-              <Image
-              src={url}
-              alt={`Slide ${index}`}
-            />
-            </Link>
-          </GridItem >
-        ))}
-
+          {setOfAds.slice(0,config.n).map(([url, adLink, area], index) => (
+            <GridItem 
+              key={index}
+              area={area}
+              position="relative"
+              overflow="hidden"
+              _hover={{ // EL SEÑOR DE LA NOCHE (es un hover que oscurece la imagen y le da un brillo)
+                opacity: 1,
+                filter: 'brightness(0.9)',
+            }}
+              width="auto"
+              height="auto"
+              objectFit="cover"
+            >
+              <Link to={`/categories/${adLink}`}>
+                <Image
+                  src={url}
+                  alt={`Advertisement ${index + 1}`}
+                  width="auto"
+                  height="auto"
+                  objectFit="contain"
+                />
+              </Link>
+            </GridItem>
+          ))}
         </Grid>
-
-    </Box>
-  );
+      </Box>
+    );
 }
+

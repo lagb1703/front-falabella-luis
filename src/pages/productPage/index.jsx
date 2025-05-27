@@ -263,7 +263,7 @@ const Product = ({ product }) => {
         borderWidth="1px"
         borderRadius="lg"
         boxShadow="md">
-        <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="También podría interesarte" carouselWidth="92vw"/>
+        <ProductCarousel categoryId="67f3d66fcf122c47fcb4422f" nameBanner="También podría interesarte" carouselWidth="100%"/>
       </Box>
 
       <Box>
